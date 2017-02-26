@@ -26,23 +26,20 @@ deathday | date | can be nil
 
 * *Photo*
 
-has_one Location
-
 **Attribute** | **Value** | **Restrictions**
 --- | --- | ---
 id | integer | auto-generated
 taken_on | date |
 header | string | can be nil
 explanation | string | can be nil
-location | id | reference to Location instance <br> can be nil
+location_id | id | reference to Location instance <br> can be nil
 
 * *Memory*
-has_one Relative
 
 **Attribute** | **Value** | **Restrictions**
 --- | --- | ---
 id | integer | auto-generated
-author | id | reference to Relative
+author_id | id | reference to Relative
 content| text |
 
 * *Location*
@@ -55,31 +52,30 @@ city | string |
 state | string | can be nil if country != USA
 country | string |
 
-* *Career*
-
-has_one Relative
-has_one Location
-
-**Attribute** | **Value** | **Restrictions**
---- | --- | ---
-id | integer | auto-generated
-worker | id | reference to Relative
-location | id | reference to Location
-company | string | can be nil
-start_date  | date | can be nil
-end_date | date | can be nil
-
-* *Education*
-
-* *Event*
-
 #### Joins
 
 * *DescendantBranch*
 
-* *CompanionBranch*
+**Attribute** | **Value** | **Restrictions**
+--- | --- | ---
+id | integer | auto-generated
+parent_id | id | reference to Relative
+child_id | id | reference to Relative
+
+* *MarriageBranch*
+
+**Attribute** | **Value** | **Restrictions**
+--- | --- | ---
+id | integer | auto-generated
+wife_id | id | reference to Relative
+husband_id | id | reference to Relative
 
 * *Tagged*
 
+**Attribute** | **Value** | **Restrictions**
+--- | --- | ---
+id | integer | auto-generated
+photo_id | id | reference to Photo
+relative_id | id | reference to Relative
 
 ### Design
