@@ -70,7 +70,7 @@ id | integer | auto-generated
 wife_id | id | reference to Relative
 husband_id | id | reference to Relative
 
-* *Tagged*
+* *PhotoTag*
 
 **Attribute** | **Value** | **Restrictions**
 --- | --- | ---
