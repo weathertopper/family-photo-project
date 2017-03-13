@@ -23,7 +23,6 @@ nickname | string |  can be nil
 sex | string |
 birthday | date |
 deathday | date | can be nil
-bio | string | can be nil
 
 * *Photo*
 
@@ -42,7 +41,9 @@ location_id | id | reference to Location instance <br> can be nil
 --- | --- | ---
 id | integer | auto-generated
 author_id | id | reference to Relative
-content| text |
+title | text |
+content | text |
+created_on | date | auto-generated, but use it
 
 * *Event*
 
@@ -50,8 +51,9 @@ content| text |
 --- | --- | ---
 id | integer | auto-generated
 author_id | id | reference to Relative
-content | text | limit length to short text
-location_id | id | reference to Location instance <br> can be nil
+date | date | when this happened
+content | text | limit length to short text<br> anything longer is a memory.
+memory_id | id | reference to Memory, especially if content is too short
 
 * *Location*
 
@@ -116,3 +118,23 @@ relative_id | id | reference to Relative
 
 #### Layout
 (I'm obviously not a designer)
+
+I doodled on my whiteboard. These are FAR from 'wire frames,' but they got the ideas out of my head. I can't hope for super pretty things here, but I'd like a functional thought. I need to add a site map soon too. 
+
+Relative Index
+![Relative Index](./whiteboard-designs/relative-index.jpg)
+
+Relative Tile
+![Relative Tile](./whiteboard-designs/relative-tile.jpg)
+
+Photo Index
+![Photo Index](./whiteboard-designs/photo-index.jpg)
+
+Photo Tile
+![Photo Tile](./whiteboard-designs/photo-tile.jpg)
+
+Photo Tile (Expanded)
+![Photo Tile Expanded](./whiteboard-designs/photo-expand.jpg)
+
+Memory Tile
+![Memory Tile](./whiteboard-designs/memory-tile.jpg)
