@@ -35,7 +35,7 @@ taken_on | date |
 uploaded_by | id | reference to Relative
 header | string | can be nil
 caption | string | can be nil
-location_id | id | reference to Location instance <br> can be nil
+locationd | string | 
 
 * *Memory*
 
@@ -46,8 +46,9 @@ author_id | id | reference to Relative
 title | text |
 content | text |
 created_on | date | auto-generated, but use it
+location| string |
 
-* *Moment*
+* *Event*
 
 **Attribute** | **Value** | **Restrictions**
 --- | --- | ---
@@ -56,16 +57,7 @@ author_id | id | reference to Relative
 date | date | when this happened
 content | text | limit length to short text<br> anything longer is a memory.
 memory_id | id | reference to Memory, especially if content is too short
-
-* *Location*
-
-**Attribute** | **Value** | **Restrictions**
---- | --- | ---
-id | integer | auto-generated
-address | string | can be nil
-city | string |
-state | string | can be nil if country != USA
-country | string |
+location | string |
 
 * *User*
 

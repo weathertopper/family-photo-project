@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314010509) do
+ActiveRecord::Schema.define(version: 20170314035505) do
 
   create_table "descendant_branches", force: :cascade do |t|
     t.integer  "parent_id",  null: false
@@ -19,13 +19,21 @@ ActiveRecord::Schema.define(version: 20170314010509) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "locations", force: :cascade do |t|
-    t.string   "address"
-    t.string   "city"
-    t.string   "state"
-    t.string   "country"
+  create_table "event_tags", force: :cascade do |t|
+    t.integer  "event_id"
+    t.integer  "relative_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["event_id"], name: "index_event_tags_on_event_id"
+    t.index ["relative_id"], name: "index_event_tags_on_relative_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.date     "when"
+    t.string   "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "location"
   end
 
   create_table "marriage_branches", force: :cascade do |t|
@@ -43,13 +51,25 @@ ActiveRecord::Schema.define(version: 20170314010509) do
     t.string   "audio_content"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "location"
   end
 
-  create_table "moments", force: :cascade do |t|
-    t.date     "when"
-    t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "memory_tags", force: :cascade do |t|
+    t.integer  "memory_id"
+    t.integer  "relative_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["memory_id"], name: "index_memory_tags_on_memory_id"
+    t.index ["relative_id"], name: "index_memory_tags_on_relative_id"
+  end
+
+  create_table "photo_tags", force: :cascade do |t|
+    t.integer  "photo_id"
+    t.integer  "relative_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["photo_id"], name: "index_photo_tags_on_photo_id"
+    t.index ["relative_id"], name: "index_photo_tags_on_relative_id"
   end
 
   create_table "photos", force: :cascade do |t|
@@ -57,8 +77,12 @@ ActiveRecord::Schema.define(version: 20170314010509) do
     t.date     "uploaded_on"
     t.string   "header"
     t.string   "caption"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "photograph"
+    t.integer  "photographer_id"
+    t.string   "location"
+    t.index ["photographer_id"], name: "index_photos_on_photographer_id"
   end
 
   create_table "relatives", force: :cascade do |t|
@@ -70,9 +94,9 @@ ActiveRecord::Schema.define(version: 20170314010509) do
     t.string   "sex"
     t.date     "birthday"
     t.date     "deathday"
-    t.string   "profile_image"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "profile_photo"
   end
 
 end
