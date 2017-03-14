@@ -1,0 +1,17 @@
+<%= form_for(descendant_branch) do |f| %>
+  <% if descendant_branch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(descendant_branch.errors.count, "error") %> prohibited this descendant_branch from being saved:</h2>
+
+      <ul>
+      <% descendant_branch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

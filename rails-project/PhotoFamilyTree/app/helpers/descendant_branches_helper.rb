@@ -1,0 +1,2 @@
+module DescendantBranchesHelper
+end

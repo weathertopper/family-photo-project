@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Marriage Branches</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @marriage_branches.each do |marriage_branch| %>
+      <tr>
+        <td><%= link_to 'Show', marriage_branch %></td>
+        <td><%= link_to 'Edit', edit_marriage_branch_path(marriage_branch) %></td>
+        <td><%= link_to 'Destroy', marriage_branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Marriage Branch', new_marriage_branch_path %>

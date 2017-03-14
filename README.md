@@ -8,6 +8,8 @@ This is primarily to preserve photos, but I would like to include any other fami
 
 All of my database relations.
 
+*NOTE, ALL FOREIGN KEYS ARE HANDLED BY THE MODEL, NOT THE DB
+
 #### Tables
 
 * *Relative*
@@ -45,7 +47,7 @@ title | text |
 content | text |
 created_on | date | auto-generated, but use it
 
-* *Event*
+* *Moment*
 
 **Attribute** | **Value** | **Restrictions**
 --- | --- | ---
@@ -66,6 +68,8 @@ state | string | can be nil if country != USA
 country | string |
 
 * *User*
+
+**I'm not generating this guy yet because I assume he will need special treatment**
 
 For keeping track of those who use the application.
 
@@ -119,7 +123,9 @@ relative_id | id | reference to Relative
 #### Layout
 (I'm obviously not a designer)
 
-I doodled on my whiteboard. These are FAR from 'wire frames,' but they got the ideas out of my head. I can't hope for super pretty things here, but I'd like a functional thought. I need to add a site map soon too. 
+I doodled on my whiteboard. These are FAR from 'wire frames,' but they got the ideas out of my head. I can't hope for super pretty things here, but I'd like a functional thought. I need to add a site map soon too.
+
+NOTE FOR LATER- I NEED AN ID FOR USER
 
 Relative Index
 ![Relative Index](./whiteboard-designs/relative-index.jpg)
