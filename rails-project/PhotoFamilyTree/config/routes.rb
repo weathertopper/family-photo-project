@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
+  resources :events
   resources :marriage_branches
   resources :descendant_branches
-  resources :locations
-  resources :moments
   resources :memories
   resources :photos
   resources :relatives
