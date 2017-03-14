@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314035505) do
+ActiveRecord::Schema.define(version: 20170314043209) do
 
   create_table "descendant_branches", force: :cascade do |t|
     t.integer  "parent_id",  null: false
@@ -74,7 +74,6 @@ ActiveRecord::Schema.define(version: 20170314035505) do
 
   create_table "photos", force: :cascade do |t|
     t.date     "taken_on"
-    t.date     "uploaded_on"
     t.string   "header"
     t.string   "caption"
     t.datetime "created_at",      null: false

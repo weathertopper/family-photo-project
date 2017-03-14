@@ -17,13 +17,13 @@ class Relative < ApplicationRecord
 
     #Connection to Photos for photo tagging
     has_many :photo_tags
-    has_many :photos, through :photo_tags
+    has_many :photos, :through => :photo_tags
 
     #Connection to Memories for memory tagging
     has_many :memory_tags
-    has_many :memories, through :memory_tags
+    has_many :memories, :through => :memory_tags
 
     #Connection to Event for moment tagging
     has_many :event_tags
-    has_many :events, through :event_tags
+    has_many :events, :through => :event_tags
 end

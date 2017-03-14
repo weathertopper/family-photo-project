@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+if Rails.env.development?
+    # I will use dev as a testing env and wipe out whatever I want. I will need to
+    # be more careful closer to prod
+
+end

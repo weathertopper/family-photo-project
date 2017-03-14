@@ -8,5 +8,5 @@ class Photo < ApplicationRecord
 
     #Connection to Relatives for photo tagging
     has_many :photo_tags
-    has_many :relatives, through :photo_tags
+    has_many :relatives, :through => :photo_tags
 end
