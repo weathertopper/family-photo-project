@@ -1,0 +1,2 @@
+class MarriageBranch < ApplicationRecord
+end

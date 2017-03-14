@@ -1,0 +1,17 @@
+<%= form_for(marriage_branch) do |f| %>
+  <% if marriage_branch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(marriage_branch.errors.count, "error") %> prohibited this marriage_branch from being saved:</h2>
+
+      <ul>
+      <% marriage_branch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
