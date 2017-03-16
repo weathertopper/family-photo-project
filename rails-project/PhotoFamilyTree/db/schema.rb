@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314043209) do
+ActiveRecord::Schema.define(version: 20170316015618) do
 
   create_table "descendant_branches", force: :cascade do |t|
     t.integer  "parent_id",  null: false
@@ -37,12 +37,12 @@ ActiveRecord::Schema.define(version: 20170314043209) do
   end
 
   create_table "marriage_branches", force: :cascade do |t|
-    t.integer  "husband_id",   null: false
-    t.integer  "wife_id",      null: false
+    t.integer  "husband_id",  null: false
+    t.integer  "wife_id",     null: false
     t.date     "anniversary"
-    t.date     "separated_on"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.date     "end"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "memories", force: :cascade do |t|
@@ -52,15 +52,8 @@ ActiveRecord::Schema.define(version: 20170314043209) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.string   "location"
-  end
-
-  create_table "memory_tags", force: :cascade do |t|
-    t.integer  "memory_id"
-    t.integer  "relative_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["memory_id"], name: "index_memory_tags_on_memory_id"
-    t.index ["relative_id"], name: "index_memory_tags_on_relative_id"
+    t.integer  "poster_id"
+    t.index ["poster_id"], name: "index_memories_on_poster_id"
   end
 
   create_table "photo_tags", force: :cascade do |t|
