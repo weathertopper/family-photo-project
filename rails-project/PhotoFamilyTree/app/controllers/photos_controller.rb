@@ -9,6 +9,8 @@ class PhotosController < ApplicationController
   # GET /Photos/1
   def show
       #@photo defined by set (below)
+      @relatives = Relative.all
+      @photo_tags = PhotoTag.all
   end
 
   # GET /Photos/new
@@ -59,7 +61,7 @@ class PhotosController < ApplicationController
                                         :header,
                                         :caption,
                                         :photograph,
-                                        :poster_id
+                                        :poster_id,
                                         :location)
     end
 end

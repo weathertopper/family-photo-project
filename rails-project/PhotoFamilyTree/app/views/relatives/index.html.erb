@@ -12,6 +12,7 @@
   <tbody>
     <% @relatives.each do |relative| %>
       <tr>
+        <td><%=relative.first%> <%=relative.surname%></td>
         <td><%= link_to 'Show', relative %></td>
         <td><%= link_to 'Edit', edit_relative_path(relative) %></td>
         <td><%= link_to 'Destroy', relative, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -23,3 +24,4 @@
 <br>
 
 <%= link_to 'New Relative', new_relative_path %>
+<%= link_to 'Photos', 'photos' %>

@@ -1,4 +1,30 @@
 <p id="notice"><%= notice %></p>
 
+<% @poster = @relatives.find(@photo.poster_id)%>
+<% @tags = @photo_tags.where(photo_id:  @photo.id)%>
+<div>
+    <%= image_tag @photo.photograph.thumb.url%>
+</div>
+<div>
+    <%= @photo.header%>
+</div>
+<div>
+    Taken on : <%= @photo.taken_on%><br/>
+    Location : <%= @photo.location%><br/>
+    Posted by: <%= @poster.first%> <%= @poster.surname%>
+</div>
+<div>
+    <%= @photo.caption%>
+</div>
+<div>
+    Tagged Relatives:
+    <div>
+        <% @tags.each do |tag|%>
+            <%@relative = @relatives.find(tag.relative_id)%>
+            <span><%=@relative.first%> <%=@relative.surname%></span><br/>
+        <% end%>
+    </div>
+</div>
+
 <%= link_to 'Edit', edit_photo_path(@photo) %> |
 <%= link_to 'Back', photos_path %>

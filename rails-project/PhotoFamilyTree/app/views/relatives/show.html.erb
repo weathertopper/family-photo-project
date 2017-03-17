@@ -1,4 +1,31 @@
 <p id="notice"><%= notice %></p>
 
+<div>
+<%= image_tag @relative.profile_photo.thumb.url unless @relative.profile_photo.blank?%>
+</div>
+<div>
+    <%=@relative.first%>
+    <% if @relative.nickname %>
+        "<%=@relative.nickname%>"
+    <% end%>
+    <%=@relative.surname%>
+    <% if @relative.maiden %>
+        (nee <%=@relative.maiden%>)
+    <% end%>
+</div>
+<div>
+    <%=@relative.sex%>
+</div>
+<div>
+    b. <%=@relative.birthday%>
+</div>
+<% if @relative.deathday %>
+    <div>
+        d. <%= @relative.deathday%>
+    </div>
+<% end%>
+
+<!-- ADD MARRIAGES AND EVENTS -->
+
 <%= link_to 'Edit', edit_relative_path(@relative) %> |
 <%= link_to 'Back', relatives_path %>
