@@ -58,7 +58,7 @@ if Rails.env.development?
                                 :birthday => Date.new(1860, 11, 27),
                                 :profile_photo => File.open(File.join('/home/nathanweatherly/git/images_for_seed/rosamund_painswick.jpg'))})
 
-    harold = Relative.create!({:first => "Harold",
+    harold = Relative.create!({ :first => "Harold",
                                 :surname => 'Levinson',
                                 :sex => "male",
                                 :birthday => Date.new(1866, 6, 6),
@@ -192,8 +192,9 @@ if Rails.env.development?
     MarriageBranch.find_each do |mbranch|
         wife = Relative.find(mbranch.wife_id);
         husband = Relative.find(mbranch.husband_id)
-        marriage = Event.create!({  :when => mbranch.anniversary,
-                                    :content => "#{husband.first} & #{wife.first} #{husband.surname} are married"})
+        marriage = Event.create!({
+                            :when => mbranch.anniversary,
+                            :content => "#{husband.first} & #{wife.first} #{husband.surname} are married"})
         EventTag.create!({  :event_id => marriage.id,
                             :relative_id => husband.id})
         EventTag.create!({  :event_id => marriage.id,
@@ -215,12 +216,12 @@ if Rails.env.development?
         else
             event_content = "Birth of #{r.first}"
         end
-        birth = Event.create!({:when => r.birthday,
+        birth = Event.create!({ :when => r.birthday,
                                 :content => event_content})
-        EventTag.create!({:event_id => birth.id,
-                            :relative_id => r.id})
+        EventTag.create!({      :event_id => birth.id,
+                                :relative_id => r.id})
         parents.find_each do |p|
-            EventTag.create!({:event_id => birth.id,
+            EventTag.create!({  :event_id => birth.id,
                                 :relative_id => p.id})
         end
     end
@@ -228,16 +229,17 @@ if Rails.env.development?
     #Deaths, relevant to person, spouse, and children
     Relative.find_each do |r|
         if r.deathday
-            death = Event.create!({:when => r.deathday,
-                                    :content => "Death of #{r.first}"})
-            EventTag.create!({:event_id => death.id,
-                            :relative_id => r.id})
+            death = Event.create!({
+                                :when => r.deathday,
+                                :content => "Death of #{r.first}"})
+            EventTag.create!({  :event_id => death.id,
+                                :relative_id => r.id})
 
             children = r.descendant_branches
             children.find_each do |c|
                 child = Relative.find(c.child_id)
                 if !child.deathday || (child.deathday && r.deathday < child.deathday)
-                    EventTag.create!({:event_id => death.id,
+                    EventTag.create!({  :event_id => death.id,
                                         :relative_id => child.id})
                 end
             end
@@ -246,7 +248,7 @@ if Rails.env.development?
             parents.find_each do |p|
                 parent = Relative.find(p.parent_id)
                 if !parent.deathday || (parent.deathday && r.deathday < parent.deathday)
-                    EventTag.create!({:event_id => death.id,
+                    EventTag.create!({  :event_id => death.id,
                                         :relative_id => parent.id})
                 end
             end
@@ -263,7 +265,7 @@ if Rails.env.development?
             marriages.find_each do |m|
                 spouse = (r.sex == "male")? Relative.find(m.wife_id) : Relative.find(m.husband_id)
                 if !spouse.deathday || (spouse.deathday && r.deathday < spouse.deathday)
-                    EventTag.create!({:event_id => death.id,
+                    EventTag.create!({  :event_id => death.id,
                                         :relative_id => spouse.id})
                 end
             end
@@ -274,158 +276,310 @@ if Rails.env.development?
     # => Events from timeline
 
     matthew_and_isobel_to_downton = Event.create!({
-                                        :when => Date.new(1912, 8, 15),
-                                        :content => "Matthew and Isobel move to Downton"})
+                        :when => Date.new(1912, 8, 15),
+                        :content => "Matthew and Isobel move to Downton"})
 
-    EventTag.create!({ :event_id => matthew_and_isobel_to_downton.id,
+    EventTag.create!({  :event_id => matthew_and_isobel_to_downton.id,
                         :relative_id => matthew.id})
-    EventTag.create!({ :event_id => matthew_and_isobel_to_downton.id,
+    EventTag.create!({  :event_id => matthew_and_isobel_to_downton.id,
                         :relative_id => isobel.id})
 
     mary_porks_pamuk = Event.create!({
-                                :when => Date.new(1913, 1, 15),
-                                :content => "Mary porks a Turkish gent to death"})
-    EventTag.create!({   :event_id => mary_porks_pamuk.id,
+                        :when => Date.new(1913, 1, 15),
+                        :content => "Mary porks a Turkish gent to death"})
+    EventTag.create!({  :event_id => mary_porks_pamuk.id,
                         :relative_id => mary.id})
 
     sybil_presented = Event.create!({
                         :when => Date.new(1914, 6, 15),
                         :content => "Sybil is presented"})
-    EventTag.create!({:event_id => sybil_presented.id,
+    EventTag.create!({  :event_id => sybil_presented.id,
                         :relative_id => sybil.id})
 
     martha_hops_pond = Event.create!({
                         :when => Date.new(1920, 4, 15),
                         :content => "Martha comes to Downton for Matthew and Mary's wedding"})
-    EventTag.create!({:event_id => martha_hops_pond.id,
+    EventTag.create!({  :event_id => martha_hops_pond.id,
                         :relative_id => martha.id})
 
     edith_gets_pooched = Event.create!({
                         :when => Date.new(1920, 5, 15),
                         :content => "Edith gets jilted by Strallan"})
-    EventTag.create!({:event_id => edith_gets_pooched.id,
+    EventTag.create!({  :event_id => edith_gets_pooched.id,
                         :relative_id => edith.id})
 
     robert_hops_pond = Event.create!({
                         :when => Date.new(1922, 7, 15),
                         :content => "Robert goes to America to help Harold"})
-    EventTag.create!({:event_id => robert_hops_pond.id,
+    EventTag.create!({  :event_id => robert_hops_pond.id,
                         :relative_id => robert.id})
-    EventTag.create!({:event_id => robert_hops_pond.id,
+    EventTag.create!({  :event_id => robert_hops_pond.id,
                         :relative_id => harold.id})
 
     harold_and_martha_hop_pond = Event.create!({
                         :when => Date.new(1923, 5, 15),
                         :content => "Harold and Martha visit Downton"})
-    EventTag.create!({:event_id => harold_and_martha_hop_pond.id,
+    EventTag.create!({  :event_id => harold_and_martha_hop_pond.id,
                         :relative_id => harold.id})
-    EventTag.create!({:event_id => harold_and_martha_hop_pond.id,
+    EventTag.create!({  :event_id => harold_and_martha_hop_pond.id,
                         :relative_id => martha.id})
 
     tom_and_sybbie_leave = Event.create!({
-                            :when => Date.new(1925, 1, 15),
-                            :content => "Tom and Sybbie leave Downton for Boston"})
-    EventTag.create!({:event_id => tom_and_sybbie_leave.id,
+                        :when => Date.new(1925, 1, 15),
+                        :content => "Tom and Sybbie leave Downton for Boston"})
+    EventTag.create!({  :event_id => tom_and_sybbie_leave.id,
                         :relative_id => tom.id})
-    EventTag.create!({:event_id => tom_and_sybbie_leave.id,
+    EventTag.create!({  :event_id => tom_and_sybbie_leave.id,
                         :relative_id => sybbie.id})
 
     tom_and_sybbie_return = Event.create!({
-                            :when => Date.new(1925, 5, 16),
-                            :content => "Tom and Sybbie come back to Downton"})
-    EventTag.create!({:event_id => tom_and_sybbie_return.id,
-                    :relative_id => tom.id})
-    EventTag.create!({:event_id => tom_and_sybbie_return.id,
-                    :relative_id => sybbie.id})
+                        :when => Date.new(1925, 5, 16),
+                        :content => "Tom and Sybbie come back to Downton"})
+    EventTag.create!({  :event_id => tom_and_sybbie_return.id,
+                        :relative_id => tom.id})
+    EventTag.create!({  :event_id => tom_and_sybbie_return.id,
+                        :relative_id => sybbie.id})
 
     Memory.delete_all
 
-    Memory.create!({ :poster_id => robert.id,
-                        :title => "Robert's Memory" ,
-                        :text_content =>
-                        "Something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something
-                        something something something",
+    Relative.find_each do |r|
+        15.times do |counter|
+            Memory.create!({
+                :poster_id => r.id,
+                :title => "Memory of #{r.first} #{r.surname} #{counter}",
+                :text_content =>
+                        "Something something something something something something
+                        something something something something something something
+                        something something something something something something
+                        something something something something something something
+                        something something something something something something
+                        something something something something something something
+                        something something something something something something
+                        something something something something something something
+                        something something somethingsomething something something",
                         :location => "Downton Abbey"})
+        end
+    end
 
-    Memory.create!({ :poster_id => matthew.id,
-                      :title => "Matthew's Memory" ,
-                      :text_content =>
-                      "Something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something
-                      something something something",
-                      :location => "In the trenches"})
+    Photo.delete_all
+    PhotoTag.delete_all
 
+    breakfast = Photo.create!({
+            :taken_on => Date.new(1912),
+            :header => "At breakfast",
+            :caption => "Lord Grantham reading a telegraph on the morning the Titanic sank. Mary and Mr. Carson are also pictured.",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/at-breakfast.jpg')),
+            :poster_id => edith.id,
+            :location => "Downton Abbey breakfast hall"
+    })
+    PhotoTag.create!({
+            :photo_id => breakfast.id,
+            :relative_id => robert.id
+    })
+    PhotoTag.create!({
+            :photo_id => breakfast.id,
+            :relative_id => mary.id
+    })
 
+    tom_coming_home = Photo.create!({
+            :taken_on => Date.new(1925),
+            :header => "Tom coming home",
+            :caption => "Tom and Sibbie talk to Mary after they return from Boston.",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/branson-coming-home.jpg')),
+            :poster_id => edith.id,
+            :location => "Downton Abbey"
+    })
+    PhotoTag.create!({
+            :photo_id => tom_coming_home.id,
+            :relative_id => mary.id
+    })
+    PhotoTag.create!({
+            :photo_id => tom_coming_home.id,
+            :relative_id => tom.id
+    })
+    PhotoTag.create!({
+            :photo_id => tom_coming_home.id,
+            :relative_id => sybbie.id
+    })
 
+    trenches = Photo.create!({
+            :taken_on => Date.new(1915),
+            :header => "Trenches",
+            :caption => "Matthew in the trenches",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/in-the-trenches.jpg')),
+            :poster_id => matthew.id,
+            :location => "World War 1 Battlefield"
+    })
+    PhotoTag.create!({
+            :photo_id => trenches.id,
+            :relative_id => matthew.id
+    })
+
+    playing_cricket = Photo.create!({
+            :taken_on => Date.new(1920),
+            :header => "Cricket",
+            :caption => "A group picture of cricket before Matthew died. Also pictured are Mr Carson, Alfred, Thomas, Mr Molesley, and other house staff. ",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/playing-cricket.jpg')),
+            :poster_id => cora.id,
+            :location => "World War 1 Battlefield"
+    })
+    PhotoTag.create!({
+            :photo_id => playing_cricket.id,
+            :relative_id => matthew.id
+    })
+    PhotoTag.create!({
+            :photo_id => playing_cricket.id,
+            :relative_id => robert.id
+    })
+    PhotoTag.create!({
+            :photo_id => playing_cricket.id,
+            :relative_id => tom.id
+    })
+
+    war_uniforms = Photo.create!({
+            :taken_on => Date.new(1920),
+            :header => "War Uniforms",
+            :caption => "Family members involved in the war.",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/war-uniforms.jpg')),
+            :poster_id => cora.id,
+            :location => "Downton Abbey, during its time as an army hospital"
+    })
+    PhotoTag.create!({
+            :photo_id => war_uniforms.id,
+            :relative_id => matthew.id
+    })
+    PhotoTag.create!({
+            :photo_id => war_uniforms.id,
+            :relative_id => robert.id
+    })
+    PhotoTag.create!({
+            :photo_id => war_uniforms.id,
+            :relative_id => sybil.id
+    })
+
+    with_kids = Photo.create!({
+            :taken_on => Date.new(1920),
+            :header => "Children",
+            :caption => "Parents and children (you know, the parents that aren't dead).",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/with-kids.jpg')),
+            :poster_id => isobel.id,
+            :location => "Downton Abbey"
+    })
+    PhotoTag.create!({
+            :photo_id => with_kids.id,
+            :relative_id => edith.id
+    })
+    PhotoTag.create!({
+            :photo_id => with_kids.id,
+            :relative_id => mary.id
+    })
+    PhotoTag.create!({
+            :photo_id => with_kids.id,
+            :relative_id => tom.id
+    })
+    PhotoTag.create!({
+            :photo_id => with_kids.id,
+            :relative_id => marigold.id
+    })
+    PhotoTag.create!({
+            :photo_id => with_kids.id,
+            :relative_id => george.id
+    })
+    PhotoTag.create!({
+            :photo_id => with_kids.id,
+            :relative_id => sybbie.id
+    })
+
+    concert = Photo.create!({
+            :taken_on => Date.new(1914),
+            :header => "Concert",
+            :caption => "Charity concert during the Great War to raise money while the House acted as a hospital ",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/also-at-concert.jpg')),
+            :poster_id => cora.id,
+            :location => "Downton Abbey"
+    })
+    PhotoTag.create!({
+            :photo_id => concert.id,
+            :relative_id => violet.id
+    })
+    PhotoTag.create!({
+            :photo_id => concert.id,
+            :relative_id => cora.id
+    })
+    PhotoTag.create!({
+            :photo_id => concert.id,
+            :relative_id => robert.id
+    })
+
+    at_dinner = Photo.create!({
+            :taken_on => Date.new(1912),
+            :header => "Dinner",
+            :caption => "An evening dinner (and Violet being her normal foxy self).",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/at-dinner.jpg')),
+            :poster_id => edith.id,
+            :location => "Downton Abbey"
+    })
+    PhotoTag.create!({
+            :photo_id => at_dinner.id,
+            :relative_id => violet.id
+    })
+    PhotoTag.create!({
+            :photo_id => at_dinner.id,
+            :relative_id => robert.id
+    })
+
+    hospital = Photo.create!({
+            :taken_on => Date.new(1916),
+            :header => "Hospital",
+            :caption => "Matthew surprised Isobel at the hospital",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/hospital.jpg')),
+            :poster_id => isobel.id,
+            :location => "Downton Abbey (Hospital)"
+    })
+    PhotoTag.create!({
+            :photo_id => hospital.id,
+            :relative_id => matthew.id
+    })
+    PhotoTag.create!({
+            :photo_id => hospital.id,
+            :relative_id => isobel.id
+    })
+
+    out_shooting = Photo.create!({
+            :taken_on => Date.new(1922),
+            :header => "Out Shooting",
+            :caption => "Tom, Mary, and Tony Foyle in the country",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/out-shooting.jpg')),
+            :poster_id => violet.id,
+            :location => "Countryside of Downton Abbey"
+    })
+    PhotoTag.create!({
+            :photo_id => out_shooting.id,
+            :relative_id => tom.id
+    })
+    PhotoTag.create!({
+            :photo_id => out_shooting.id,
+            :relative_id => mary.id
+    })
+
+    sisters = Photo.create!({
+            :taken_on => Date.new(1912),
+            :header => "Sisters",
+            :caption => "How did they all get in the same picture?",
+            :photograph => File.open(File.join('/home/nathanweatherly/git/images_for_seed/candid-photos/sisters.jpg')),
+            :poster_id => violet.id,
+            :location => "Downton Abbey"
+    })
+    PhotoTag.create!({
+            :photo_id => sisters.id,
+            :relative_id => edith.id
+    })
+    PhotoTag.create!({
+            :photo_id => sisters.id,
+            :relative_id => sybil.id
+    })
+    PhotoTag.create!({
+            :photo_id => sisters.id,
+            :relative_id => mary.id
+    })
 end
