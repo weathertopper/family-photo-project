@@ -205,13 +205,13 @@ if Rails.env.development?
 
     Relative.find_each do |r|
         event_content = ""
-        parents = r.reverse_descendant_branches
-        if parents.count() == 1
-            parent_one = Relative.find(parents[0].parent_id) #returns relative object
+        parent_branches = r.reverse_descendant_branches
+        if parent_branches.count() == 1
+            parent_one = Relative.find(parent_branches[0].parent_id) #returns relative object
             event_content =  "Birth of #{r.first} to #{parent_one.first}"
-        elsif parents.count() ==2
-            parent_one = Relative.find(parents[0].parent_id) #returns relative object
-            parent_two = Relative.find(parents[1].parent_id) #returns relative object
+        elsif parent_branches.count() ==2
+            parent_one = Relative.find(parent_branches[0].parent_id) #returns relative object
+            parent_two = Relative.find(parent_branches[1].parent_id) #returns relative object
             event_content =  "Birth of #{r.first} to #{parent_one.first} and #{parent_two.first}"
         else
             event_content = "Birth of #{r.first}"
@@ -220,9 +220,9 @@ if Rails.env.development?
                                 :content => event_content})
         EventTag.create!({      :event_id => birth.id,
                                 :relative_id => r.id})
-        parents.find_each do |p|
+        parent_branches.find_each do |branch|
             EventTag.create!({  :event_id => birth.id,
-                                :relative_id => p.id})
+                                :relative_id => branch.parent_id})
         end
     end
 
@@ -244,9 +244,9 @@ if Rails.env.development?
                 end
             end
 
-            parents = r.reverse_descendant_branches
-            parents.find_each do |p|
-                parent = Relative.find(p.parent_id)
+            parent_branches = r.reverse_descendant_branches
+            parent_branches.find_each do |branch|
+                parent = Relative.find(branch.parent_id)
                 if !parent.deathday || (parent.deathday && r.deathday < parent.deathday)
                     EventTag.create!({  :event_id => death.id,
                                         :relative_id => parent.id})

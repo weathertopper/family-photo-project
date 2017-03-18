@@ -8,6 +8,12 @@ class RelativesController < ApplicationController
 
   # GET /relatives/1
   def show
+      @event_tags = EventTag.where(relative_id: @relative.id)
+      @events = Event.all
+      @memories = Memory.all
+      @relatives = Relative.all
+      @all_event_tags = EventTag.all
+      @all_marriage_branches = MarriageBranch.all
       #@relative defined by set (below)
   end
 
@@ -56,10 +62,11 @@ class RelativesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def relative_params
         params.require(:relative).permit(   :first,
+                                            :nickname,
                                             :middle,
                                             :maiden,
                                             :surname,
-                                            :nickname,
+                                            :suffix,
                                             :sex,
                                             :birthday,
                                             :deathday,

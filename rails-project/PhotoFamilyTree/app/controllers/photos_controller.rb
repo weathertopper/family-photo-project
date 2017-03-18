@@ -10,7 +10,8 @@ class PhotosController < ApplicationController
   def show
       #@photo defined by set (below)
       @relatives = Relative.all
-      @photo_tags = PhotoTag.all
+      @photo_tags = PhotoTag.where(photo_id:  @photo.id)
+      @poster = @relatives.find(@photo.poster_id)
   end
 
   # GET /Photos/new

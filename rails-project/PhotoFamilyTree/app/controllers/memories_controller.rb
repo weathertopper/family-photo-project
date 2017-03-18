@@ -9,6 +9,7 @@ class MemoriesController < ApplicationController
   # GET /memories/1
   def show
       #@memory defined by set (below)
+      @poster = Relative.find(@memory.poster_id)
   end
 
   # GET /memories/new

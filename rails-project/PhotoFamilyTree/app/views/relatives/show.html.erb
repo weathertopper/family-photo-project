@@ -25,6 +25,60 @@
     </div>
 <% end%>
 
+<div>
+    <% @marriage_branches = "" %>
+    <% if @relative.sex == "male" %>
+        <% @marriage_branches = @all_marriage_branches.where(husband_id: @relative.id)%>
+    <% else%>
+        <% @marriage_branches = @all_marriage_branches.where(wife_id: @relative.id) %>
+    <% end%>
+    <% @marriage_branches.all.order('anniversary') unless @marriage_branches.count < 2%>
+    <% @marriage_branches.each do |branch| %>
+        <% @spouse = @relative.sex == "male" ? @relatives.find(branch.wife_id) : @relatives.find(branch.husband_id)  %>
+        <% unless branch.end %>
+            <span> Married to <%=@spouse.first%> <%=@spouse.surname%> since <%=branch.anniversary%>. </span>
+        <% else %>
+            <span> Married to <%=@spouse.first%> <%=@spouse.surname%> from <%=branch.anniversary%> until <%=branch.end%>. </span>
+        <% end%>
+        <br/>
+    <% end%>
+</div>
+
+<div>
+    Events:
+    <div>
+        <% @related_events = []%>
+        <% @event_tags.each do |tag|%>
+            <%@related_events.push(@events.find(tag.event_id))%>
+        <% end%>
+        <% @related_events.sort! { |a, b|  a.when <=> b.when }%>
+        <% @related_events.each do |evt| %>
+            <span><%=evt.location%> <%=evt.when%>: <%=evt.content%></span><br/>
+            <% @event_tags_by_event = @all_event_tags.where(event_id: evt.id)%>
+            <div>
+                <%@event_tags_by_event.each do |tag|%>
+                    <% @r = @relatives.find(tag.relative_id)%>
+                    <% unless @r.id == @relative.id%>
+                        with <span><%=@r.first%> <%=@r.surname%></span><br/>
+                    <%end%>
+                <%end%>
+            </div>
+        <%end%>
+    </div>
+    <span><%= link_to 'New Event', new_event_path %></span>
+</div>
+<div>
+    Memories:
+    <%@memories = @memories.where(poster_id: @relative.id)%>
+    <%@memories.each do |memory|%>
+        <div>
+            <%=memory.title%>
+            <span><%= link_to 'Show', memory %></span>
+        </div>
+    <%end%>
+    <span><%= link_to 'New Event', new_memory_path %></span>
+</div>
+
 <!-- ADD MARRIAGES AND EVENTS -->
 
 <%= link_to 'Edit', edit_relative_path(@relative) %> |

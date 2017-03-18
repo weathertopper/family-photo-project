@@ -1,7 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-<% @poster = @relatives.find(@photo.poster_id)%>
-<% @tags = @photo_tags.where(photo_id:  @photo.id)%>
 <div>
     <%= image_tag @photo.photograph.thumb.url%>
 </div>
@@ -19,7 +17,7 @@
 <div>
     Tagged Relatives:
     <div>
-        <% @tags.each do |tag|%>
+        <% @photo_tags.each do |tag|%>
             <%@relative = @relatives.find(tag.relative_id)%>
             <span><%=@relative.first%> <%=@relative.surname%></span><br/>
         <% end%>

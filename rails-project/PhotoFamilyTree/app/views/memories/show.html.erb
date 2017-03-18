@@ -1,4 +1,15 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_memory_path(@memory) %> |
-<%= link_to 'Back', memories_path %>
+<div>
+    <%=@memory.title%>
+</div>
+<div>
+    Posted by: <%=@poster.first%> <%=@poster.surname%>
+</div>
+<div>
+    <%=@memory.text_content%>
+</div><br/>
+<span> STILL HAVE TO ADD AUDIO ACCESS HERE </span><br/>
+<%= link_to 'Edit', edit_memory_path(@memory) %><br/>
+<span> CHANGE THIS 'BACK' PATH </span><br/>
+<%= link_to 'Back', :back %>
