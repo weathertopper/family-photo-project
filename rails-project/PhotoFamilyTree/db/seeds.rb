@@ -85,7 +85,7 @@ if Rails.env.development?
                                 :surname => 'Branson',
                                 :sex => "female",
                                 :birthday => Date.new(1895, 9, 14),
-                                :deathday => Date.new(1920, 5, 15),
+                                :deathday => Date.new(1920, 5, 25),
                                 :profile_photo => File.open(File.join('/home/nathanweatherly/git/images_for_seed/sybil_crawley.png'))})
 
     matthew = Relative.create!({:first => "Matthew",
@@ -170,7 +170,7 @@ if Rails.env.development?
     MarriageBranch.create!({:wife_id => sybil.id,
                             :husband_id => tom.id,
                             :anniversary => Date.new(1919, 4, 16),
-                            :end => Date.new(1920, 5, 17)})
+                            :end => Date.new(1920, 5, 25)})
 
     MarriageBranch.create!({:wife_id => mary.id,
                             :husband_id => matthew.id,
@@ -194,11 +194,25 @@ if Rails.env.development?
         husband = Relative.find(mbranch.husband_id)
         marriage = Event.create!({
                             :when => mbranch.anniversary,
-                            :content => "#{husband.first} & #{wife.first} #{husband.surname} are married"})
+                            :content => "#{husband.first} & #{wife.first} #{husband.surname} are married",
+                            :event_type => "marriage_start",
+                            :event_type_reference => mbranch.id})
         EventTag.create!({  :event_id => marriage.id,
                             :relative_id => husband.id})
         EventTag.create!({  :event_id => marriage.id,
                             :relative_id => wife.id})
+        if mbranch.end
+            marriage_end = Event.create!({
+                                :when => mbranch.end,
+                                :content => "#End of marriage between {husband.first} & #{wife.first} #{husband.surname}",
+                                :event_type => "marriage_end",
+                                :event_type_reference => mbranch.id})
+            EventTag.create!({  :event_id => marriage_end.id,
+                                :relative_id => husband.id})
+            EventTag.create!({  :event_id => marriage_end.id,
+                                :relative_id => wife.id})
+        end
+
     end
 
     #Births, relevant to person being born and parents
@@ -217,7 +231,9 @@ if Rails.env.development?
             event_content = "Birth of #{r.first}"
         end
         birth = Event.create!({ :when => r.birthday,
-                                :content => event_content})
+                                :content => event_content,
+                                :event_type => "birth",
+                                :event_type_reference => r.id})
         EventTag.create!({      :event_id => birth.id,
                                 :relative_id => r.id})
         parent_branches.find_each do |branch|
@@ -231,7 +247,9 @@ if Rails.env.development?
         if r.deathday
             death = Event.create!({
                                 :when => r.deathday,
-                                :content => "Death of #{r.first}"})
+                                :content => "Death of #{r.first}",
+                                :event_type => 'death',
+                                :event_type_reference => r.id})
             EventTag.create!({  :event_id => death.id,
                                 :relative_id => r.id})
 

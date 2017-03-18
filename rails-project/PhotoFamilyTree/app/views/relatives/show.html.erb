@@ -5,11 +5,14 @@
 </div>
 <div>
     <%=@relative.first%>
-    <% if @relative.nickname %>
+    <% unless @relative.nickname == "" || @relative.nickname == nil %>
         "<%=@relative.nickname%>"
     <% end%>
+    <% unless @relative.middle == "" || @relative.middle == nil %>
+        <%=@relative.middle%>
+    <% end%>
     <%=@relative.surname%>
-    <% if @relative.maiden %>
+    <% unless @relative.maiden == "" || @relative.maiden == nil %>
         (nee <%=@relative.maiden%>)
     <% end%>
 </div>

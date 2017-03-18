@@ -1,17 +1,56 @@
 <%= form_for(relative) do |f| %>
-  <% if relative.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(relative.errors.count, "error") %> prohibited this relative from being saved:</h2>
+    <% if relative.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(relative.errors.count, "error") %> prohibited this relative from being saved:</h2>
+            <ul>
+                <% relative.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
 
-      <ul>
-      <% relative.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <div class = "relative-profile-photo">
+        <%= f.label :profile_photo %><br>
+        <%= f.file_field :profile_photo %><br>
+        <% if f.object.profile_photo? %>
+            <%= image_tag f.object.profile_photo.thumb.url %>
+            <%= f.label :remove_profile_photo %>
+            <%= f.check_box :remove_profile_photo %>
+        <% end %>
     </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class = "relative-name">
+        <%= f.label "First" %>
+        <%= f.text_field :first %> <br>
+        <%= f.label "Nickname (if applicable):" %>
+        <%= f.text_field :nickname %> <br>
+        <%= f.label "Middle:" %>
+        <%= f.text_field :middle %> <br>
+        <%= f.label "Surname:" %>
+        <%= f.text_field :surname %> <br>
+        <%= f.label "Suffix (if applicable):" %>
+        <%= f.text_field :suffix %> <br>
+        <%= f.label "Maiden (if applicable):" %>
+        <%= f.text_field :maiden %> <br>
+    </div>
+
+    <div class = "relative-sex">
+        <%= f.radio_button :sex, 'male' %>Male<br>
+        <%= f.radio_button :sex, 'female' %>Female<br>
+    </div>
+
+    <div class = 'relative-birth'>
+        <%= f.label "Born:" %>
+        <%= f.date_select(:birthday, :order => [:month, :day, :year], :start_year => 1700) %>
+    </div>
+
+    <div class = 'relative-death'>
+        <%= f.label "Died:" %>
+        <%= f.date_select(:deathday, :order => [:month, :day, :year], :start_year => 1700, :include_blank => true, :default => nil) %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit %>
+    </div>
 <% end %>
