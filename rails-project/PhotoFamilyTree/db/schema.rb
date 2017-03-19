@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170318193826) do
+ActiveRecord::Schema.define(version: 20170318205100) do
 
   create_table "descendant_branches", force: :cascade do |t|
     t.integer  "parent_id",  null: false
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 20170318193826) do
   end
 
   create_table "event_tags", force: :cascade do |t|
-    t.integer  "event_id"
-    t.integer  "relative_id"
+    t.integer  "event_id",    null: false
+    t.integer  "relative_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["event_id"], name: "index_event_tags_on_event_id"
@@ -59,8 +59,8 @@ ActiveRecord::Schema.define(version: 20170318193826) do
   end
 
   create_table "photo_tags", force: :cascade do |t|
-    t.integer  "photo_id"
-    t.integer  "relative_id"
+    t.integer  "photo_id",    null: false
+    t.integer  "relative_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["photo_id"], name: "index_photo_tags_on_photo_id"

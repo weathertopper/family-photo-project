@@ -217,78 +217,84 @@ if Rails.env.development?
 
     #Births, relevant to person being born and parents
 
-    Relative.find_each do |r|
-        event_content = ""
-        parent_branches = r.reverse_descendant_branches
-        if parent_branches.count() == 1
-            parent_one = Relative.find(parent_branches[0].parent_id) #returns relative object
-            event_content =  "Birth of #{r.first} to #{parent_one.first}"
-        elsif parent_branches.count() ==2
-            parent_one = Relative.find(parent_branches[0].parent_id) #returns relative object
-            parent_two = Relative.find(parent_branches[1].parent_id) #returns relative object
-            event_content =  "Birth of #{r.first} to #{parent_one.first} and #{parent_two.first}"
-        else
-            event_content = "Birth of #{r.first}"
-        end
-        birth = Event.create!({ :when => r.birthday,
-                                :content => event_content,
-                                :event_type => "birth",
-                                :event_type_reference => r.id})
-        EventTag.create!({      :event_id => birth.id,
-                                :relative_id => r.id})
-        parent_branches.find_each do |branch|
-            EventTag.create!({  :event_id => birth.id,
-                                :relative_id => branch.parent_id})
-        end
-    end
+    # Relative.find_each do |r|
+    #     event_content = ""
+    #     parent_branches = r.reverse_descendant_branches
+    #     if parent_branches.count() == 1
+    #         parent_one = Relative.find(parent_branches[0].parent_id) #returns relative object
+    #         event_content =  "Birth of #{r.first} to #{parent_one.first}"
+    #     elsif parent_branches.count() ==2
+    #         parent_one = Relative.find(parent_branches[0].parent_id) #returns relative object
+    #         parent_two = Relative.find(parent_branches[1].parent_id) #returns relative object
+    #         event_content =  "Birth of #{r.first} to #{parent_one.first} and #{parent_two.first}"
+    #     else
+    #         event_content = "Birth of #{r.first}"
+    #     end
+    #     birth = Event.create!({ :when => r.birthday,
+    #                             :content => event_content,
+    #                             :event_type => "birth",
+    #                             :event_type_reference => r.id})
+    #     EventTag.create!({      :event_id => birth.id,
+    #                             :relative_id => r.id})
+    #     parent_branches.find_each do |branch|
+    #         EventTag.create!({  :event_id => birth.id,
+    #                             :relative_id => branch.parent_id})
+    #     end
+    # end
+    #
+    # #Deaths, relevant to person, spouse, and children
+    # Relative.find_each do |r|
+    #     if r.deathday
+    #         death = Event.create!({
+    #                             :when => r.deathday,
+    #                             :content => "Death of #{r.first}",
+    #                             :event_type => 'death',
+    #                             :event_type_reference => r.id})
+    #         EventTag.create!({  :event_id => death.id,
+    #                             :relative_id => r.id})
+    #
+    #         children = r.descendant_branches
+    #         children.find_each do |c|
+    #             child = Relative.find(c.child_id)
+    #             if !child.deathday || (child.deathday && r.deathday < child.deathday)
+    #                 EventTag.create!({  :event_id => death.id,
+    #                                     :relative_id => child.id})
+    #             end
+    #         end
+    #
+    #         parent_branches = r.reverse_descendant_branches
+    #         parent_branches.find_each do |branch|
+    #             parent = Relative.find(branch.parent_id)
+    #             if !parent.deathday || (parent.deathday && r.deathday < parent.deathday)
+    #                 EventTag.create!({  :event_id => death.id,
+    #                                     :relative_id => parent.id})
+    #             end
+    #         end
+    #
+    #         # => DO SPOUSES HERE!!!
+    #         # => Note, marriages are owned by the wife.
+    #         marriages = "" #branches
+    #         if r.sex == "male"
+    #             marriages = r.reverse_marriage_branches
+    #         else
+    #             marriages = r.marriage_branches
+    #         end
+    #
+    #         marriages.find_each do |m|
+    #             spouse = (r.sex == "male")? Relative.find(m.wife_id) : Relative.find(m.husband_id)
+    #             if !spouse.deathday || (spouse.deathday && r.deathday < spouse.deathday)
+    #                 EventTag.create!({  :event_id => death.id,
+    #                                     :relative_id => spouse.id})
+    #             end
+    #         end
+    #
+    #     end
+    # end
 
-    #Deaths, relevant to person, spouse, and children
-    Relative.find_each do |r|
-        if r.deathday
-            death = Event.create!({
-                                :when => r.deathday,
-                                :content => "Death of #{r.first}",
-                                :event_type => 'death',
-                                :event_type_reference => r.id})
-            EventTag.create!({  :event_id => death.id,
-                                :relative_id => r.id})
-
-            children = r.descendant_branches
-            children.find_each do |c|
-                child = Relative.find(c.child_id)
-                if !child.deathday || (child.deathday && r.deathday < child.deathday)
-                    EventTag.create!({  :event_id => death.id,
-                                        :relative_id => child.id})
-                end
-            end
-
-            parent_branches = r.reverse_descendant_branches
-            parent_branches.find_each do |branch|
-                parent = Relative.find(branch.parent_id)
-                if !parent.deathday || (parent.deathday && r.deathday < parent.deathday)
-                    EventTag.create!({  :event_id => death.id,
-                                        :relative_id => parent.id})
-                end
-            end
-
-            # => DO SPOUSES HERE!!!
-            # => Note, marriages are owned by the wife.
-            marriages = "" #branches
-            if r.sex == "male"
-                marriages = r.reverse_marriage_branches
-            else
-                marriages = r.marriage_branches
-            end
-
-            marriages.find_each do |m|
-                spouse = (r.sex == "male")? Relative.find(m.wife_id) : Relative.find(m.husband_id)
-                if !spouse.deathday || (spouse.deathday && r.deathday < spouse.deathday)
-                    EventTag.create!({  :event_id => death.id,
-                                        :relative_id => spouse.id})
-                end
-            end
-
-        end
+    # => births and deaths
+    Relative.all.each do |r|
+        r.create_birth_event_and_tags
+        r.create_death_event_and_tags
     end
 
     # => Events from timeline

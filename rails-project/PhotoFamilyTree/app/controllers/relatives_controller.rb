@@ -32,6 +32,9 @@ class RelativesController < ApplicationController
       @relative = Relative.new(relative_params)
       if @relative.save
           flash[:notice] = 'Relative was successfully created.'
+          @relative.create_birth_event_and_tags
+          @relative.create_death_event_and_tags
+
           redirect_to '/relatives'
       else
           render "new"
@@ -41,6 +44,8 @@ class RelativesController < ApplicationController
   def update
       if @relative.update(relative_params)
           flash[:notice] = "Relative was successfully updated."
+          @relative.update_birth_event_and_tags
+          @relative.update_death_event_and_tags
           redirect_to(:action => 'show', :id => @relative.id)
       else
           render 'edit'
@@ -48,7 +53,11 @@ class RelativesController < ApplicationController
   end
 
   def destroy
+      @relative.destroy_death_event_and_tags
+      @relative.destroy_birth_event_and_tags
+      @relative.destroy_all_event_tags
       @relative.destroy
+      #will need to destroy photo tags and all branches too
       flash[:notice] = 'Relative was successfully destroyed.'
       redirect_to(:action => 'index')
   end
