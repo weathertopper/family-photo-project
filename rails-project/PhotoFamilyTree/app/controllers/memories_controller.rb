@@ -27,7 +27,7 @@ class MemoriesController < ApplicationController
       @memory = Memory.new(memory_params)
       if @memory.save
           flash[:notice] = 'Memory was successfully created.'
-          redirect_to '/memories'
+          redirect_to :controller=> "relatives", :action =>"show", :id => @memory.poster_id
       else
           render "new"
       end
@@ -36,16 +36,17 @@ class MemoriesController < ApplicationController
   def update
       if @memory.update(memory_params)
           flash[:notice] = "Memory was successfully updated."
-          redirect_to(:action => 'show', :id => @memory.id)
+          redirect_to :controller=> "relatives", :action =>"show", :id => @memory.poster_id
       else
           render 'edit'
       end
   end
 
   def destroy
+      @poster_id = @memory.poster_id
       @memory.destroy
       flash[:notice] = 'Memory was successfully destroyed.'
-      redirect_to(:action => 'index')
+      redirect_to :action =>"show", :id => @memory_id
   end
 
   private
@@ -56,8 +57,10 @@ class MemoriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def memory_params
-        params.require(:memory).permit(  :when,
-                                        :content,
-                                        :location )
+        params.require(:memory).permit( :title,
+                                        :text_content,
+                                        :audio_content,
+                                        :location,
+                                        :poster_id )
     end
 end

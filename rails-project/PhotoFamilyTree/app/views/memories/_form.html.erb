@@ -11,6 +11,32 @@
     </div>
   <% end %>
 
+  <%= f.hidden_field :poster_id, :value => params[:relative_id]%>
+
+  <div class "memory-title">
+      <%= f.label "Title: " %>
+      <%= f.text_field :title %> <br>
+  </div>
+
+  <div class "memory-location">
+      <%= f.label "Location: " %>
+      <%= f.text_field :location %> <br>
+  </div>
+
+
+   <div class = "memory-content-text">
+        <%= f.label "Content" %> <br>
+        <%= f.text_area :text_content %> <br>
+    </div>
+    <span>PLACEHOLDER PHOTO UNTIL THERE'S AN AUDIO UPLAODER</span><br/>
+    <div class = "memory-content-audio">
+        <%= f.label "Audio Upload" %><br>
+        <%= f.file_field :audio_content %><br>
+        <% if f.object.audio_content? %>
+            <%= image_tag f.object.audio_content.thumb.url %>
+        <% end %>
+    </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

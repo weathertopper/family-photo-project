@@ -131,7 +131,7 @@
             <span><%= link_to 'Show', memory %></span>
         </div>
     <%end%>
-    <span><%= link_to 'New Memory', new_memory_path %></span>
+    <span><%= link_to 'New Memory', new_memory_path(:relative_id => @relative.id) %></span>
 </div>
 
 <!-- ADD MARRIAGES AND EVENTS -->
