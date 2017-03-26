@@ -11,13 +11,16 @@
     Location: <%=@memory.location%>
 </div>
 <br />
-<%if @memory.text_content%>
     <div>
-        <%=@memory.text_content%>
+        <%=@memory.text_content unless @memory.text_content.blank? %>
     </div>
-<%end %>
+
+    <div>
+        <%= audio_tag(@memory.audio_content, controls: true)  %>
+    </div>
+
 
 
 <br/>
-<%= link_to 'Edit', edit_memory_path(@memory) %><br/>
+<%= link_to 'Edit', edit_memory_path(@memory, :relative_id => @memory.poster_id) %><br/>
 <%= link_to 'Back', :back %>

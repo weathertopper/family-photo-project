@@ -4,6 +4,7 @@
 <%= image_tag @relative.profile_photo.thumb.url unless @relative.profile_photo.blank?%>
 </div>
 <div>
+    <h3>
     <%=@relative.first%>
     <% unless @relative.nickname == "" || @relative.nickname == nil %>
         "<%=@relative.nickname%>"
@@ -15,6 +16,7 @@
     <% unless @relative.maiden == "" || @relative.maiden == nil %>
         (nee <%=@relative.maiden%>)
     <% end%>
+</h3>
 </div>
 <div class = "relative_parents">
     <% @parents = @relative.find_parent_relatives %>
@@ -92,7 +94,7 @@
 </div>
 
 <div>
-    Events:
+    <h3>Events:</h3>
     <div>
         <% @related_events = []%>
         <% @event_tags.each do |tag|%>
@@ -123,7 +125,7 @@
     <span><%= link_to 'New Event', new_event_path(:relative_id => @relative.id) %></span>
 </div>
 <div>
-    Memories:
+    <h3>Memories:</h3>
     <%@memories = @memories.where(poster_id: @relative.id)%>
     <%@memories.each do |memory|%>
         <div>
@@ -135,6 +137,6 @@
 </div>
 
 <!-- ADD MARRIAGES AND EVENTS -->
-
+<br>
 <%= link_to 'Edit', edit_relative_path(@relative) %> |
 <%= link_to 'Back', relatives_path %>
