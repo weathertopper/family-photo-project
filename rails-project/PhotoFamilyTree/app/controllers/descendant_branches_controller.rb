@@ -14,10 +14,12 @@ class DescendantBranchesController < ApplicationController
   # GET /descendant_branches/new
   def new
       @descendant_branch = DescendantBranch.new
+      @relatives = Relative.all
   end
 
   # GET /descendant_branches/1/edit
   def edit
+      @relatives = Relative.all
       #@descendant_branch defined by set (below)
   end
 
@@ -26,7 +28,7 @@ class DescendantBranchesController < ApplicationController
       @descendant_branch = DescendantBranch.new(descendant_branch_params)
       if @descendant_branch.save
           flash[:notice] = 'Descendant branch was successfully created.'
-          redirect_to '/descendant_branches'
+          redirect_to :controller => 'relatives', :action => 'index'
       else
           render "new"
       end
@@ -35,7 +37,7 @@ class DescendantBranchesController < ApplicationController
   def update
       if @descendant_branch.update(descendant_branch_params)
           flash[:notice] = "Descendant branch was successfully updated."
-          redirect_to(:action => 'show', :id => @descendant_branch.id)
+          redirect_to :controller => 'relatives', :action => 'index'
       else
           render 'edit'
       end
@@ -44,7 +46,7 @@ class DescendantBranchesController < ApplicationController
   def destroy
       @descendant_branch.destroy
       flash[:notice] = 'Descendant branch was successfully destroyed.'
-      redirect_to(:action => 'index')
+      redirect_to :controller => 'relatives', :action => 'index'
   end
 
   private

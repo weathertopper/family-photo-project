@@ -34,7 +34,7 @@ class Relative < ApplicationRecord
         birth_event = Event.create!({ :when => self.birthday,
                         :content => self.get_birth_event_content,
                         :event_type => "birth",
-                        :event_type_reference => self.id})
+                        :event_owner_id => self.id})
 
         parents = self.find_parent_relatives
         if birth_event #this should always be true
@@ -55,7 +55,7 @@ class Relative < ApplicationRecord
             death_event = Event.create!({ :when => self.deathday,
                             :content => self.get_death_event_content,
                             :event_type => "death",
-                            :event_type_reference => self.id})
+                            :event_owner_id => self.id})
             parents = self.find_parent_relatives
             children = self.find_child_relatives
             spouses = self.find_spouse_relatives
@@ -86,7 +86,7 @@ class Relative < ApplicationRecord
 
     #CALLED WHEN A RELATIVE IS CREATED
     # def create_birth_event_tags
-    #     birth_event = Event.find_by(:event_type_reference => self.id,
+    #     birth_event = Event.find_by(:event_owner_id => self.id,
     #                                 :event_type => "birth")
     #     # parents = self.find_parent_relatives
     #     # if birth_event #this should always be true
@@ -104,7 +104,7 @@ class Relative < ApplicationRecord
     # #CALLED WHEN A RELATIVE IS CREATED OR WHEN A DEATHDAY IS ADDED (VIA UPDATE)
     # def create_death_event_tags
     #
-    #     death_event = Event.find_by(:event_type_reference => self.id,
+    #     death_event = Event.find_by(:event_owner_id => self.id,
     #                                 :event_type => "death")
     #
     #     parents = self.find_parent_relatives
@@ -139,7 +139,7 @@ class Relative < ApplicationRecord
     #CALLED WHEN A RELATIVE IS UPDATED
     def update_birth_event_and_tags
         #birth_event should exist already
-        birth_event = Event.find_by(:event_type_reference => self.id,
+        birth_event = Event.find_by(:event_owner_id => self.id,
                                     :event_type => "birth")
         # only update if data changed
         if (self.birthday != birth_event.when) || (birth_event.content != self.get_birth_event_content)
@@ -149,7 +149,7 @@ class Relative < ApplicationRecord
         # tags need to be changed if parents changed
         parent_ids = self.find_parent_relatives.pluck(:id)
 
-        birth_event_tag_ids = EventTags.where(:event_id => birth_event.id).pluck(:relative_id)
+        birth_event_tag_ids = EventTag.where(:event_id => birth_event.id).pluck(:relative_id)
         birth_event_tag_ids.delete(self.id) #should leave only parent ids
 
         unless parent_ids == birth_event_tag_ids # unless parents haven't changed
@@ -163,7 +163,7 @@ class Relative < ApplicationRecord
     #CALLED WHEN A RELATIVE IS UPDATED
     def update_death_event_and_tags
         #death_event may or may not exist already
-        death_event = Event.find_by(:event_type_reference => self.id,
+        death_event = Event.find_by(:event_owner_id => self.id,
                                     :event_type => "death")
         if death_event && !self.deathday #coming back from the dead
             self.destroy_death_event_and_tags
@@ -182,7 +182,7 @@ class Relative < ApplicationRecord
 
             relative_ids = parent_ids + children_ids + spouse_ids
 
-            death_event_tag_ids = EventTags.where(:event_id => death_event).pluck(:relative_id)
+            death_event_tag_ids = EventTag.where(:event_id => death_event).pluck(:relative_id)
             death_event_tag_ids.delete(self.id) # should ust be relatives if nothing's changed
 
             unless relative_ids == death_event_tag_ids # unless parents haven't changed
@@ -194,7 +194,7 @@ class Relative < ApplicationRecord
     end
 
     def destroy_death_event_and_tags
-        death_event = Event.find_by(:event_type_reference => self.id,
+        death_event = Event.find_by(:event_owner_id => self.id,
                                     :event_type => "death")
 
         if death_event
@@ -205,7 +205,7 @@ class Relative < ApplicationRecord
     end
 
     def destroy_birth_event_and_tags
-        birth_event = Event.find_by(:event_type_reference => self.id,
+        birth_event = Event.find_by(:event_owner_id => self.id,
                                     :event_type => "birth")
         birth_event_tags = EventTag.where(:event_id => birth_event.id)
         birth_event_tags.destroy_all
@@ -216,7 +216,10 @@ class Relative < ApplicationRecord
     def destroy_all_event_tags
         EventTag.where(:relative_id => self.id).destroy_all
     end
-
+    # => called when relative deleted
+    def destroy_all_photo_tags
+        PhotoTag.where(:relative_id => self.id).destroy_all
+    end
 
     # COULD I MAKE THESE CONSTANTS OF EVENT? EVENTUALLY?
     def get_birth_event_content

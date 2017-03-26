@@ -16,6 +16,42 @@
         (nee <%=@relative.maiden%>)
     <% end%>
 </div>
+<div class = "relative_parents">
+    <% @parents = @relative.find_parent_relatives %>
+    <% #expect two parents %>
+    <% @father = nil %>
+    <% @mother = nil %>
+    <% @parents.each do |parent| %>
+        <% if parent.sex == 'male'%>
+            <% @father = parent %>
+        <% else %>
+            <% @mother = parent %>
+        <% end  %>
+    <% end %>
+    <% if @mother %>
+        <div class = 'mother'>
+            Mother: <%=@mother.first%> <%=@mother.surname%>
+            <% @mother_branch = @all_descendant_branches.find_by(:parent_id => @mother.id, :child_id => @relative.id) %>
+            <%= link_to 'Edit', edit_descendant_branch_path(@mother_branch, :child_id => @relative.id) %>
+            <%= link_to 'Destroy', @mother_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+    <% else %>
+        <%= link_to 'Add Mother', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Mother") %>
+    <% end %>
+    <br />
+    <% if @father %>
+        <div class = 'father'>
+            Father: <%=@father.first%> <%=@father.surname%>
+            <% @father_branch = @all_descendant_branches.find_by(:parent_id => @father.id, :child_id => @relative.id) %>
+            <%= link_to 'Edit', edit_descendant_branch_path(@father_branch) %>
+            <%= link_to 'Destroy', @father_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+    <% else %>
+        <%= link_to 'Add Father', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Father") %>
+    <% end %>
+
+
+</div>
 <div>
     <%=@relative.sex%>
 </div>
@@ -30,10 +66,13 @@
 
 <div>
     <% @marriage_branches = "" %>
+    <% @marriage_position = ""%>
     <% if @relative.sex == "male" %>
         <% @marriage_branches = @all_marriage_branches.where(husband_id: @relative.id)%>
+        <% @marriage_position = "husband_id"%>
     <% else%>
         <% @marriage_branches = @all_marriage_branches.where(wife_id: @relative.id) %>
+        <% @marriage_position = "wife_id"%>
     <% end%>
     <% @marriage_branches.all.order('anniversary') unless @marriage_branches.count < 2%>
     <% @marriage_branches.each do |branch| %>
@@ -43,8 +82,13 @@
         <% else %>
             <span> Married to <%=@spouse.first%> <%=@spouse.surname%> from <%=branch.anniversary%> until <%=branch.end%>. </span>
         <% end%>
+
+        <%= link_to 'Delete', branch, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to 'Edit', edit_marriage_branch_path(branch) %>
         <br/>
     <% end%>
+
+    <%= link_to "Add Marriage", new_marriage_branch_path(@marriage_position => @relative.id) %>
 </div>
 
 <div>
@@ -56,19 +100,27 @@
         <% end%>
         <% @related_events.sort! { |a, b|  a.when <=> b.when }%>
         <% @related_events.each do |evt| %>
-            <span><%=evt.location%> <%=evt.when%>: <%=evt.content%></span><br/>
+            <span><%=evt.location%> <%=evt.when%>: <%=evt.content%> @ <%=evt.location%></span>
+            <span><%= link_to 'Edit', edit_event_path(evt) %></span>
+            <span><%= link_to 'Destroy', evt, method: :delete, data: { confirm: 'Are you sure?' } %></span>
+            <br/>
             <% @event_tags_by_event = @all_event_tags.where(event_id: evt.id)%>
             <div>
                 <%@event_tags_by_event.each do |tag|%>
                     <% @r = @relatives.find(tag.relative_id)%>
                     <% unless @r.id == @relative.id%>
-                        with <span><%=@r.first%> <%=@r.surname%></span><br/>
+                        with <span><%=@r.first%> <%=@r.surname%></span>
+                        <%unless evt.event_owner_id == @r.id%>
+                            <%= link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' } %>
+                        <%end%>
+                        <br>
                     <%end%>
                 <%end%>
+                <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id) %>
             </div>
         <%end%>
     </div>
-    <span><%= link_to 'New Event', new_event_path %></span>
+    <span><%= link_to 'New Event', new_event_path(:relative_id => @relative.id) %></span>
 </div>
 <div>
     Memories:
@@ -79,7 +131,7 @@
             <span><%= link_to 'Show', memory %></span>
         </div>
     <%end%>
-    <span><%= link_to 'New Event', new_memory_path %></span>
+    <span><%= link_to 'New Memory', new_memory_path %></span>
 </div>
 
 <!-- ADD MARRIAGES AND EVENTS -->

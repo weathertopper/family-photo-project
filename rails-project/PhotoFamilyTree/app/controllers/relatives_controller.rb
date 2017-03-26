@@ -14,6 +14,7 @@ class RelativesController < ApplicationController
       @relatives = Relative.all
       @all_event_tags = EventTag.all
       @all_marriage_branches = MarriageBranch.all
+      @all_descendant_branches = DescendantBranch.all
       #@relative defined by set (below)
   end
 
@@ -56,6 +57,7 @@ class RelativesController < ApplicationController
       @relative.destroy_death_event_and_tags
       @relative.destroy_birth_event_and_tags
       @relative.destroy_all_event_tags
+      @relative.destroy_all_photo_tags #but not photos posted
       @relative.destroy
       #will need to destroy photo tags and all branches too
       flash[:notice] = 'Relative was successfully destroyed.'

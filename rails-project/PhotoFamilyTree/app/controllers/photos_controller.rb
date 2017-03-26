@@ -16,11 +16,13 @@ class PhotosController < ApplicationController
 
   # GET /Photos/new
   def new
+      @relatives = Relative.all
       @photo = Photo.new
   end
 
   # GET /Photos/1/edit
   def edit
+      @relatives = Relative.all
       #@photo defined by set (below)
   end
 
@@ -36,6 +38,7 @@ class PhotosController < ApplicationController
   end
 
   def update
+      @relatives = Relative.all
       if @photo.update(photo_params)
           flash[:notice] = "Photo was successfully updated."
           redirect_to(:action => 'show', :id => @photo.id)

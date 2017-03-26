@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :event_tags
+  resources :photo_tags
   resources :events
   resources :marriage_branches
   resources :descendant_branches

@@ -10,6 +10,52 @@
       </ul>
     </div>
   <% end %>
+  <div>
+
+      <% if params[:husband_id]%>
+        <span>HUSBAND: <%= @relatives.find(params[:husband_id]).first%> <%=@relatives.find(params[:husband_id]).surname%> </span>
+      <% elsif params[:wife_id] %>
+        <span>WIFE: <%= @relatives.find(params[:wife_id]).first%> <%=@relatives.find(params[:wife_id]).surname %> </span>
+      <% else %>
+        <span> NO PARAM</span>
+      <% end %>
+
+      <% @men = @relatives.where(:sex => "male")%>
+      <% @women = @relatives.where(:sex => "female")%>
+
+       <% if params[:husband_id]%>
+
+            <div>
+                <%= f.collection_select :husband_id, @men, :id, :first, :selected => params[:husband_id],  :readonly => true %>
+            </div>
+            <br>
+            <div>
+                <%= f.collection_select :wife_id, @women, :id, :first, {prompt: "Wife"} %>
+            </div>
+        <% elsif params[:wife_id] %>
+            <div>
+                <%= f.collection_select :husband_id, @men, :id, :first, {prompt: "Husband"} %>
+            </div>
+            <br>
+            <div>
+                <%= f.collection_select :wife_id, @women, :id, :first,  :selected => params[:wife_id], :readonly => true%>
+            </div>
+        <% else %>
+            <div>
+                <%= f.collection_select :husband_id, @men, :id, :first, {prompt: "Husband"} %>
+            </div>
+            <br>
+            <div>
+                <%= f.collection_select :wife_id, @women, :id, :first, {prompt: "Wife"} %>
+            </div>
+        <% end %>
+  </div>
+
+  <%= f.label "Anniversary: " %>
+  <%= f.date_select(:anniversary, :order => [:month, :day, :year], :start_year => 1700) %>
+  <br/>
+  <%= f.label "Until:" %>
+  <%= f.date_select(:end, :order => [:month, :day, :year], :start_year => 1700, :include_blank => true, :default => nil) %>
 
   <div class="actions">
     <%= f.submit %>

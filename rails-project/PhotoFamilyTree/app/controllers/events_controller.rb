@@ -22,10 +22,11 @@ class EventsController < ApplicationController
 
   # POST /events
   def create
-      @event = event.new(event_params)
+      @event = Event.new(event_params)
       if @event.save
+          @event.create_owner_tag
           flash[:notice] = 'Event was successfully created.'
-          redirect_to '/events'
+          redirect_to :controller => 'relatives', :action => 'show', :id => @event.event_owner_id
       else
           render "new"
       end
@@ -34,16 +35,17 @@ class EventsController < ApplicationController
   def update
       if @event.update(event_params)
           flash[:notice] = "Event was successfully updated."
-          redirect_to(:action => 'show', :id => @event.id)
+          redirect_to :controller => 'relatives', :action => 'index'
       else
           render 'edit'
       end
   end
 
   def destroy
+      @event.delete_all_tags
       @event.destroy
       flash[:notice] = 'Event was successfully destroyed.'
-      redirect_to(:action => 'index')
+      redirect_to :controller => 'relatives', :action => 'index'
   end
 
   private
@@ -56,6 +58,7 @@ class EventsController < ApplicationController
     def event_params
         params.require(:event).permit(  :when,
                                         :content,
-                                        :location )
+                                        :location,
+                                        :event_owner_id )
     end
 end

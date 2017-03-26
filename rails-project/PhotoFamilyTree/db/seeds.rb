@@ -196,7 +196,7 @@ if Rails.env.development?
                             :when => mbranch.anniversary,
                             :content => "#{husband.first} & #{wife.first} #{husband.surname} are married",
                             :event_type => "marriage_start",
-                            :event_type_reference => mbranch.id})
+                            :event_owner_id => mbranch.id})
         EventTag.create!({  :event_id => marriage.id,
                             :relative_id => husband.id})
         EventTag.create!({  :event_id => marriage.id,
@@ -206,7 +206,7 @@ if Rails.env.development?
                                 :when => mbranch.end,
                                 :content => "#End of marriage between {husband.first} & #{wife.first} #{husband.surname}",
                                 :event_type => "marriage_end",
-                                :event_type_reference => mbranch.id})
+                                :event_owner_id => mbranch.id})
             EventTag.create!({  :event_id => marriage_end.id,
                                 :relative_id => husband.id})
             EventTag.create!({  :event_id => marriage_end.id,
@@ -233,7 +233,7 @@ if Rails.env.development?
     #     birth = Event.create!({ :when => r.birthday,
     #                             :content => event_content,
     #                             :event_type => "birth",
-    #                             :event_type_reference => r.id})
+    #                             :event_owner_id => r.id})
     #     EventTag.create!({      :event_id => birth.id,
     #                             :relative_id => r.id})
     #     parent_branches.find_each do |branch|
@@ -249,7 +249,7 @@ if Rails.env.development?
     #                             :when => r.deathday,
     #                             :content => "Death of #{r.first}",
     #                             :event_type => 'death',
-    #                             :event_type_reference => r.id})
+    #                             :event_owner_id => r.id})
     #         EventTag.create!({  :event_id => death.id,
     #                             :relative_id => r.id})
     #

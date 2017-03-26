@@ -11,6 +11,32 @@
     </div>
   <% end %>
 
+
+   <% if params[:parent_label]%>
+        <% if params[:parent_label] == "Father"%>
+            <% @possible_parents = @relatives.where(:sex => 'male')%>
+        <%else%>
+            <% @possible_parents = @relatives.where(:sex => 'female')%>
+        <% end %>
+
+        <div>
+            <%= f.collection_select :parent_id, @relatives, :id, :first, {prompt: params[:parent_label]} %>
+        </div>
+        <br>
+        <div>
+            <%= f.collection_select :child_id, [@relatives.find(params[:child_id])], :id, :first, :selected => params[:child_id] %>
+        </div>
+    <% else %>
+        <% @possible_parents = @relatives%>
+        <div>
+            <%= f.collection_select :parent_id, @possible_parents, :id, :first, {prompt: "Parent"} %>
+        </div>
+        <br>
+        <div>
+            <%= f.collection_select :child_id, [@relatives.find(params[:child_id])], :id, :first, {prompt: "Child"} %>
+        </div>
+    <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

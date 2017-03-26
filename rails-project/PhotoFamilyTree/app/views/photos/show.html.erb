@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <div>
-    <%= image_tag @photo.photograph.thumb.url%>
+    <%= image_tag @photo.photograph.url%>
 </div>
 <div>
     <%= @photo.header%>
@@ -21,6 +21,7 @@
             <%@relative = @relatives.find(tag.relative_id)%>
             <span><%=@relative.first%> <%=@relative.surname%></span><br/>
         <% end%>
+        <%= link_to 'Add Tag', new_photo_tag_path(:photo_id=> @photo.id) %>
     </div>
 </div>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170318205100) do
+ActiveRecord::Schema.define(version: 20170326010439) do
 
   create_table "descendant_branches", force: :cascade do |t|
     t.integer  "parent_id",  null: false
@@ -31,11 +31,11 @@ ActiveRecord::Schema.define(version: 20170318205100) do
   create_table "events", force: :cascade do |t|
     t.date     "when"
     t.string   "content"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.string   "location"
     t.string   "event_type"
-    t.integer  "event_type_reference"
+    t.integer  "event_owner_id"
   end
 
   create_table "marriage_branches", force: :cascade do |t|

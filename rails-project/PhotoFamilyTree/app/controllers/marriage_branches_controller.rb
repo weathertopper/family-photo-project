@@ -14,10 +14,12 @@ class MarriageBranchesController < ApplicationController
   # GET /marriage_branches/new
   def new
       @marriage_branch = MarriageBranch.new
+      @relatives = Relative.all
   end
 
   # GET /marriage_branches/1/edit
   def edit
+      @relatives = Relative.all
       #@marriage_branch defined by set (below)
   end
 
@@ -26,7 +28,7 @@ class MarriageBranchesController < ApplicationController
       @marriage_branch = MarriageBranch.new(marriage_branch_params)
       if @marriage_branch.save
           flash[:notice] = 'Marriage branch was successfully created.'
-          redirect_to '/marriage_branches'
+          redirect_to :controller => 'relatives', :action => 'index'
       else
           render "new"
       end
@@ -35,7 +37,7 @@ class MarriageBranchesController < ApplicationController
   def update
       if @marriage_branch.update(marriage_branch_params)
           flash[:notice] = "Marriage branch was successfully updated."
-          redirect_to(:action => 'show', :id => @marriage_branch.id)
+          redirect_to :controller => 'relatives', :action => 'index'
       else
           render 'edit'
       end
@@ -44,7 +46,7 @@ class MarriageBranchesController < ApplicationController
   def destroy
       @marriage_branch.destroy
       flash[:notice] = 'Marriage branch was successfully destroyed.'
-      redirect_to(:action => 'index')
+      redirect_to :controller => 'relatives', :action => 'index'
   end
 
   private

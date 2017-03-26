@@ -11,6 +11,22 @@
     </div>
   <% end %>
 
+  <%= f.hidden_field :event_owner_id, :value => params[:relative_id]%>
+  
+  <div><%=params[:relative_id]%></div><br>
+  <div class "event-when">
+      <%= f.label "Event Date: " %>
+      <%= f.date_select(:when, :order => [:month, :day, :year], :start_year => 1700) %><br>
+  </div>
+  <div class "event-content">
+      <%= f.label "Event: " %>
+      <%= f.text_field :content %> <br>
+  </div>
+  <div class "event-location">
+      <%= f.label "Location: " %>
+      <%= f.text_field :location %> <br>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
