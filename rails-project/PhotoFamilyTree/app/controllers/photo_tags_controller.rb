@@ -56,9 +56,10 @@ class PhotoTagsController < ApplicationController
   # DELETE /photo_tags/1
   # DELETE /photo_tags/1.json
   def destroy
+    @photo_id = @photo_tag.photo_id
     @photo_tag.destroy
     flash[:notice] = 'Photo Tag was successfully destroyed.'
-    redirect_to(:action => 'index')
+    redirect_to :controller => 'photos', :action => "show", :id => @photo_id
   end
 
   private

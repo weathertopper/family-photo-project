@@ -19,7 +19,9 @@
     <div>
         <% @photo_tags.each do |tag|%>
             <%@relative = @relatives.find(tag.relative_id)%>
-            <span><%=@relative.first%> <%=@relative.surname%></span><br/>
+            <span><%=@relative.first%> <%=@relative.surname%></span>
+            <span><%= link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' } %></span>
+            <br/>
         <% end%>
         <%= link_to 'Add Tag', new_photo_tag_path(:photo_id=> @photo.id) %>
     </div>
