@@ -1,0 +1,75 @@
+
+/*overriding default styling*/
+.thumbnail{
+    padding: 0px;
+    margin: 10px;
+    border: none;
+    border-radius: 0px;
+}
+.img-thumbnail{
+    padding: 0px;
+}
+
+/*KEEPS THUMBNAILS FROM SHOWING UNTIL RESIZE IN DOCUMENT READY*/
+.thumbnail{
+    display: none;
+}
+
+.overlay-panel{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    padding: 20px;
+    color: rgb(255,255,255);
+    background-color: rgba(0,0,0,.7);
+    visibility: hidden;
+    line-height: normal;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay-panel.show-tree{
+    visibility: visible;
+}
+
+.overlay-panel div{
+    width: inherit;
+    text-align: center;
+    overflow:hidden;
+}
+
+.name{
+    font-size: 2.5vw;
+    /*make font size from thumbnail width*/
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+.relation{
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+}
+.relation-button{
+    margin: auto;
+    padding-left: 0px;
+}
+
+.relation-value{
+    font-size: 1.5vw;
+    /*make font size from thumbnail width*/
+    text-overflow: ellipsis;
+    margin: auto;
+}
+
+.thumbnail:hover div{
+	visibility: visible;
+}
+
+.thumbnail:hover{
+	/*background-color: #ccffcc;*/
+    box-shadow: 0 0 20px rgba(255,255,255, 0.6);
+}

@@ -1,6 +1,8 @@
 class RelativesController < ApplicationController
   before_action :set_relative, only: [:show, :edit, :update, :destroy]
 
+  helper :relatives
+
   # GET /relatives
   def index
       @relatives = Relative.all

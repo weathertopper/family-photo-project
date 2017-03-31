@@ -1,0 +1,20 @@
+<% if local_assigns[:relative]%>
+
+    <%= content_tag :div, class: "thumbnail", onclick: "redirectToRelative(event, #{relative.id})" do %>
+        <%= image_tag( relative.profile_photo.url, :class => "profile-pic") %>
+    	<div class = "overlay-panel">
+    		<div class="name">
+    			<%=name_for_display(relative)%>
+    		</div>
+    		<div class="relation">
+                <%= content_tag :div, class: "relation-button btn", onclick: "infoClick(event)" do %>
+                    <span class="glyphicon glyphicon-tree-conifer" />
+                <% end %>
+    			<div class="relation-value">
+    				Relative Value
+    			</div>
+    		</div>
+    	</div>
+    <% end %>
+
+<% end %>
