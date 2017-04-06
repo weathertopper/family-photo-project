@@ -230,32 +230,6 @@ class Relative < ApplicationRecord
         "Death of #{self.first} #{self.surname}"
     end
 
-    # => HELPERS
-
-    def find_parent_relatives
-        array_of_parent_ids = self.reverse_descendant_branches.pluck(:parent_id)
-        parents = Relative.find(array_of_parent_ids)
-        return parents
-    end
-
-    def find_child_relatives
-        array_of_child_ids = self.descendant_branches.pluck(:child_id)
-        children = Relative.find(array_of_child_ids)
-        return children
-    end
-
-    def find_spouse_relatives #including ex-spouses
-        array_of_spouse_ids = nil
-        if self.sex == "male"
-            array_of_spouse_ids = self.reverse_marriage_branches.pluck(:wife_id)
-        else
-            array_of_spouse_ids = self.marriage_branches.pluck(:husband_id)
-        end
-        spouses = Relative.find(array_of_spouse_ids)
-        return spouses
-    end
-
-
     def diedBefore(relative)
         # if only self has died or if self and relative have both died and self died first
         if (self.deathday && !relative.deathday) || ((self.deathday && relative.deathday) && self.deathday < relative.deathday )
@@ -264,5 +238,174 @@ class Relative < ApplicationRecord
         return false
     end
 
+    # => RELATIVE HELPERS
+
+    # => assume returns <=2 relatives
+    def find_parent_relatives
+        array_of_parent_ids = self.reverse_descendant_branches.pluck(:parent_id)
+        parents = Relative.find(array_of_parent_ids)
+        return parents
+    end
+    # => ^^ find_grandparent would be superfluous
+
+    def find_sibling_relatives # including half
+        siblings = []
+        parents = self.find_parent_relatives
+        parents.each do |parent|
+            siblings += parent.find_child_relatives
+        end
+        siblings.uniq!   # => remove duplicates
+        siblings.delete(self)  # => remove self, not his/her own sibling
+        return siblings
+    end
+
+    def find_aunt_uncle_relatives
+        aunts_uncles_all = []  # => includes spouses
+        aunts_uncles_direct = []    # => doesn't include spouses
+        parents = self.find_parent_relatives
+        parents.each do |parent|
+            aunts_uncles_direct += parent.find_sibling_relatives
+        end
+        aunts_uncles_direct.each do |a_or_u|
+            aunts_uncles_all += [a_or_u]
+            aunts_uncles_all += a_or_u.find_spouse_relatives
+        end
+        aunts_uncles_all.uniq!    # => just in case
+        return aunts_uncles_all
+    end
+
+    # nieces & nephews
+    def find_nibling_relatives
+        niblings = []
+        siblings = self.find_sibling_relatives
+        siblings.each do |sibling|
+            niblings += sibling.find_child_relatives
+        end
+        return niblings
+    end
+
+    def find_cousin_relatives
+        cousins = []
+        aunts_uncles = self.find_aunt_uncle_relatives
+        aunts_uncles.each do |a_or_u|
+            cousins += a_or_u.find_child_relatives
+        end
+        cousins.uniq!
+        return cousins
+    end
+
+    def find_parent_IL_relatives  # => does not include ex parent_ILs
+        parent_ILs = []
+        current_spouse  = self.find_current_spouse_relative
+        if current_spouse
+            parent_ILs += current_spouse.find_parent_relatives
+        end
+        return parent_ILs
+    end
+
+    # => for joe and janey
+    def find_grandparent_IL_relatives
+        grandparent_ILs = []
+        parent_ILs = self.find_parent_IL_relatives
+        parent_ILs.each do |parent_IL|
+            grandparent_ILs += parent_IL.find_parent_relatives
+        end
+        return grandparent_ILs
+    end
+
+    def find_sibling_IL_relatives # => does not include ex sibling_ILs, but does include step sibling ILs
+        sibling_ILs = []
+        siblings = self.find_sibling_relatives
+        siblings += self.find_step_sibling_relatives
+        siblings.each do |sibling|
+            sibling_ILs += [sibling.find_current_spouse_relative]
+        end
+        return sibling_ILs
+    end
+
+    def find_child_relatives
+        array_of_child_ids = self.descendant_branches.pluck(:child_id)
+        children = Relative.find(array_of_child_ids)
+        return children
+    end
+    # => ^^ find_grandchild would be superfluous
+
+    def find_child_IL_relatives # => does not include ex child_ILs
+        child_ILs = []
+        children = self.find_child_relatives
+        children.each do |child|
+            child_ILs += [child.find_current_spouse_relative]
+        end
+        return child_ILs
+    end
+
+    # => for joe and janey
+    def find_grandchild_IL_relatives # => does not include ex grandchildren_ILs
+        grandchildren_ILs = []
+        children = self.find_child_relatives
+        children.each do |child|
+            grandchildren = child.find_child_relatives
+            grandchildren.each do |grandchild|
+                grandchildren_ILs += [grandchild.find_current_spouse_relative]
+            end
+        end
+        return grandchildren_ILs
+    end
+
+    def find_spouse_relatives #including ex-spouses
+        array_of_spouse_ids = self.reverse_marriage_branches.pluck(:wife_id) + self.marriage_branches.pluck(:husband_id)
+        spouses = Relative.find(array_of_spouse_ids)
+        return spouses
+    end
+
+    # => this makes finding ex-spouses easier (although what about spouses that died?)
+    def find_current_spouse_relative #darn jeff and all of his women
+        current_spouse = nil
+
+        current_marriage_array = self.reverse_marriage_branches.where(:end => nil) + self.marriage_branches.where(:end => nil)
+        # => ^^size should be <=1
+        if current_marriage_array
+            current_marriage_ids = current_marriage_array.pluck(:husband_id, :wife_id).flatten
+            # => ^^size should be <=2
+            current_marriage_ids.delete(self.id)
+            # => ^^ size should be <=1
+            if current_marriage_ids.count > 0
+                current_spouse = Relative.find(current_marriage_ids[0])
+            end
+        end
+        return current_spouse
+    end
+
+    def find_step_parent_relatives
+        parents = self.find_parent_relatives
+        parent_marriages = []
+        delete_marriages = []
+        parents.each do |parent|    # => should only be two
+            parent_marriages += (parent.reverse_marriage_branches + parent.marriage_branches)
+            delete_marriages += (parent.reverse_marriage_branches.where("end < ? ", self.birthday) + parent.marriage_branches.where("end < ?", self.birthday))
+        end
+        parent_marriages.uniq!
+        delete_marriages.uniq!
+        parent_marriages.delete_if {|marriage| delete_marriages.include?(marriage) }
+        # => now parent_marriages holds all marriages AFTER birth
+
+        parent_ids = parents.pluck(:id)
+        step_parent_ids = parent_marriages.pluck(:husband_id, :wife_id).flatten.uniq # => flat array of all parents (including actual parents)
+
+        step_parent_ids.delete_if {|step_parent_id| parent_ids.include?(parent_ids) } # => remove actual parents
+
+        step_parents = Relative.find(step_parent_ids);
+
+        return step_parents
+    end
+
+    def find_step_sibling_relatives
+        step_siblings = []
+        step_parents = self.find_step_parent_relatives
+        step_parents.each do |step_parent|
+            step_siblings += step_parent.find_child_relatives
+        end
+        return step_siblings
+    end
 
 end

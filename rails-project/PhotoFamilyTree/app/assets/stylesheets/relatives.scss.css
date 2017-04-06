@@ -1,0 +1,44 @@
+
+
+/*PARALLAX SCROLLING*/
+html {
+  height: 100%;
+  overflow: hidden;
+  /*just styling*/
+}
+
+body {
+ perspective: 1px;
+ /*I think this is in respect to transform in :before*/
+ transform-style: preserve-3d;
+    /*keep this, keeps background repeating :)*/
+  height: 100%;
+  overflow-y: scroll;
+
+}
+
+.foreground {
+  /*almost background*/
+  box-sizing: border-box;
+  /*just styling, not necessary*/
+  transform-style: inherit;
+
+}
+
+.foreground:before {
+    /*background*/
+    /*I cannot change any of this*/
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left:0;
+  right:0;
+
+  background: 50% 50% / auto;
+  /*just styling*/
+
+  background-image: url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");
+  transform: translateZ(-1px) scale(2);
+  z-index:-1;
+}

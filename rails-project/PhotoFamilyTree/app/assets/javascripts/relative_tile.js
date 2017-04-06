@@ -10,20 +10,20 @@ $(document).on('turbolinks:load', function(){
             $(this).addClass('col-xs-6 col-sm-4 col-md-2 col-lg-2 col-xl-2');
         }
     })
-
     $('.thumbnail').show();
 });
 
-infoClick = function(event){
+infoClick = function(event,  relative_name ){
     event.stopPropagation();
+    alert(relative_name);
     $('.overlay-panel').attr('class', 'overlay-panel show-tree');
 }
 
 redirectToRelative = function(event, relative_id){
     event.stopPropagation();
-    window.location = "relatives/"+relative_id;
+    window.location = window.location.origin+"/relatives/"+relative_id;
 }
-//
+
 $(window).click(function(event){
     event.stopPropagation();
     $('.overlay-panel.show-tree').attr('class', 'overlay-panel');

@@ -1,15 +1,26 @@
 <%= stylesheet_link_tag "relative_tile.scss"%>
-<p id="notice"><%= notice %></p>
+<%= stylesheet_link_tag "relatives.scss"%>
 
-<h1>Relatives</h1>
+<div class="foreground">
+    <div class="container">
+        <div class="row">
 
-<% @relatives.each do |relative| %>
-<% end %>
-<div class= "relatives">
-    <%= render partial: "relative_tile", collection: @relatives, :as => :relative %>
-</div>
-<br>
-<div class="links">
-<%= link_to 'New Relative', new_relative_path %>
-<%= link_to 'Photos', '../photos' %>
+            <p id="notice"><%= notice %></p>
+
+
+            <h1>Relatives</h1>
+
+            <div class= "relatives">
+                <%= render partial: "relative_tile", collection: @all_relatives, :as => :relative %>
+            </div>
+
+            <br>
+
+            <div class="links">
+                <%= link_to 'New Relative', new_relative_path %>
+                <%= link_to 'Photos', '../photos' %>
+            </div>
+
+        </div>
+    </div>
 </div>

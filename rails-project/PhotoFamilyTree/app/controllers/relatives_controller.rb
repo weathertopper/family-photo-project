@@ -5,7 +5,9 @@ class RelativesController < ApplicationController
 
   # GET /relatives
   def index
-      @relatives = Relative.all
+      @all_relatives = Relative.all
+      @all_marriages = MarriageBranch.all
+      @all_descendants = DescendantBranch.all
   end
 
   # GET /relatives/1
