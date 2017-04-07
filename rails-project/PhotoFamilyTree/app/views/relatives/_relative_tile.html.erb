@@ -10,14 +10,11 @@
     		</div>
     		<div class="relation">
                 <%relations = build_tree_for_relative(relative) %>
-                <%= content_tag :div, class: "relation-button btn", onclick: "infoClick(event, '#{relations}' )" do %>
+                <%= content_tag :div, class: "relation-button btn", onclick: "displayFamilyBranches(event, '#{relations}' )"  do %>
                     <span class="glyphicon glyphicon-tree-conifer" />
                 <% end %>
-    			<div class="relation-value">
-                    <%if relative.id%>
-                        <%=relative.id%>
-                    <%end %>
-    			</div>
+                <%= content_tag :div, id: "#{relative.id}", class: "relation-value" do %>
+                <% end %>
     		</div>
     	</div>
     <% end %>

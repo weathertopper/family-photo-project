@@ -1,6 +1,7 @@
 
 
 $(document).on('turbolinks:load', function(){
+//$(document).on('turbolinks:load ready', function(){
     //  set up relative column sizes based on image
     $(".thumbnail").each(function(index){
         if ($(".profile-pic").get(index).height < $(".profile-pic").get(index).width){ //landscape
@@ -16,6 +17,18 @@ $(document).on('turbolinks:load', function(){
 infoClick = function(event,  relative_name ){
     event.stopPropagation();
     alert(relative_name);
+    $('.overlay-panel').attr('class', 'overlay-panel show-tree');
+}
+
+displayFamilyBranches = function(event, family_tree){
+    event.stopPropagation();
+    console.log("fam tree "+family_tree);
+    family_tree = JSON.parse(family_tree);
+    $(".relation-value").each(function(index){
+        var id = $(this).attr('id');
+        var relation_title = family_tree[id];
+        $(this).text(relation_title);
+    })
     $('.overlay-panel').attr('class', 'overlay-panel show-tree');
 }
 

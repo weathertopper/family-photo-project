@@ -84,58 +84,6 @@ class Relative < ApplicationRecord
         end
     end
 
-    #CALLED WHEN A RELATIVE IS CREATED
-    # def create_birth_event_tags
-    #     birth_event = Event.find_by(:event_owner_id => self.id,
-    #                                 :event_type => "birth")
-    #     # parents = self.find_parent_relatives
-    #     # if birth_event #this should always be true
-    #     #     EventTag.create!({:event_id => birth_event.id,
-    #     #                       :relative_id => self.id})
-    #     #     #add birth event to parents
-    #     #     parents.each do |parent|
-    #     #         EventTag.create!({:event_id => birth_event.id,
-    #     #                           :relative_id => parent.id})
-    #     #     end
-    #     # end
-    #
-    # end
-
-    # #CALLED WHEN A RELATIVE IS CREATED OR WHEN A DEATHDAY IS ADDED (VIA UPDATE)
-    # def create_death_event_tags
-    #
-    #     death_event = Event.find_by(:event_owner_id => self.id,
-    #                                 :event_type => "death")
-    #
-    #     parents = self.find_parent_relatives
-    #     children = self.find_child_relatives
-    #     spouses = self.find_spouse_relatives
-    #
-    #     if death_event # this may or may not be true
-    #         EventTag.create!({:event_id => death_event.id,
-    #                           :relative_id => self.id})
-    #         parents.each do |parent|
-    #             if self.diedBefore(parent)
-    #                 EventTag.create!({:event_id => death_event.id,
-    #                                   :relative_id => parent.id})
-    #             end
-    #         end
-    #         children.each do |child|
-    #             if self.diedBefore(child)
-    #                 EventTag.create!({:event_id => death_event.id,
-    #                                   :relative_id => child.id})
-    #             end
-    #         end
-    #         spouses.each do |spouse|
-    #             if self.diedBefore(spouse)
-    #                 EventTag.create!({:event_id => death_event.id,
-    #                                   :relative_id => spouse.id})
-    #             end
-    #         end
-    #     end
-    # end
-
-
     #CALLED WHEN A RELATIVE IS UPDATED
     def update_birth_event_and_tags
         #birth_event should exist already
@@ -318,7 +266,9 @@ class Relative < ApplicationRecord
         siblings = self.find_sibling_relatives
         siblings += self.find_step_sibling_relatives
         siblings.each do |sibling|
-            sibling_ILs += [sibling.find_current_spouse_relative]
+            if sibling.find_current_spouse_relative
+                sibling_ILs += [sibling.find_current_spouse_relative]
+            end
         end
         return sibling_ILs
     end
@@ -329,6 +279,21 @@ class Relative < ApplicationRecord
         return children
     end
     # => ^^ find_grandchild would be superfluous
+
+    def find_step_child_relatives
+        step_children = []
+        spouse_children  =[]
+        spouses = self.find_spouse_relatives
+        spouses.each do |spouse|
+            spouse_children += spouse.find_child_relatives
+        end
+        spouse_children.each do |spouse_child|
+            child_step_parents = spouse_child.find_step_parent_relatives
+            if child_step_parents.include?(self)
+                step_children += [spouse_child]
+            end
+        end
+    end
 
     def find_child_IL_relatives # => does not include ex child_ILs
         child_ILs = []
