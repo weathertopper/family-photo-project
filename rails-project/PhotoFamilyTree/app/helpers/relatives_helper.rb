@@ -41,10 +41,11 @@ module RelativesHelper
         grandparent_ILs = selected.find_grandparent_IL_relatives
         sibling_ILs = selected.find_sibling_IL_relatives
         children_ILs = selected.find_child_IL_relatives
-        grandchildren_ILs = selected.find_grandparent_IL_relatives
+        grandchildren_ILs = selected.find_grandchild_IL_relatives
 
 
         relations = {};
+        relations[selected.id] = "Selected"
         # => add to hash by: relations[:id] => "RELATION"
 
         # => use these for later
@@ -240,76 +241,6 @@ module RelativesHelper
 
 
         return relations.to_json
-        # return "WORKING"
     end
-    #code directly from my other example
-    #should build tree in model and pass it to here (so marriage branches aren't even mentioned)
-    # tree is array of {relative, level} hashes
-# def buildTree(root, relatives, offspring_branches, spouse_branches)
-#     # 'root' is a predefined relative- assumed to be the first person ever added to the tree
-#
-#     #tree init
-#     tree = [{"relative" => root, "level" => 0}]
-#
-#     tree.each do |knob|
-#
-#         relative = knob["relative"]
-#         level = knob["level"]
-#
-#         #adding spouses
-#         if (relative.sex == 'male') # there has to be a better way to do this
-#             relative.spouse_branches.each do |spouse_branch|
-#                 wife = Relative.find(spouse_branch.wife_id)
-#                 unless treeIncludes(wife, tree )
-#                     tree.insert(tree.length, {"relative" => wife, "level" => level})
-#                 end
-#             end
-#         else
-#             relative.spouse_branches.each do |spouse_branch|
-#                 husband =  Relative.find(spouse_branch.husband_id)
-#                 unless treeIncludes(husband, tree )
-#                     tree.insert(tree.length, {"relative" => husband, "level" => level})
-#                 end
-#             end
-#         end
-#
-#         #adding kids
-#         relative.offspring_branches.each do |kid_branch|
-#             kid = Relative.find(kid_branch.child_id)
-#             unless treeIncludes(kid, tree )
-#                 tree.insert(tree.length, {'relative' => kid, "level" => level+1})
-#             end
-#         end
-#
-#         #adding parents
-#         relative.reverse_offspring_branches.each do |parent_branch|
-#             parent = Relative.find(parent_branch.parent_id)
-#             unless treeIncludes(parent, tree )
-#                 tree.insert(tree.length, {'relative' => parent, "level" => level-1})
-#             end
-#         end
-#
-#     end
-#
-#     #sort smallest to largest (highest to lowest) level
-#     tree.sort_by! { |knob| knob['level'] }
-#
-#     #normalize so 'highest' level is 0
-#     smallest_level = tree[0]['level']
-#     difference_to_0 = 0 - smallest_level
-#     tree.each do |knob|
-#         knob['level'] += difference_to_0
-#     end
-#
-#     return tree
-# end
-#
-# def treeIncludes(relative, tree)
-#     tree.each do |knob|
-#         if knob['relative'] == relative
-#             return true
-#         end
-#     end
-#     return false
-# end
+
 end

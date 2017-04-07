@@ -22,7 +22,7 @@ infoClick = function(event,  relative_name ){
 
 displayFamilyBranches = function(event, family_tree){
     event.stopPropagation();
-    console.log("fam tree "+family_tree);
+    $(".relation-value").text("");
     family_tree = JSON.parse(family_tree);
     $(".relation-value").each(function(index){
         var id = $(this).attr('id');
@@ -39,5 +39,6 @@ redirectToRelative = function(event, relative_id){
 
 $(window).click(function(event){
     event.stopPropagation();
+    $(".relation-value").text("");
     $('.overlay-panel.show-tree').attr('class', 'overlay-panel');
 })

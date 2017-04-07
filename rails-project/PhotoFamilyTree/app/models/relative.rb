@@ -226,6 +226,7 @@ class Relative < ApplicationRecord
     def find_nibling_relatives
         niblings = []
         siblings = self.find_sibling_relatives
+        siblings += self.find_sibling_IL_relatives
         siblings.each do |sibling|
             niblings += sibling.find_child_relatives
         end
@@ -261,15 +262,28 @@ class Relative < ApplicationRecord
         return grandparent_ILs
     end
 
+    # => sibling ILs are (1) sibling's spouses, (2) spouse's siblings, (3) spouse's siblings spouses
     def find_sibling_IL_relatives # => does not include ex sibling_ILs, but does include step sibling ILs
         sibling_ILs = []
         siblings = self.find_sibling_relatives
         siblings += self.find_step_sibling_relatives
+
+        current_spouse = self.find_current_spouse_relative
+        if current_spouse
+            sibling_ILs += current_spouse.find_sibling_relatives
+            sibling_ILs += current_spouse.find_step_sibling_relatives
+
+            siblings = current_spouse.find_sibling_relatives
+            siblings += current_spouse.find_step_sibling_relatives
+
+        end
+
         siblings.each do |sibling|
             if sibling.find_current_spouse_relative
                 sibling_ILs += [sibling.find_current_spouse_relative]
             end
         end
+        sibling_ILs.uniq!
         return sibling_ILs
     end
 
@@ -284,22 +298,41 @@ class Relative < ApplicationRecord
         step_children = []
         spouse_children  =[]
         spouses = self.find_spouse_relatives
+        puts 'spouses'
+        puts spouses
         spouses.each do |spouse|
+            puts 'spouse first'
+            puts spouse.first
+            puts spouse.nickname
             spouse_children += spouse.find_child_relatives
         end
+        puts 'spouse_children'
+        puts spouse_children
         spouse_children.each do |spouse_child|
+            puts 'spouse child first'
+            puts spouse_child.first
+            puts spouse_child.nickname
             child_step_parents = spouse_child.find_step_parent_relatives
+            puts "child step parent"
+            puts child_step_parents
+            puts 'includes?'
+            puts step_children.count
+            puts child_step_parents.include?(self)
             if child_step_parents.include?(self)
+                puts 'HOW DID THIS HAPPEN!?!?!?!?'
                 step_children += [spouse_child]
             end
         end
+        return step_children
     end
 
     def find_child_IL_relatives # => does not include ex child_ILs
         child_ILs = []
         children = self.find_child_relatives
         children.each do |child|
-            child_ILs += [child.find_current_spouse_relative]
+            if child.find_current_spouse_relative
+                child_ILs += [child.find_current_spouse_relative]
+            end
         end
         return child_ILs
     end
@@ -311,7 +344,9 @@ class Relative < ApplicationRecord
         children.each do |child|
             grandchildren = child.find_child_relatives
             grandchildren.each do |grandchild|
-                grandchildren_ILs += [grandchild.find_current_spouse_relative]
+                if grandchild.find_current_spouse_relative
+                    grandchildren_ILs += [grandchild.find_current_spouse_relative]
+                end
             end
         end
         return grandchildren_ILs
@@ -357,7 +392,7 @@ class Relative < ApplicationRecord
         parent_ids = parents.pluck(:id)
         step_parent_ids = parent_marriages.pluck(:husband_id, :wife_id).flatten.uniq # => flat array of all parents (including actual parents)
 
-        step_parent_ids.delete_if {|step_parent_id| parent_ids.include?(parent_ids) } # => remove actual parents
+        step_parent_ids.delete_if {|step_parent_id| parent_ids.include?(step_parent_id) } # => remove actual parents
 
         step_parents = Relative.find(step_parent_ids);
 
