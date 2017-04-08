@@ -214,6 +214,12 @@ module RelativesHelper
             relations[parent_IL.id] = relation_title
         end
 
+        # => CHILDREN-IN-LAWS
+        children_ILs.each do |children_IL|
+            relation_title = children_IL.sex == 'male' ? "Son-in-Law": "Daughter-in-Law"
+            relations[children_IL.id] = relation_title
+        end
+
         # => SIBLING-IN-LAWS
         sibling_ILs.each do |sibling_IL|
             relation_title = sibling_IL.sex == 'male' ? "Brother-in-Law": "Sister-in-Law"
