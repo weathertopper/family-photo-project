@@ -1,44 +1,32 @@
-
-
-/*PARALLAX SCROLLING*/
-html {
-  height: 100%;
-  overflow: hidden;
-  /*just styling*/
-}
-
-body {
- perspective: 1px;
- /*I think this is in respect to transform in :before*/
- transform-style: preserve-3d;
-    /*keep this, keeps background repeating :)*/
-  height: 100%;
-  overflow-y: scroll;
+/*thanks to keith clark: http://keithclark.co.uk/articles/pure-css-parallax-websites/*/
+.parallax-container{
+    perspective: 1px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-perspective-origin: 100%;
+    perspective-origin-x: 100%;
 
 }
 
-.foreground {
-  /*almost background*/
-  box-sizing: border-box;
-  /*just styling, not necessary*/
-  transform-style: inherit;
-
+.parallax-layer{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-transform-origin: 100%;
+    transform-origin-x: 100%;
 }
 
-.foreground:before {
-    /*background*/
-    /*I cannot change any of this*/
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left:0;
-  right:0;
+.foreground{
+    transform: translateZ(0);
+}
 
-  background: 50% 50% / auto;
-  /*just styling*/
-
-  background-image: url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");
-  transform: translateZ(-1px) scale(2);
-  z-index:-1;
+.background{
+    transform: translateZ(-1px) scale(2);
+    font-size: 300%;
+    padding: 100vh 0;
+    background-image: url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");
+    left: -10px;
 }
