@@ -1,6 +1,15 @@
 <% if local_assigns[:relative]%>
 
-    <%= content_tag :div, class: "thumbnail", onclick: "redirectToRelative(event, #{relative.id})" do %>
+    <% photo_width = relative.photo_width%>
+    <% photo_height = relative.photo_height%>
+    <% thumbnail_sizing = nil %>
+    <% if photo_height < photo_width #landscape %>
+        <% thumbnail_sizing = 'col-xs-10 col-sm-7 col-md-3 col-lg-3 col-xl-3'%>
+    <% else #portrait%>
+        <% thumbnail_sizing = 'col-xs-8 col-sm-5 col-md-2 col-lg-2 col-xl-2'%>
+    <% end %>
+    <% thumbnail_classes = "thumbnail "+thumbnail_sizing%>
+    <%= content_tag :div, class: thumbnail_classes, onclick: "redirectToRelative(event, #{relative.id})" do %>
         <% if relative.profile_photo%>
             <%= image_tag( relative.profile_photo.url, :class => "profile-pic") %>
         <%end%>

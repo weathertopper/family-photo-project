@@ -48,4 +48,12 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   "something.jpg" if original_filename
   # end
 
+  # copying from github https://github.com/carrierwaveuploader/carrierwave/wiki/How-to:-Get-image-dimensions
+  process :store_dimensions
+   def store_dimensions
+       if file && model
+           model.photo_width, model.photo_height = ::MiniMagick::Image.open(file.file)[:dimensions]
+       end
+   end
+
 end
