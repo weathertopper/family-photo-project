@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root to: 'relatives#index'
   resources :event_tags
   resources :photo_tags
   resources :events
