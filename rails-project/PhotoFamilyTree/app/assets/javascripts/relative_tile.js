@@ -1,8 +1,8 @@
 
 
-$(document).on('turbolinks:load', function(){
-    //  this shit doesn't work
-});
+// $(document).on('turbolinks:load', function(){
+//     //  this shit doesn't work
+// });
 
 infoClick = function(event,  relative_name ){
     event.stopPropagation();

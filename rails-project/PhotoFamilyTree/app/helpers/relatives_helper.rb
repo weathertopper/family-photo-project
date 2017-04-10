@@ -249,4 +249,56 @@ module RelativesHelper
         return relations.to_json
     end
 
+    # => FOR DISPLAYING RELATIVES BY GENERATION
+    def get_pre_progressive_generation(relatives)
+        pre_progressives = relatives.where('birthday < ?', Date.new(1843, 1, 1))
+        return pre_progressives
+    end
+
+    def get_progressive_generation(relatives)
+        progressives = relatives.where('birthday>= ?', Date.new(1843, 1, 1)).where('birthday < ?', Date.new(1860, 1, 1))
+        return progressives
+    end
+
+    def get_missionary_generation(relatives)
+        missionaries = relatives.where('birthday>= ?', Date.new(1860, 1, 1)).where('birthday < ?', Date.new(1883, 1, 1))
+        return missionaries
+    end
+
+    def get_lost_generation(relatives)
+        losts = relatives.where('birthday>= ?', Date.new(1883, 1, 1)).where('birthday < ?', Date.new(1901, 1, 1))
+        return losts
+    end
+
+    def get_gi_generation(relatives)
+        gis = relatives.where('birthday>= ?', Date.new(1901, 1, 1)).where('birthday < ?', Date.new(1925, 1, 1))
+        return gis
+    end
+
+    def get_silent_generation(relatives)
+        silents = relatives.where('birthday>= ?', Date.new(1925, 1, 1)).where('birthday < ?', Date.new(1946, 1, 1))
+        return silents
+    end
+
+    def get_boomer_generation(relatives)
+        boomers = relatives.where('birthday>= ?', Date.new(1946, 1, 1)).where('birthday < ?', Date.new(1965, 1, 1))
+        return boomers
+    end
+
+    def get_x_generation(relatives)
+        xs = relatives.where('birthday>= ?', Date.new(1966, 1, 1)).where('birthday < ?', Date.new(1983, 1, 1))
+        return xs
+    end
+
+    def get_millennial_generation(relatives)
+        millennials = relatives.where('birthday>= ?', Date.new(1983, 1, 1)).where('birthday < ?', Date.new(1996, 1, 1))
+        return millennials
+    end
+
+    def get_z_generation(relatives)
+        zs = relatives.where('birthday>= ?', Date.new(1996, 1, 1))
+        return zs
+    end
+
+
 end
