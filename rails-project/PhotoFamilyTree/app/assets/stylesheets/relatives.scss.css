@@ -31,3 +31,48 @@
     background-image: url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");
     left: -10px;
 }
+
+.row-centered{
+    text-align: center;
+}
+
+#navbar-label{
+    font-weight: bold;
+}
+
+h1{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+    text-align: center;
+    margin: auto;
+    text-decoration: underline;
+}
+
+h3{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+    color: #282828;
+    text-align: left;
+    margin-bottom: 0px;
+
+}
+
+a{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+    color: #282828;
+}
+
+li{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+}
+
+p{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+}
+
+.foreground{
+    margin: 50px
+}

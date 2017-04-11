@@ -71,3 +71,16 @@
 	/*background-color: #ccffcc;*/
     box-shadow: 0 0 20px rgba(255,255,255, 0.6);
 }
+
+.name{
+    font-family: 'Raleway', sans-serif;;
+}
+.relation-value{
+    font-family: 'Raleway', sans-serif;;
+}
+
+.col-centered{
+    display: inline-block;
+    float: none;text-align: left;
+    margin-right: -4px;
+}

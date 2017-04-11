@@ -1,35 +1,81 @@
 <%= stylesheet_link_tag "relative_tile.scss"%>
 <%= stylesheet_link_tag "relatives.scss"%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
-<div id = "scrollspy-nav" class = 'navbar navbar-inverse navbar-fixed-bottom'>
-    <div class = 'container-fluid'>
-        <ul class='nav navbar-nav '>
-            <li><a href="#pre-progressive-header">Pre-Progressive</a></li>
-            <li><a href="#progressive-header">Progressive</a></li>
-            <li><a href="#missionary-header">Missionary</a></li>
-            <li><a href="#lost-header">Lost</a></li>
-            <li><a href="#gi-header">GI</a></li>
-            <li><a href="#silent-header">Silent</a></li>
-            <li><a href="#boomer-header">Baby Boomer</a></li>
-            <li><a href="#x-header">Generation X</a></li>
-            <li><a href="#millenial-header">Millennial</a></li>
-            <li><a href="#z-header">Generation Z</a></li>
-        </ul>
-    </div>
+<div class='navbar navbar-inverse navbar-fixed-bottom' id="scrollspy-nav">
+	<div class='container-fluid'>
+
+        <p id='navbar-label' class="navbar-text">Generations:</p>
+
+		<ul class='nav navbar-nav'>
+			<li>
+				<a href="#pre-progressive-header">Pre-Progressive</a>
+			</li>
+
+
+			<li>
+				<a href="#progressive-header">Progressive</a>
+			</li>
+
+
+			<li>
+				<a href="#missionary-header">Missionary</a>
+			</li>
+
+
+			<li>
+				<a href="#lost-header">Lost</a>
+			</li>
+
+
+			<li>
+				<a href="#gi-header">GI</a>
+			</li>
+
+
+			<li>
+				<a href="#silent-header">Silent</a>
+			</li>
+
+
+			<li>
+				<a href="#boomer-header">Baby Boomer</a>
+			</li>
+
+
+			<li>
+				<a href="#x-header">Generation X</a>
+			</li>
+
+
+			<li>
+				<a href="#millenial-header">Millennial</a>
+			</li>
+
+
+			<li>
+				<a href="#z-header">Generation Z</a>
+			</li>
+		</ul>
+	</div>
 </div>
 
-<div data-spy="scroll" data-target='#scrollspy-nav' data-offset="50" class = "parallax-container">
 
-    <div class="parallax-layer background">
-    </div>
-    <div class="parallax-layer foreground">
-        <div class="container">
-            <p id="notice"><%= notice %></p>
+<div class="parallax-container" data-offset="50" data-spy="scroll" data-target='#scrollspy-nav'>
+	<div class="parallax-layer background">
+	</div>
 
 
-            <h1>Relatives</h1>
+	<div class="parallax-layer foreground">
+		<div class="container-fluid">
+			<p id="notice"><%= notice %>
+			</p>
 
-            <%pre_progressive_relatives = get_pre_progressive_generation(@all_relatives)%>
+
+			<h1>Relatives</h1>
+
+			<%pre_progressive_relatives = get_pre_progressive_generation(@all_relatives)%>
             <%progressive_relatives = get_progressive_generation(@all_relatives)%>
             <%missionary_relatives = get_missionary_generation(@all_relatives)%>
             <%lost_relatives = get_lost_generation(@all_relatives)%>
@@ -40,78 +86,90 @@
             <%millennial_relatives = get_millennial_generation(@all_relatives)%>
             <%z_relatives = get_z_generation(@all_relatives)%>
 
+			<div class="relatives">
+				<div class="row  row-centered">
+					<h3 id='pre-progressive-header'>Pre-Progressive</h3>
+					<%= render partial: "relative_tile", collection: pre_progressive_relatives, :as => :relative %>
+				</div>
+
+				<hr>
 
 
-            <div class= "relatives">
-                <div class="row">
-                    <h3 id= 'pre-progressive-header'>Pre-Progressive</h3>
-                    <%= render partial: "relative_tile", collection: pre_progressive_relatives, :as => :relative %>
-                </div>
-                <hr>
+				<div class="row  row-centered">
+					<h3 id='progressive-header'>Progressive</h3>
+					<%= render partial: "relative_tile", collection: progressive_relatives, :as => :relative %>
+				</div>
 
-                <div class="row">
-                    <h3 id= 'progressive-header'>Progressive</h3>
-                    <%= render partial: "relative_tile", collection: progressive_relatives, :as => :relative %>
-                </div>
-                <hr>
-
-                <div class="row">
-                    <h3 id= 'missionary-header'>Missionary</h3>
-                    <%= render partial: "relative_tile", collection: missionary_relatives, :as => :relative %>
-                </div>
-                <hr>
-
-                <div class="row">
-                    <h3 id= 'lost-header'>Lost</h3>
-                    <%= render partial: "relative_tile", collection: lost_relatives, :as => :relative %>
-                </div>
-                <hr>
-
-                <div class="row">
-                    <h3 id= 'gi-header'>GI</h3>
-                    <%= render partial: "relative_tile", collection: gi_relatives, :as => :relative %>
-                </div>
-                <hr>
-
-                <div class="row">
-                    <h3 id= 'silent-header'>Silent</h3>
-                    <%= render partial: "relative_tile", collection: silent_relatives, :as => :relative %>
-                </div>
-                <hr>
-
-                <div class="row">
-                    <h3 id= 'boomer-header'>Baby Boomer</h3>
-                    <%= render partial: "relative_tile", collection: boomer_relatives, :as => :relative %>
-                </div>
-                <hr>
-
-                <div class="row">
-                    <h3 id= 'x-header'>Generation X</h3>
-                    <%= render partial: "relative_tile", collection: x_relatives, :as => :relative %>
-                </div>
-                <hr>
-
-                <div class="row">
-                    <h3 id= 'millenial-header'>Millennial</h3>
-                    <%= render partial: "relative_tile", collection: millennial_relatives, :as => :relative %>
-                </div>
-                <hr>
-
-                <div class="row">
-                    <h3 id= 'z-header'>Generation Z</h3>
-                    <%= render partial: "relative_tile", collection: z_relatives, :as => :relative %>
-                </div>
+				<hr>
 
 
-            </div>
+				<div class="row  row-centered">
+					<h3 id='missionary-header'>Missionary</h3>
+					<%= render partial: "relative_tile", collection: missionary_relatives, :as => :relative %>
+				</div>
 
-            <br>
+				<hr>
 
-            <div class="links">
-                <%= link_to 'Add Relative', new_relative_path %>
-                <%= link_to 'Photos', '../photos' %>
-            </div>
 
-        </div>
-    </div>
+				<div class="row  row-centered">
+					<h3 id='lost-header'>Lost</h3>
+					<%= render partial: "relative_tile", collection: lost_relatives, :as => :relative %>
+				</div>
+
+				<hr>
+
+
+				<div class="row  row-centered">
+					<h3 id='gi-header'>GI</h3>
+					<%= render partial: "relative_tile", collection: gi_relatives, :as => :relative %>
+				</div>
+
+				<hr>
+
+
+				<div class="row  row-centered">
+					<h3 id='silent-header'>Silent</h3>
+					<%= render partial: "relative_tile", collection: silent_relatives, :as => :relative %>
+				</div>
+
+				<hr>
+
+
+				<div class="row  row-centered">
+					<h3 id='boomer-header'>Baby Boomer</h3>
+					<%= render partial: "relative_tile", collection: boomer_relatives, :as => :relative %>
+				</div>
+
+				<hr>
+
+
+				<div class="row  row-centered">
+					<h3 id='x-header'>Generation X</h3>
+					<%= render partial: "relative_tile", collection: x_relatives, :as => :relative %>
+				</div>
+
+				<hr>
+
+
+				<div class="row  row-centered">
+					<h3 id='millenial-header'>Millennial</h3>
+					<%= render partial: "relative_tile", collection: millennial_relatives, :as => :relative %>
+				</div>
+
+				<hr>
+
+
+				<div class="row  row-centered">
+					<h3 id='z-header'>Generation Z</h3>
+					<%= render partial: "relative_tile", collection: z_relatives, :as => :relative %>
+				</div>
+			</div>
+			<br>
+
+
+			<div class="links">
+				<%= link_to 'Add Relative', new_relative_path %><%= link_to 'Photos', '../photos' %>
+			</div>
+		</div>
+	</div>
 </div>
