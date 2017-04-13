@@ -1,8 +1,18 @@
+<%= stylesheet_link_tag "relative-show.scss.css"%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
+
 <p id="notice"><%= notice %></p>
 
-<div>
-<%= image_tag @relative.profile_photo.thumb.url unless @relative.profile_photo.blank?%>
+<%= link_to 'Edit', edit_relative_path(@relative) %> |
+<%= link_to 'Back', relatives_path %>
+
+<% photo_sizing = @relative.photo_height < @relative.photo_width ? 'landscape' : 'portrait'%>
+
+<div class = "show-relative-photo <%=photo_sizing%>" >
+    <%= image_tag @relative.profile_photo.url unless @relative.profile_photo.blank? %>
 </div>
+
 <div>
     <h3>
     <%=@relative.first%>
@@ -30,17 +40,6 @@
             <% @mother = parent %>
         <% end  %>
     <% end %>
-    <% if @mother %>
-        <div class = 'mother'>
-            Mother: <%=@mother.first%> <%=@mother.surname%>
-            <% @mother_branch = @all_descendant_branches.find_by(:parent_id => @mother.id, :child_id => @relative.id) %>
-            <%= link_to 'Edit', edit_descendant_branch_path(@mother_branch, :child_id => @relative.id) %>
-            <%= link_to 'Destroy', @mother_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </div>
-    <% else %>
-        <%= link_to 'Add Mother', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Mother") %>
-    <% end %>
-    <br />
     <% if @father %>
         <div class = 'father'>
             Father: <%=@father.first%> <%=@father.surname%>
@@ -50,6 +49,16 @@
         </div>
     <% else %>
         <%= link_to 'Add Father', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Father") %>
+    <% end %>
+    <% if @mother %>
+        <div class = 'mother'>
+            Mother: <%=@mother.first%> <%=@mother.surname%>
+            <% @mother_branch = @all_descendant_branches.find_by(:parent_id => @mother.id, :child_id => @relative.id) %>
+            <%= link_to 'Edit', edit_descendant_branch_path(@mother_branch, :child_id => @relative.id) %>
+            <%= link_to 'Destroy', @mother_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+    <% else %>
+        <%= link_to 'Add Mother', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Mother") %>
     <% end %>
 
 
@@ -135,8 +144,3 @@
     <%end%>
     <span><%= link_to 'New Memory', new_memory_path(:relative_id => @relative.id) %></span>
 </div>
-
-<!-- ADD MARRIAGES AND EVENTS -->
-<br>
-<%= link_to 'Edit', edit_relative_path(@relative) %> |
-<%= link_to 'Back', relatives_path %>

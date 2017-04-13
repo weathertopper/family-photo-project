@@ -1,0 +1,20 @@
+/*FOR SHOW*/
+.show-relative-photo img{
+    box-shadow: 0 0 20px rgba(0,0,0, 0.6);
+}
+
+.show-relative-photo.landscape img{
+    width: 50%
+}
+
+.show-relative-photo.portrait img{
+    width: 25%
+}
+
+.show-relative-photo{
+    text-align: center;
+}
+
+div{
+    text-align: center;
+}

@@ -12,3 +12,4 @@ Rails.application.config.assets.version = '1.0'
 
 Rails.application.config.assets.precompile += %w( relative_tile.scss.css )
 Rails.application.config.assets.precompile += %w( relatives.scss.css )
+Rails.application.config.assets.precompile += %w( relative-show.scss.css )
