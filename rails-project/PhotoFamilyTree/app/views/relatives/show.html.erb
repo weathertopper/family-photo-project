@@ -1,146 +1,142 @@
-<%= stylesheet_link_tag "relative-show.scss.css"%>
+<%= stylesheet_link_tag "relative_show.scss.css"%>
+<%= stylesheet_link_tag "relative_event_timeline.scss.css"%>
+<%= stylesheet_link_tag "re.scss"%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
-<p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_relative_path(@relative) %> |
-<%= link_to 'Back', relatives_path %>
+<div class="parallax-container">
 
-<% photo_sizing = @relative.photo_height < @relative.photo_width ? 'landscape' : 'portrait'%>
-
-<div class = "show-relative-photo <%=photo_sizing%>" >
-    <%= image_tag @relative.profile_photo.url unless @relative.profile_photo.blank? %>
-</div>
-
-<div>
-    <h3>
-    <%=@relative.first%>
-    <% unless @relative.nickname == "" || @relative.nickname == nil %>
-        "<%=@relative.nickname%>"
-    <% end%>
-    <% unless @relative.middle == "" || @relative.middle == nil %>
-        <%=@relative.middle%>
-    <% end%>
-    <%=@relative.surname%>
-    <% unless @relative.maiden == "" || @relative.maiden == nil %>
-        (nee <%=@relative.maiden%>)
-    <% end%>
-</h3>
-</div>
-<div class = "relative_parents">
-    <% @parents = @relative.find_parent_relatives %>
-    <% #expect two parents %>
-    <% @father = nil %>
-    <% @mother = nil %>
-    <% @parents.each do |parent| %>
-        <% if parent.sex == 'male'%>
-            <% @father = parent %>
-        <% else %>
-            <% @mother = parent %>
-        <% end  %>
-    <% end %>
-    <% if @father %>
-        <div class = 'father'>
-            Father: <%=@father.first%> <%=@father.surname%>
-            <% @father_branch = @all_descendant_branches.find_by(:parent_id => @father.id, :child_id => @relative.id) %>
-            <%= link_to 'Edit', edit_descendant_branch_path(@father_branch, :child_id => @relative.id) %>
-            <%= link_to 'Destroy', @father_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </div>
-    <% else %>
-        <%= link_to 'Add Father', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Father") %>
-    <% end %>
-    <% if @mother %>
-        <div class = 'mother'>
-            Mother: <%=@mother.first%> <%=@mother.surname%>
-            <% @mother_branch = @all_descendant_branches.find_by(:parent_id => @mother.id, :child_id => @relative.id) %>
-            <%= link_to 'Edit', edit_descendant_branch_path(@mother_branch, :child_id => @relative.id) %>
-            <%= link_to 'Destroy', @mother_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </div>
-    <% else %>
-        <%= link_to 'Add Mother', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Mother") %>
-    <% end %>
-
-
-</div>
-<div>
-    <%=@relative.sex%>
-</div>
-<div>
-    b. <%=@relative.birthday%>
-</div>
-<% if @relative.deathday %>
-    <div>
-        d. <%= @relative.deathday%>
+    <div class="parallax-layer background">
     </div>
-<% end%>
+    <div class="parallax-layer foreground">
+        <p id="notice"><%= notice %></p>
 
-<div>
-    <% @marriage_branches = "" %>
-    <% @marriage_position = ""%>
-    <% if @relative.sex == "male" %>
-        <% @marriage_branches = @all_marriage_branches.where(husband_id: @relative.id)%>
-        <% @marriage_position = "husband_id"%>
-    <% else%>
-        <% @marriage_branches = @all_marriage_branches.where(wife_id: @relative.id) %>
-        <% @marriage_position = "wife_id"%>
-    <% end%>
-    <% @marriage_branches.all.order('anniversary') unless @marriage_branches.count < 2%>
-    <% @marriage_branches.each do |branch| %>
-        <% @spouse = @relative.sex == "male" ? @relatives.find(branch.wife_id) : @relatives.find(branch.husband_id)  %>
-        <% unless branch.end %>
-            <span> Married to <%=@spouse.first%> <%=@spouse.surname%> since <%=branch.anniversary%>. </span>
-        <% else %>
-            <span> Married to <%=@spouse.first%> <%=@spouse.surname%> from <%=branch.anniversary%> until <%=branch.end%>. </span>
-        <% end%>
+        <%= link_to 'Edit', edit_relative_path(@relative) %> |
+        <%= link_to 'Back', relatives_path %>
 
-        <%= link_to 'Delete', branch, method: :delete, data: { confirm: 'Are you sure?' } %>
-        <%= link_to 'Edit', edit_marriage_branch_path(branch) %>
-        <br/>
-    <% end%>
+        <% photo_sizing = @relative.photo_height < @relative.photo_width ? 'landscape' : 'portrait'%>
 
-    <%= link_to "Add Marriage", new_marriage_branch_path(@marriage_position => @relative.id) %>
-</div>
+        <div class = "show-relative-photo <%=photo_sizing%>" >
+            <%= image_tag @relative.profile_photo.url unless @relative.profile_photo.blank? %>
+        </div>
 
-<div>
-    <h3>Events:</h3>
-    <div>
-        <% @related_events = []%>
-        <% @event_tags.each do |tag|%>
-            <%@related_events.push(@events.find(tag.event_id))%>
-        <% end%>
-        <% @related_events.sort! { |a, b|  a.when <=> b.when }%>
-        <% @related_events.each do |evt| %>
-            <span><%=evt.location%> <%=evt.when%>: <%=evt.content%> @ <%=evt.location%></span>
-            <span><%= link_to 'Edit', edit_event_path(evt) %></span>
-            <span><%= link_to 'Destroy', evt, method: :delete, data: { confirm: 'Are you sure?' } %></span>
-            <br/>
-            <% @event_tags_by_event = @all_event_tags.where(event_id: evt.id)%>
-            <div>
-                <%@event_tags_by_event.each do |tag|%>
-                    <% @r = @relatives.find(tag.relative_id)%>
-                    <% unless @r.id == @relative.id%>
-                        with <span><%=@r.first%> <%=@r.surname%></span>
-                        <%unless evt.event_owner_id == @r.id%>
-                            <%= link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' } %>
-                        <%end%>
-                        <br>
-                    <%end%>
-                <%end%>
-                <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id) %>
-            </div>
-        <%end%>
-    </div>
-    <span><%= link_to 'New Event', new_event_path(:relative_id => @relative.id) %></span>
-</div>
-<div>
-    <h3>Memories:</h3>
-    <%@memories = @memories.where(poster_id: @relative.id)%>
-    <%@memories.each do |memory|%>
+        <div class = 'relative-name'>
+            <h3>
+            <%=@relative.first%>
+            <% unless @relative.nickname == "" || @relative.nickname == nil %>
+                "<%=@relative.nickname%>"
+            <% end%>
+            <% unless @relative.middle == "" || @relative.middle == nil %>
+                <%=@relative.middle%>
+            <% end%>
+            <%=@relative.surname%>
+                <% unless @relative.maiden == "" || @relative.maiden == nil %>
+                (n&eacute;e <%=@relative.maiden%>)
+            <% end%>
+            </h3>
+        </div>
+
+        <div class='relative-birth-death-days'>
+            <h4>
+                b. <%=@relative.birthday%>
+            </h4>
+            <% if @relative.deathday %>
+                <h4>
+                    d. <%= @relative.deathday%>
+                </h4>
+            <% end%>
+        </div>
+
+        <div class = "relative_parents">
+            <% @parents = @relative.find_parent_relatives %>
+            <% #expect two parents %>
+            <% @father = nil %>
+            <% @mother = nil %>
+            <% @parents.each do |parent| %>
+                <% if parent.sex == 'male'%>
+                    <% @father = parent %>
+                <% else %>
+                    <% @mother = parent %>
+                <% end  %>
+            <% end %>
+            <% if @father %>
+                <div class = 'father'>
+                    Father: <%=@father.first%> <%=@father.surname%>
+                    <% @father_branch = @all_descendant_branches.find_by(:parent_id => @father.id, :child_id => @relative.id) %>
+                    <%= link_to 'Edit', edit_descendant_branch_path(@father_branch, :child_id => @relative.id) %>
+                    <%= link_to 'Destroy', @father_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
+                </div>
+            <% else %>
+                <%= link_to 'Add Father', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Father") %>
+            <% end %>
+            <% if @mother %>
+                <div class = 'mother'>
+                    Mother: <%=@mother.first%> <%=@mother.surname%>
+                    <% @mother_branch = @all_descendant_branches.find_by(:parent_id => @mother.id, :child_id => @relative.id) %>
+                    <%= link_to 'Edit', edit_descendant_branch_path(@mother_branch, :child_id => @relative.id) %>
+                    <%= link_to 'Destroy', @mother_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
+                </div>
+            <% else %>
+                <%= link_to 'Add Mother', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Mother") %>
+            <% end %>
+
+
+        </div>
         <div>
-            <%=memory.title%>
-            <span><%= link_to 'Show', memory %></span>
+            <%=@relative.sex%>
         </div>
-    <%end%>
-    <span><%= link_to 'New Memory', new_memory_path(:relative_id => @relative.id) %></span>
+
+        <div>
+            <% @marriage_branches = "" %>
+            <% @marriage_position = ""%>
+            <% if @relative.sex == "male" %>
+                <% @marriage_branches = @all_marriage_branches.where(husband_id: @relative.id)%>
+                <% @marriage_position = "husband_id"%>
+            <% else%>
+                <% @marriage_branches = @all_marriage_branches.where(wife_id: @relative.id) %>
+                <% @marriage_position = "wife_id"%>
+            <% end%>
+            <% @marriage_branches.all.order('anniversary') unless @marriage_branches.count < 2%>
+            <% @marriage_branches.each do |branch| %>
+                <% @spouse = @relative.sex == "male" ? @relatives.find(branch.wife_id) : @relatives.find(branch.husband_id)  %>
+                <% unless branch.end %>
+                    <span> Married to <%=@spouse.first%> <%=@spouse.surname%> since <%=branch.anniversary%>. </span>
+                <% else %>
+                    <span> Married to <%=@spouse.first%> <%=@spouse.surname%> from <%=branch.anniversary%> until <%=branch.end%>. </span>
+                <% end%>
+
+                <%= link_to 'Delete', branch, method: :delete, data: { confirm: 'Are you sure?' } %>
+                <%= link_to 'Edit', edit_marriage_branch_path(branch) %>
+                <br/>
+            <% end%>
+
+            <%= link_to "Add Marriage", new_marriage_branch_path(@marriage_position => @relative.id) %>
+        </div>
+
+        <div>
+            <h3>Events:</h3>
+
+                <% related_events = []%>
+                <% @event_tags.each do |tag|%>
+                    <%related_events.push(@events.find(tag.event_id))%>
+                <% end%>
+                <% related_events.sort! { |a, b|  a.when <=> b.when }%>
+
+                <%= render partial: "event_timeline", :locals => {:events => related_events} %>
+
+                <span><%= link_to 'New Event', new_event_path(:relative_id => @relative.id) %></span>
+        </div>
+        <div>
+            <h3>Memories:</h3>
+            <%@memories = @memories.where(poster_id: @relative.id)%>
+            <%@memories.each do |memory|%>
+                <div>
+                    <%=memory.title%>
+                    <span><%= link_to 'Show', memory %></span>
+                </div>
+            <%end%>
+            <span><%= link_to 'New Memory', new_memory_path(:relative_id => @relative.id) %></span>
+        </div>
+    </div>
 </div>

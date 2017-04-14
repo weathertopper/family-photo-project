@@ -1,0 +1,84 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+td {
+    text-align: left;
+	word-wrap: normal;
+    width: 50%;
+}
+
+.event-info{
+    background-color: rgba(40, 40, 40, .8);
+    display: inline-block;
+    position: relative;
+    padding: 5px 10px;
+    box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+    font-weight: normal;
+    /*top: -18px;*/
+}
+
+.dot-anchor{
+    padding: 0px;
+    display: initial;
+}
+
+
+td:nth-child(odd) {
+    border-right: 4px solid rgba(40, 40, 40, 0.8);;
+}
+
+tr:last-child td:nth-child(odd){
+    border-right: none;
+}
+
+tr:last-child .dot{
+    right:-6px;
+    /*^^ because there's not a 4px border*/
+}
+
+tr:last-child .dot:hover{
+    right: -8px;
+    /*^^again because of no border*/
+}
+
+
+.dot{
+	width: 12px;
+    height: 12px;
+	background-color: rgba(40, 40, 40, .95);
+    border-radius: 10px;
+    position: relative;
+    float: right;
+    right: -8px;
+}
+
+.dot:hover{
+	width:15px;
+    height: 15px;
+    right: -10px;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.when-where{
+    background-color: rgba(255, 255, 255, .8);
+    color: #282828;
+    border-radius: 10px;
+    margin: 8px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.col1{
+	text-align: right;
+	/*padding-right: 10px;*/
+    padding-right: 0px;
+}
+
+.col2{
+	text-align: left;
+	padding-left: 12px;
+}

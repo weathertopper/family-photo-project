@@ -1,0 +1,60 @@
+<% if local_assigns[:events]%>
+
+    <div>
+        <table>
+            <% date_on_left = true %>
+            <% events.each do |evt| %>
+                <tr>
+                    <%if date_on_left %>
+                        <td class = "col1">
+                            <div  class = 'event-info when-where'>
+                                <%=evt.when%>
+                                <% if evt.location %>
+                                    at
+                                <% end %>
+                                <%=evt.location%>
+                            </div>
+                            <a class='dot-anchor' href=<%=edit_event_path(evt)%> >
+                                <div class = "dot"></div>
+                            </a>
+                        </td>
+                        <td class = "col2">
+                            <div  class = 'event-info content'>
+                                <%=evt.content%><br/>
+                                with Jim <br/>
+                                and Bob <br/>
+                                and Tim <br/>
+                                with Jim <br/>
+                                and Bob <br/>
+                                and Tim <br/>
+                            </div>
+                        </td>
+                    <% else %>
+                        <td class = "col1">
+                            <div  class = 'event-info content'>
+                                <%=evt.content%> <br/>
+                                with Jim <br/>
+                                and Bob <br/>
+                                and Tim <br/>
+                            </div>
+                            <a class='dot-anchor'href=<%=edit_event_path(evt)%> >
+                            <div class = "dot"></div>
+                            </a>
+                        </td>
+                        <td class = "col2">
+                            <div class = 'event-info when-where'>
+                                <%=evt.when%>
+                                <% if evt.location %>
+                                    at
+                                <% end %>
+                                <%=evt.location%>
+                            </div>
+                        </td>
+                    <% end %>
+                </tr>
+                <% date_on_left = (!date_on_left) %>
+            <% end %>
+        </table>
+    </div>
+
+<%end%>
