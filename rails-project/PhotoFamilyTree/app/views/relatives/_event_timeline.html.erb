@@ -20,9 +20,25 @@
 
                         <td class = "col2">
                             <div class = 'line'>
-                                <a class='dot-anchor' href=<%=edit_event_path(evt)%> >
+                                <div class = 'dot-wrapper'>
                                     <div class = "dot"></div>
-                                </a>
+                                    <span class="tooltiptext">
+
+                                        <% if evt.event_type == nil%>
+                                            <%= link_to "Edit Event", edit_event_path(evt) %>
+                                            <%= link_to "Delete Event", evt , method: :delete, data: { confirm: 'Are you sure?' }, class: "event-delete" %>
+                                        <% elsif evt.event_type == 'birth' || evt.event_type == 'death' %>
+                                            <%= link_to "Edit Event", edit_relative_path(@relative) %>
+                                        <% elsif evt.event_type == 'marriage_start' || evt.event_type == 'marriage_end' %>
+                                            <span>
+                                                Edit marriage to edit event
+                                            </span>
+                                        <%else %>
+                                            Useless tooltip :)
+                                        <% end%>
+
+                                    </span>
+                                </div>
                             </div>
                         </td>
 
@@ -79,9 +95,25 @@
 
                         <td class = "col2">
                             <div class = 'line'>
-                                <a class='dot-anchor' href=<%=edit_event_path(evt)%> >
+                                <div class = 'dot-wrapper'>
                                     <div class = "dot"></div>
-                                </a>
+                                    <%# If this event has an event_type, then open the edit to the relative%>
+                                    <span class="tooltiptext">
+
+                                        <% if evt.event_type == nil%>
+                                            <%= link_to "Edit Event", edit_event_path(evt) %>
+                                        <% elsif evt.event_type == 'birth' || evt.event_type == 'death' %>
+                                            <%= link_to "Edit Event", edit_relative_path(@relative) %>
+                                        <% elsif evt.event_type == 'marriage_start' || evt.event_type == 'marriage_end' %>
+                                            <span>
+                                                Edit marriage to edit event
+                                            </span>
+                                        <%else %>
+                                            Useless tooltip :)
+                                        <% end%>
+
+                                    </span>
+                                </div>
                             </div>
                         </td>
 
