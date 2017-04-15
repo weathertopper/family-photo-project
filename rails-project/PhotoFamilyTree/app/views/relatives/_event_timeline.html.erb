@@ -38,7 +38,9 @@
                                             <%display_name = name_for_display(@r)%>
                                             with <%= link_to "#{display_name}", relative_path(@r) %>
                                             <%unless evt.event_owner_id == @r.id%>
-                                                <%= link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' } %>
+                                                <%= link_to tag, method: :delete, data: { confirm: 'Are you sure?' }, class: "event-tag-delete" do %>
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                <% end %>
                                             <%end%>
                                         </div>
                                     <%end%>
@@ -62,7 +64,9 @@
                                             <%display_name = name_for_display(@r)%>
                                             with <%= link_to "#{display_name}", relative_path(@r) %>
                                             <%unless evt.event_owner_id == @r.id%>
-                                                <%= link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' } %>
+                                                <%= link_to tag, method: :delete, data: { confirm: 'Are you sure?' }, class: "event-tag-delete" do %>
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                <% end %>
                                             <%end%>
                                         </div>
                                     <%end%>
