@@ -15,10 +15,17 @@
         <%= link_to 'Edit', edit_relative_path(@relative) %> |
         <%= link_to 'Back', relatives_path %>
 
-        <% photo_sizing = @relative.photo_height < @relative.photo_width ? 'landscape' : 'portrait'%>
+        <% photo_sizing = 'portrait' %>
+        <% if @relative.profile_photo.file%>
+            <% photo_sizing = @relative.photo_height < @relative.photo_width ? 'landscape' : 'portrait'%>
+        <% end%>
 
         <div class = "show-relative-photo <%=photo_sizing%>" >
-            <%= image_tag @relative.profile_photo.url unless @relative.profile_photo.blank? %>
+            <% if @relative.profile_photo.file%>
+                <%= image_tag @relative.profile_photo.url unless @relative.profile_photo.file.blank? %>
+            <% else %>
+                <%= image_tag( @relative.sex=='male'? 'no-photo-male.jpg' : 'no-photo-female.jpg', :class => "profile-pic") %>
+            <% end %>
         </div>
 
         <div class = 'relative-name'>
@@ -115,7 +122,7 @@
         </div>
 
         <div>
-            <h3>Events</h3>
+            <h3>Timeline</h3>
 
                 <% related_events = []%>
                 <% @event_tags.each do |tag|%>

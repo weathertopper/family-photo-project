@@ -25,10 +25,10 @@
                                     <span class="tooltiptext">
 
                                         <% if evt.event_type == nil%>
-                                            <%= link_to "Edit Event", edit_event_path(evt) %>
-                                            <%= link_to "Delete Event", evt , method: :delete, data: { confirm: 'Are you sure?' }, class: "event-delete" %>
+                                            <%= link_to "Edit", edit_event_path(evt) %>
+                                            <%= link_to "Delete", evt , method: :delete, data: { confirm: 'Are you sure?' }, class: "event-delete" %>
                                         <% elsif evt.event_type == 'birth' || evt.event_type == 'death' %>
-                                            <%= link_to "Edit Event", edit_relative_path(@relative) %>
+                                            <%= link_to "Edit", edit_relative_path(@relative) %>
                                         <% elsif evt.event_type == 'marriage_start' || evt.event_type == 'marriage_end' %>
                                             <span>
                                                 Edit marriage to edit event
@@ -101,9 +101,10 @@
                                     <span class="tooltiptext">
 
                                         <% if evt.event_type == nil%>
-                                            <%= link_to "Edit Event", edit_event_path(evt) %>
+                                            <%= link_to "Edit", edit_event_path(evt) %>
+                                            <%= link_to "Delete", evt , method: :delete, data: { confirm: 'Are you sure?' }, class: "event-delete" %>
                                         <% elsif evt.event_type == 'birth' || evt.event_type == 'death' %>
-                                            <%= link_to "Edit Event", edit_relative_path(@relative) %>
+                                            <%= link_to "Edit", edit_relative_path(@relative) %>
                                         <% elsif evt.event_type == 'marriage_start' || evt.event_type == 'marriage_end' %>
                                             <span>
                                                 Edit marriage to edit event
