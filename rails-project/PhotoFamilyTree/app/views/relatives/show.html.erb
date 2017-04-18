@@ -29,7 +29,7 @@
         </div>
 
         <div class = 'relative-name'>
-            <h3>
+            <h1>
             <%=@relative.first%>
             <% unless @relative.nickname == "" || @relative.nickname == nil %>
                 "<%=@relative.nickname%>"
@@ -41,7 +41,7 @@
                 <% unless @relative.maiden == "" || @relative.maiden == nil %>
                 (n&eacute;e <%=@relative.maiden%>)
             <% end%>
-            </h3>
+            </h1>
         </div>
 
         <div class='relative-birth-death-days'>
@@ -55,7 +55,7 @@
             <% end%>
         </div>
 
-        <div class = "relative_parents">
+        <div class = "relative-parents">
             <% @parents = @relative.find_parent_relatives %>
             <% #expect two parents %>
             <% @father = nil %>
@@ -67,34 +67,59 @@
                     <% @mother = parent %>
                 <% end  %>
             <% end %>
-            <% if @father %>
-                <div class = 'father'>
-                    Father: <%=@father.first%> <%=@father.surname%>
+
+            <div class = 'father'>
+                <% if @father %>
                     <% @father_branch = @all_descendant_branches.find_by(:parent_id => @father.id, :child_id => @relative.id) %>
-                    <%= link_to 'Edit', edit_descendant_branch_path(@father_branch, :child_id => @relative.id) %>
-                    <%= link_to 'Destroy', @father_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
-                </div>
-            <% else %>
-                <%= link_to 'Add Father', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Father") %>
-            <% end %>
-            <% if @mother %>
-                <div class = 'mother'>
-                    Mother: <%=@mother.first%> <%=@mother.surname%>
+                    <% father_display_name = name_for_display(@father) %>
+                    <span class="relative-parent-label">
+                        Father:
+                        <%= link_to "#{father_display_name}", relative_path(@father) %>
+                    </span>
+
+                    <%= link_to edit_descendant_branch_path(@father_branch, :child_id => @relative.id), class: "edit-parent-link relative-button btn  btn-xs" do %>
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    <% end %>
+
+                    <%= link_to @father_branch, method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy-parent-link relative-button btn  btn-xs" do %>
+                        <span class="glyphicon glyphicon-remove"></span>
+                    <% end %>
+
+                <% else %>
+                    <%= link_to new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Father"), class: "add-parent-link relative-button btn " do %>
+                        <span class="glyphicon glyphicon-leaf"></span><span class='add-parent-text'>Add Father</span>
+                    <% end %>
+                <% end %>
+            </div>
+
+            <div class = 'mother'>
+                <% if @mother %>
                     <% @mother_branch = @all_descendant_branches.find_by(:parent_id => @mother.id, :child_id => @relative.id) %>
-                    <%= link_to 'Edit', edit_descendant_branch_path(@mother_branch, :child_id => @relative.id) %>
-                    <%= link_to 'Destroy', @mother_branch, method: :delete, data: { confirm: 'Are you sure?' } %>
-                </div>
-            <% else %>
-                <%= link_to 'Add Mother', new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Mother") %>
-            <% end %>
+                    <% mother_display_name = name_for_display(@mother) %>
+                    <span class="relative-parent-label">
+                        Mother:
+                        <%= link_to "#{mother_display_name}", relative_path(@mother) %>
+                    </span>
+
+                    <%= link_to edit_descendant_branch_path(@mother_branch, :child_id => @relative.id), class: "edit-parent-link relative-button btn  btn-xs" do %>
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    <% end %>
+
+                    <%= link_to @mother_branch, method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy-parent-link relative-button btn  btn-xs" do %>
+                        <span class="glyphicon glyphicon-remove"></span>
+                    <% end %>
+
+                <% else %>
+                <%= link_to new_descendant_branch_path(:child_id => @relative.id, :parent_label => "Mother"), class: "add-parent-link relative-button btn" do %>
+                    <span class="glyphicon glyphicon-leaf"></span><span class='add-parent-text'>Add Mother</span>
+                <% end %>
+                <% end %>
+            </div>
 
 
         </div>
-        <div>
-            <%=@relative.sex%>
-        </div>
 
-        <div>
+        <div class = "relative-marriages">
             <% @marriage_branches = "" %>
             <% @marriage_position = ""%>
             <% if @relative.sex == "male" %>
@@ -104,25 +129,37 @@
                 <% @marriage_branches = @all_marriage_branches.where(wife_id: @relative.id) %>
                 <% @marriage_position = "wife_id"%>
             <% end%>
-            <% @marriage_branches.all.order('anniversary') unless @marriage_branches.count < 2%>
+            <% @marriage_branches = @marriage_branches.all.order(anniversary: :desc) unless @marriage_branches.count < 2%>
             <% @marriage_branches.each do |branch| %>
                 <% @spouse = @relative.sex == "male" ? @relatives.find(branch.wife_id) : @relatives.find(branch.husband_id)  %>
+                <% spouse_display_name = name_for_display(@spouse) %>
                 <% unless branch.end %>
-                    <span> Married to <%=@spouse.first%> <%=@spouse.surname%> since <%=branch.anniversary%>. </span>
+                    <span class='marriage-label'> Married to <%= link_to "#{spouse_display_name}", relative_path(@spouse), class: "relative-spouse-name"%> since <%=branch.anniversary%> </span>
                 <% else %>
-                    <span> Married to <%=@spouse.first%> <%=@spouse.surname%> from <%=branch.anniversary%> until <%=branch.end%>. </span>
+                    <span class='marriage-label'> Married to <%= link_to "#{spouse_display_name}", relative_path(@spouse), class: "relative-spouse-name" %> from <%=branch.anniversary%> until <%=branch.end%> </span>
                 <% end%>
 
-                <%= link_to 'Delete', branch, method: :delete, data: { confirm: 'Are you sure?' } %>
-                <%= link_to 'Edit', edit_marriage_branch_path(branch) %>
+                <%= link_to edit_marriage_branch_path(branch), class: "edit-marriage-link relative-button btn btn-xs " do %>
+                    <span class="glyphicon glyphicon-pencil"></span>
+                <% end %>
+
+                <%= link_to branch, method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy-marriage-link relative-button btn btn-xs" do %>
+                    <span class="glyphicon glyphicon-remove"></span>
+                <% end %>
+
+                <!-- <%= link_to 'Delete', branch, method: :delete, data: { confirm: 'Are you sure?' } %> -->
+                <!-- <%= link_to 'Edit', edit_marriage_branch_path(branch) %> -->
                 <br/>
             <% end%>
 
-            <%= link_to "Add Marriage", new_marriage_branch_path(@marriage_position => @relative.id) %>
+            <!-- <%= link_to "Add Marriage", new_marriage_branch_path(@marriage_position => @relative.id) %> -->
+            <%= link_to new_marriage_branch_path(:marriage_position => @relative.id), class: "relative-button-with-text btn" do %>
+                <span class="glyphicon glyphicon-plus-sign"></span><span class='event-link-text'>Add Marriage</span>
+            <% end %>
         </div>
 
         <div>
-            <h3>Timeline</h3>
+            <h2>Timeline</h2>
 
                 <% related_events = []%>
                 <% @event_tags.each do |tag|%>
@@ -132,10 +169,12 @@
 
                 <%= render partial: "event_timeline", :locals => {:events => related_events} %>
 
-                <span><%= link_to 'New Event', new_event_path(:relative_id => @relative.id) %></span>
+                <%= link_to new_event_path(:relative_id => @relative.id), class: "relative-button-with-text btn" do %>
+                    <span class="glyphicon glyphicon-plus-sign"></span><span class='event-link-text'>Add Event</span>
+                <% end %>
         </div>
         <div>
-            <h3>Memories:</h3>
+            <h2>Memories</h2>
             <%@memories = @memories.where(poster_id: @relative.id)%>
             <%@memories.each do |memory|%>
                 <div>

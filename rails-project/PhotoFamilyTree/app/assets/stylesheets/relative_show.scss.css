@@ -22,22 +22,112 @@
 div{
     text-align: center;
     font-family: 'Raleway', sans-serif;
-    /*color: #282828;*/
-    color: #ffffff;
-    font-weight: bold;
+    color: rgba(255,255,255,.8);
 }
 
-h3, h4, span, a{
+h1, h2, h3, h4, span, a{
     background-color: rgba(40, 40, 40, .8);
     display: inline-block;
     padding: 5px 10px;
     box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+    color: rgba(255,255,255,.8);
+    font-weight: normal;
+}
+
+a:hover{
+    color: rgba(255, 255, 255, 1);
+    font-weight: bold;
 }
 
 
-/*.relative-info-wrapper{
-    background-color: rgba(180, 172, 129, .7)
-}*/
+/* parents */
+.relative-parents span{
+    margin-bottom: 5px;
+}
+
+.relative-parent-label a{
+    padding: 0px;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0);  /*taken care of by surrounding span*/
+    box-shadow: none;
+}
+
+/*parent button*/
+.relative-button span{
+    background-color: rgba(0,0,0,0);  /*taken care of by surrounding link*/
+    box-shadow: none;
+    margin: 0px;
+}
+
+.relative-button .glyphicon{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+a.relative-button{
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-bottom: 5px;
+
+}
+
+a.relative-button:hover span{
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/*specifically parent add button*/
+a.add-parent-link{
+    width: 133px;
+}
+
+.add-parent-text{
+    padding-left: 5px;
+    padding-right: 0px;
+}
+
+/*marriages*/
+
+span.marriage-label{
+    margin-bottom: 5px;
+}
+
+a.relative-spouse-name{
+    padding: 0px;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0);  /*taken care of by surrounding span*/
+    box-shadow: none;
+}
+
+
+/*button with text*/
+/*combine with add parent button*/
+.relative-button-with-text span{
+    background-color: rgba(0,0,0,0);  /*taken care of by surrounding link*/
+    box-shadow: none;
+}
+
+.relative-button-with-text .glyphicon{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+a.relative-button-with-text{
+    padding-top: 3px;
+    padding-bottom: 3px;
+    width: 133px;
+}
+
+a.relative-button-with-text:hover span{
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.event-link-text{
+    padding-left: 5px;
+    padding-right: 0px;
+}
+
 
 /*parallax scrolling*/
 .parallax-container{

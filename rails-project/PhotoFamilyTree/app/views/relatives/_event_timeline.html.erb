@@ -10,11 +10,10 @@
 
                         <td class = "col1">
                             <div  class = 'event-info when-where'>
-                                <%=evt.when%>
                                 <% if evt.location %>
-                                    at
-                                    <%=evt.location%>
+                                    <%=evt.location%>,
                                 <% end %>
+                                <%=evt.when%>
                             </div>
                         </td>
 
@@ -25,7 +24,7 @@
                                     <span class="tooltiptext">
 
                                         <% if evt.event_type == nil%>
-                                            <%= link_to "Edit", edit_event_path(evt) %>
+                                            <%= link_to "Edit", edit_event_path(evt) %><br/>
                                             <%= link_to "Delete", evt , method: :delete, data: { confirm: 'Are you sure?' }, class: "event-delete" %>
                                         <% elsif evt.event_type == 'birth' || evt.event_type == 'death' %>
                                             <%= link_to "Edit", edit_relative_path(@relative) %>
@@ -61,7 +60,9 @@
                                         </div>
                                     <%end%>
                                 <%end%>
-                                <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id) %>
+                                <div>
+                                    <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id) %>
+                                </div>
 
                             </div>
                         </td>
@@ -87,7 +88,9 @@
                                         </div>
                                     <%end%>
                                 <%end%>
-                                <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id) %>
+                                <div>
+                                    <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id) %>
+                                </div>
 
 
                             </div>
@@ -99,9 +102,9 @@
                                     <div class = "dot"></div>
                                     <%# If this event has an event_type, then open the edit to the relative%>
                                     <span class="tooltiptext">
-
+                                        <div>
                                         <% if evt.event_type == nil%>
-                                            <%= link_to "Edit", edit_event_path(evt) %>
+                                            <%= link_to "Edit", edit_event_path(evt) %><br/>
                                             <%= link_to "Delete", evt , method: :delete, data: { confirm: 'Are you sure?' }, class: "event-delete" %>
                                         <% elsif evt.event_type == 'birth' || evt.event_type == 'death' %>
                                             <%= link_to "Edit", edit_relative_path(@relative) %>
@@ -112,6 +115,7 @@
                                         <%else %>
                                             Useless tooltip :)
                                         <% end%>
+                                        </div>
 
                                     </span>
                                 </div>
@@ -120,11 +124,10 @@
 
                         <td class = 'col3'>
                             <div class = 'event-info when-where'>
-                                <%=evt.when%>
                                 <% if evt.location %>
-                                    at
-                                    <%=evt.location%>
+                                    <%=evt.location%>,
                                 <% end %>
+                                <%=evt.when%>
                             </div>
                         </td>
 
