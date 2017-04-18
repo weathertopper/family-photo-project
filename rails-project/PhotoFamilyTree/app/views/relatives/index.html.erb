@@ -14,6 +14,7 @@
 <%x_relatives = get_x_generation(@all_relatives)%>
 <%millennial_relatives = get_millennial_generation(@all_relatives)%>
 <%z_relatives = get_z_generation(@all_relatives)%>
+<%alpha_relatives = get_alpha_generation(@all_relatives)%>
 
 <div class='navbar navbar-inverse navbar-fixed-bottom' id="scrollspy-nav">
 	<div class='container-fluid'>
@@ -43,7 +44,7 @@
 
             <% gi_class = gi_relatives.count > 0 ? "" : "disabled" %>
 			<li class = <%= gi_class%> >
-				<a href="#gi-header">GI</a>
+				<a href="#gi-header">Greatest</a>
 			</li>
 
             <% silent_class = silent_relatives.count > 0 ? "" : "disabled" %>
@@ -53,22 +54,27 @@
 
             <% boomer_class = boomer_relatives.count > 0 ? "" : "disabled" %>
 			<li class = <%= boomer_class%> >
-				<a href="#boomer-header">Baby Boomer</a>
+				<a href="#boomer-header">Baby Boomers</a>
 			</li>
 
             <% x_class = x_relatives.count > 0 ? "" : "disabled" %>
 			<li class = <%= x_class %> >
-				<a href="#x-header">Generation X</a>
+				<a href="#x-header">Gen X</a>
 			</li>
 
             <% millennial_class = millennial_relatives.count > 0 ? "" : "disabled" %>
 			<li class = <%=millennial_class%> >
-				<a href="#millennial-header">Millennial</a>
+				<a href="#millennial-header">Millennials</a>
 			</li>
 
             <% z_class = z_relatives.count > 0 ? "" : "disabled" %>
 			<li class = <%=z_class%> >
-				<a href="#z-header">Generation Z</a>
+				<a href="#z-header">Gen Z</a>
+			</li>
+
+			<% alpha_class = alpha_relatives.count > 0 ? "" : "disabled" %>
+			<li class = <%=alpha_class%> >
+				<a href="#alpha-header">Alpha</a>
 			</li>
 		</ul>
 	</div>
@@ -85,13 +91,13 @@
 			</p>
 
 
-			<h1>Family</h1>
+			<h1><span>Family</span></h1>
 
 			<div class="relatives">
 
                 <% if pre_progressive_relatives.count > 0 %>
     				<div class="row  row-centered">
-    					<h3 id='pre-progressive-header'>Pre-Progressive</h3>
+    					<h3 id='pre-progressive-header'><span>Pre-Progressive</span></h3>
     					<%= render partial: "relative_tile", collection: pre_progressive_relatives, :as => :relative %>
     				</div>
     				<hr>
@@ -99,7 +105,7 @@
 
                 <% if progressive_relatives.count > 0 %>
     				<div class="row  row-centered">
-    					<h3 id='progressive-header'>Progressive</h3>
+    					<h3 id='progressive-header'><span>Progressive</span></h3>
     					<%= render partial: "relative_tile", collection: progressive_relatives, :as => :relative %>
     				</div>
     				<hr>
@@ -107,7 +113,7 @@
 
                 <% if missionary_relatives.count > 0 %>
     				<div class="row  row-centered">
-    					<h3 id='missionary-header'>Missionary</h3>
+    					<h3 id='missionary-header'><span>Missionary</span></h3>
     					<%= render partial: "relative_tile", collection: missionary_relatives, :as => :relative %>
     				</div>
     				<hr>
@@ -115,7 +121,7 @@
 
                 <% if lost_relatives.count > 0 %>
     				<div class="row  row-centered">
-    					<h3 id='lost-header'>Lost</h3>
+    					<h3 id='lost-header'><span>Lost Generation</span></h3>
     					<%= render partial: "relative_tile", collection: lost_relatives, :as => :relative %>
     				</div>
     				<hr>
@@ -123,7 +129,7 @@
 
                 <% if gi_relatives.count > 0 %>
 				    <div class="row  row-centered">
-    					<h3 id='gi-header'>GI</h3>
+    					<h3 id='gi-header'><span>Greatest Generation</span></h3>
     					<%= render partial: "relative_tile", collection: gi_relatives, :as => :relative %>
     				</div>
     				<hr>
@@ -131,7 +137,7 @@
 
                 <% if silent_relatives.count > 0 %>
     				<div class="row  row-centered">
-    					<h3 id='silent-header'>Silent</h3>
+    					<h3 id='silent-header'><span>Silent Generation</span></h3>
     					<%= render partial: "relative_tile", collection: silent_relatives, :as => :relative %>
     				</div>
     				<hr>
@@ -139,7 +145,7 @@
 
                 <% if boomer_relatives.count > 0 %>
     				<div class="row  row-centered">
-    					<h3 id='boomer-header'>Baby Boomer</h3>
+    					<h3 id='boomer-header'><span>Baby Boomers</span></h3>
     					<%= render partial: "relative_tile", collection: boomer_relatives, :as => :relative %>
     				</div>
     				<hr>
@@ -147,7 +153,7 @@
 
                 <% if x_relatives.count > 0 %>
     				<div class="row  row-centered">
-    					<h3 id='x-header'>Generation X</h3>
+    					<h3 id='x-header'><span>Generation X</span></h3>
     					<%= render partial: "relative_tile", collection: x_relatives, :as => :relative %>
     				</div>
                     <hr>
@@ -155,7 +161,7 @@
 
                 <% if millennial_relatives.count > 0 %>
     				<div class="row  row-centered">
-    					<h3 id='millennial-header'>Millennial</h3>
+    					<h3 id='millennial-header'><span>Millennials</span></h3>
     					<%= render partial: "relative_tile", collection: millennial_relatives, :as => :relative %>
     				</div>
     				<hr>
@@ -163,8 +169,15 @@
 
                 <% if z_relatives.count > 0 %>
     				<div class="row  row-centered">
-    					<h3 id='z-header'>Generation Z</h3>
+    					<h3 id='z-header'><span>Generation Z</span></h3>
     					<%= render partial: "relative_tile", collection: z_relatives, :as => :relative %>
+    				</div>
+                <% end %>
+
+				<% if alpha_relatives.count > 0 %>
+    				<div class="row  row-centered">
+    					<h3 id='alpha-header'><span>Alpha Generation</span></h3>
+    					<%= render partial: "relative_tile", collection: alpha_relatives, :as => :relative %>
     				</div>
                 <% end %>
 			</div>

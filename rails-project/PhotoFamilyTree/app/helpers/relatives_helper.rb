@@ -3,7 +3,7 @@ require 'json'
 module RelativesHelper
 
     def name_for_display(relative)
-        if relative.nickname != nil && relative.nickname != "" 
+        if relative.nickname != nil && relative.nickname != ""
             return "#{relative.nickname} #{relative.surname}"
         end
         return "#{relative.first} #{relative.surname}"
@@ -296,8 +296,13 @@ module RelativesHelper
     end
 
     def get_z_generation(relatives)
-        zs = relatives.where('birthday>= ?', Date.new(1996, 1, 1))
+        zs = relatives.where('birthday>= ?', Date.new(1996, 1, 1)).where('birthday < ?', Date.new(2014, 1, 1))
         return zs
+    end
+
+    def get_alpha_generation(relatives)
+        alphas = relatives.where('birthday>= ?', Date.new(2014, 1, 1))
+        return alphas
     end
 
 
