@@ -28,7 +28,8 @@
     transform: translateZ(-1px) scale(2);
     font-size: 300%;
     padding: 100%;
-    background-image: url("green-wallpaper.jpg");
+    /*background-image: url("green-wallpaper.jpg");*/
+    background-image: url('/assets/green-wallpaper.jpg');
     left: -10px;
 }
 
