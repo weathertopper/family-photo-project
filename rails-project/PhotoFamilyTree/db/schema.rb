@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170408104953) do
+ActiveRecord::Schema.define(version: 20170420213043) do
 
   create_table "descendant_branches", force: :cascade do |t|
     t.integer  "parent_id",  null: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20170408104953) do
     t.datetime "updated_at",    null: false
     t.string   "location"
     t.integer  "poster_id"
+    t.date     "when"
     t.index ["poster_id"], name: "index_memories_on_poster_id"
   end
 

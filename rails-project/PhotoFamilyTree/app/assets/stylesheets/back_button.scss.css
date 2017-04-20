@@ -1,0 +1,19 @@
+/* back button*/
+a.btn-lg.back-button{
+    padding: 0px;
+    background-color: rgba(40, 40, 40, .8);
+    box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+
+}
+
+.back-button span{
+    background-color: rgba(0,0,0,0);
+    box-shadow: none;
+    color: rgba(255, 255, 255, .8);
+    font-weight: normal;
+}
+
+a.back-button:hover span{
+    color: rgba(255, 255, 255, 1);
+    font-weight: bold;
+}

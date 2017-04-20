@@ -1,6 +1,7 @@
 <%= stylesheet_link_tag "relative_show.scss.css"%>
 <%= stylesheet_link_tag "relative_event_timeline.scss.css"%>
-<%= stylesheet_link_tag "re.scss"%>
+<%= stylesheet_link_tag "memory_tile.scss.css"%>
+<%= stylesheet_link_tag "back_button.scss.css"%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
@@ -12,8 +13,13 @@
     <div class="parallax-layer foreground">
         <p id="notice"><%= notice %></p>
 
-        <%= link_to 'Edit', edit_relative_path(@relative) %> |
-        <%= link_to 'Back', relatives_path %>
+        <div class= 'edit-and-back'>
+            <%= render partial: "/shared/back_button", :locals => {:path => relatives_path} %>
+
+            <%= link_to edit_relative_path(@relative), class: "edit-relative-button btn btn-lg" do %>
+                <span class="glyphicon glyphicon-pencil"></span>
+            <% end %>
+        </div>
 
         <% photo_sizing = 'portrait' %>
         <% if @relative.profile_photo.file%>
@@ -175,14 +181,15 @@
         </div>
         <div>
             <h2>Memories</h2>
-            <%@memories = @memories.where(poster_id: @relative.id)%>
-            <%@memories.each do |memory|%>
-                <div>
-                    <%=memory.title%>
-                    <span><%= link_to 'Show', memory %></span>
-                </div>
-            <%end%>
-            <span><%= link_to 'New Memory', new_memory_path(:relative_id => @relative.id) %></span>
+            <% memories = @memories.where(poster_id: @relative.id)%>
+            <div class="row  row-centered">
+                <%= render partial: "/memories/memory_tile", collection: memories, :as => :memory %>
+            </div>
+
+            <!-- <span><%= link_to 'New Memory', new_memory_path(:relative_id => @relative.id) %></span> -->
+            <%= link_to new_memory_path(:relative_id => @relative.id), class: "add-memory-link relative-button btn " do %>
+                <span class="glyphicon glyphicon-plus-sign"></span><span class='add-memory'>Add Memory</span>
+            <% end %>
         </div>
     </div>
 </div>

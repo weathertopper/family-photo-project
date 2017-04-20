@@ -20,5 +20,8 @@
 # NW Ignore secrets
 /config/secrets.yml
 
+# NW Ignore uploads
+/public/uploads/
+
 # Ignore Byebug command history file.
 .byebug_history

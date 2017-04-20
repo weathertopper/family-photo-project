@@ -1,0 +1,51 @@
+
+/*overriding default styling*/
+.thumbnail{
+    padding: 0px;
+    margin: 10px;
+    /*border: none;*/
+    border-radius: 0px;
+    box-shadow: 0 0 20px rgba(0,0,0, 0.6);
+}
+.img-thumbnail{
+    /*padding: 0px;*/
+}
+
+.overlay-panel{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    padding: 20px;
+    color: rgb(255,255,255);
+    background-color: rgba(0,0,0,.7);
+    visibility: hidden;
+    line-height: normal;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay-panel div{
+    width: inherit;
+    text-align: center;
+    overflow:hidden;
+}
+
+.memory-title{
+    font-size: 2vw;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    font-family: 'Raleway', sans-serif;
+}
+
+.thumbnail:hover div{
+	visibility: visible;
+}
+
+.col-centered{
+    display: inline-block;
+    float: none;text-align: left;
+    margin-right: -4px;
+}

@@ -1,0 +1,24 @@
+<% if local_assigns[:memory]%>
+
+    <% thumbnail_sizing = 'col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xl-2 col-centered' %>
+
+    <!-- FIGURE OUT WHICH BACKGROUND PHOTO TO USE -->
+
+    <% image_url = "text-memory.jpg" %>
+    <% if memory.audio_content.file %>
+        <% image_url = "audio-memory.jpg" %>
+    <% end %>
+
+    <% thumbnail_classes = "thumbnail "+thumbnail_sizing%>
+    <%= content_tag :div, class: thumbnail_classes, onclick: "redirectToMemory(event, #{memory.id})" do %>
+        <%= image_tag( image_url, :class => "memory-tile-pic") %>
+
+    	<div class = "overlay-panel">
+    		<div class="memory-title">
+    			<%=memory.title%>
+    		</div>
+    	</div>
+
+    <% end %>
+
+<% end %>

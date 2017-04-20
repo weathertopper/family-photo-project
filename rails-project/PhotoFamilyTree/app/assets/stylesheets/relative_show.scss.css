@@ -39,6 +39,32 @@ a:hover{
     font-weight: bold;
 }
 
+a:hover span{
+    color: rgba(255, 255, 255, 1);
+    font-weight: bold;
+}
+/*edit button*/
+.edit-relative-button span{
+    padding: 0px;
+    background-color: rgba(0,0,0,0);
+    box-shadow: none;
+}
+
+
+a.edit-relative-button.btn-lg{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 0px;
+    padding-top: 4px;
+}
+
+/*edit and back button wrapper*/
+.edit-and-back{
+    padding: 0px;
+    background-color: rgba(0,0,0,0);
+    box-shadow: none;
+    margin: 5px;
+}
 
 /* parents */
 .relative-parents span{
