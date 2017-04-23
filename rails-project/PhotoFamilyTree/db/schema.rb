@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170420213043) do
+ActiveRecord::Schema.define(version: 20170423083150) do
 
   create_table "descendant_branches", force: :cascade do |t|
-    t.integer  "parent_id",  null: false
-    t.integer  "child_id",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "parent_id",   null: false
+    t.integer  "child_id",    null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "parent_type"
   end
 
   create_table "event_tags", force: :cascade do |t|
@@ -39,12 +40,12 @@ ActiveRecord::Schema.define(version: 20170420213043) do
   end
 
   create_table "marriage_branches", force: :cascade do |t|
-    t.integer  "husband_id",  null: false
-    t.integer  "wife_id",     null: false
+    t.integer  "husband_id",   null: false
+    t.integer  "wife_id",      null: false
     t.date     "anniversary"
-    t.date     "end"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.date     "marriage_end"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "memories", force: :cascade do |t|

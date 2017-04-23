@@ -11,22 +11,23 @@
     </div>
   <% end %>
 
-  <%= f.hidden_field :poster_id, :value => params[:relative_id]%>
+  <%= f.hidden_field :poster_id, :value => @poster_id%>
 
   <div class "memory-title">
-      <%= f.label "Title: " %>
-      <%= f.text_field :title %> <br>
+      <%= f.text_field :title, :maxlength=>"30", placeholder: "Title" %> <br>
   </div>
 
   <div class "memory-location">
-      <%= f.label "Location: " %>
-      <%= f.text_field :location %> <br>
+      <%= f.text_field :location, :maxlength=>"30", placeholder: "Location" %> <br>
   </div>
 
+  <div class = 'photo-taken-on'>
+      <%= f.label "When:" %>
+      <%= f.date_select(:when, :order => [:month, :day, :year], :start_year => 1700) %>
+  </div>
 
    <div class = "memory-content-text">
-        <%= f.label "Content" %> <br>
-        <%= f.text_area :text_content %> <br>
+        <%= f.text_area :text_content, placeholder: "Text Content" %> <br>
     </div>
 
   <div class="memory-content-audio">

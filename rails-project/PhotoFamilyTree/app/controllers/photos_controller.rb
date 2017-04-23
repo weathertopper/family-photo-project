@@ -28,6 +28,7 @@ class PhotosController < ApplicationController
 
   # POST /Photos
   def create
+      @relatives = Relative.all
       @photo = Photo.new(photo_params)
       if @photo.save
           flash[:notice] = 'Photo was successfully created.'

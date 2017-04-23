@@ -1,5 +1,12 @@
 class Relative < ApplicationRecord
 
+    #Validations
+    validates :first, presence: true
+    validates :surname, presence: true
+    validates :sex, presence: true
+    validates :birthday, presence: true
+
+
     #DescendantBranch Join
     has_many :descendant_branches, :foreign_key => :parent_id, :dependent => :destroy
     has_many :reverse_descendant_branches, :class_name => :DescendantBranch, :foreign_key => :child_id, :dependent => :destroy
@@ -10,7 +17,7 @@ class Relative < ApplicationRecord
     has_many :reverse_marriage_branches, :class_name => :MarriageBranch, :foreign_key => :husband_id, :dependent => :destroy
     has_many :relatives, :through => :marriage_branches, :source => :husband
 
-    #CarrierWave, :photograph is really an image, use the ImageUploader
+    #CarrierWave, :photograph is really an image, use the ImageUploadervalidates :name, presence: true
     # REMINDER-- THIS IS NOT AT ALL CONNECTED TO THE PHOTO TABLE. IT PROBABLY SHOULD BE BUT ISN'T CURRENTLY
     # IF I WANT TO DO THAT LATER, ADD A FOREIGN KEY AND A ROUTE/VIEW FOR SELECTING AN IMAGE
     mount_uploader :profile_photo, ImageUploader
@@ -29,6 +36,13 @@ class Relative < ApplicationRecord
 
     #instance methods (by default?)
 
+    def name_for_display
+        if self.nickname != nil && self.nickname != ""
+            return "#{self.nickname} #{self.surname}"
+        end
+        return "#{self.first} #{self.surname}"
+    end
+
     #CALLED WHEN A RELATIVE IS CREATED
     def create_birth_event_and_tags
         birth_event = Event.create!({ :when => self.birthday,
@@ -36,17 +50,14 @@ class Relative < ApplicationRecord
                         :event_type => "birth",
                         :event_owner_id => self.id})
 
-        parents = self.find_parent_relatives
-        if birth_event #this should always be true
-            EventTag.create!({:event_id => birth_event.id,
-                              :relative_id => self.id})
-            #add birth event to parents
-            parents.each do |parent|
-                EventTag.create!({:event_id => birth_event.id,
-                                  :relative_id => parent.id})
-            end
-        end
+        EventTag.create!({:event_id => birth_event.id,
+                          :relative_id => self.id})
 
+        parents = self.find_parent_relatives
+        parents.each do |parent|
+        EventTag.create!({:event_id => birth_event.id,
+                          :relative_id => parent.id})
+        end
     end
 
     #CALLED WHEN A RELATIVE IS CREATED OR WHEN A DEATHDAY IS ADDED (VIA UPDATE)
@@ -171,11 +182,11 @@ class Relative < ApplicationRecord
 
     # COULD I MAKE THESE CONSTANTS OF EVENT? EVENTUALLY?
     def get_birth_event_content
-        return "Birth of #{self.first} #{self.surname}"
+        return "Birth of #{self.name_for_display}"
     end
 
     def get_death_event_content
-        "Death of #{self.first} #{self.surname}"
+        "Death of #{self.name_for_display}"
     end
 
     def diedBefore(relative)
@@ -298,28 +309,16 @@ class Relative < ApplicationRecord
         step_children = []
         spouse_children  =[]
         spouses = self.find_spouse_relatives
-        puts 'spouses'
-        puts spouses
         spouses.each do |spouse|
             puts 'spouse first'
             puts spouse.first
             puts spouse.nickname
             spouse_children += spouse.find_child_relatives
         end
-        puts 'spouse_children'
         puts spouse_children
         spouse_children.each do |spouse_child|
-            puts 'spouse child first'
-            puts spouse_child.first
-            puts spouse_child.nickname
             child_step_parents = spouse_child.find_step_parent_relatives
-            puts "child step parent"
-            puts child_step_parents
-            puts 'includes?'
-            puts step_children.count
-            puts child_step_parents.include?(self)
             if child_step_parents.include?(self)
-                puts 'HOW DID THIS HAPPEN!?!?!?!?'
                 step_children += [spouse_child]
             end
         end
@@ -362,7 +361,7 @@ class Relative < ApplicationRecord
     def find_current_spouse_relative #darn jeff and all of his women
         current_spouse = nil
 
-        current_marriage_array = self.reverse_marriage_branches.where(:end => nil) + self.marriage_branches.where(:end => nil)
+        current_marriage_array = self.reverse_marriage_branches.where(:marriage_end => nil) + self.marriage_branches.where(:marriage_end => nil)
         # => ^^size should be <=1
         if current_marriage_array
             current_marriage_ids = current_marriage_array.pluck(:husband_id, :wife_id).flatten
@@ -382,7 +381,7 @@ class Relative < ApplicationRecord
         delete_marriages = []
         parents.each do |parent|    # => should only be two
             parent_marriages += (parent.reverse_marriage_branches + parent.marriage_branches)
-            delete_marriages += (parent.reverse_marriage_branches.where("end < ? ", self.birthday) + parent.marriage_branches.where("end < ?", self.birthday))
+            delete_marriages += (parent.reverse_marriage_branches.where("marriage_end < ? ", self.birthday) + parent.marriage_branches.where("marriage_end < ?", self.birthday))
         end
         parent_marriages.uniq!
         delete_marriages.uniq!

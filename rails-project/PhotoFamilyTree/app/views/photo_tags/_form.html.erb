@@ -16,8 +16,8 @@
     </div>
 
     <div class = "phototag-photo">
-        <% @photo = @photos.find(params[:photo_id])%>
-        <%= f.hidden_field :photo_id, :value => params[:photo_id]%>
+        <% @photo = @photos.find(@photo_id)%>
+        <%= f.hidden_field :photo_id, :value => @photo_id %>
         <%= image_tag @photo.photograph.url%>
     </div>
 

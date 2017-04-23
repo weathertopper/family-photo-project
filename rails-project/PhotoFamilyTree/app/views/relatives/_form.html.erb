@@ -21,18 +21,12 @@
     </div>
 
     <div class = "relative-name">
-        <%= f.label "First" %>
-        <%= f.text_field :first %> <br>
-        <%= f.label "Nickname (if applicable):" %>
-        <%= f.text_field :nickname %> <br>
-        <%= f.label "Middle:" %>
-        <%= f.text_field :middle %> <br>
-        <%= f.label "Surname:" %>
-        <%= f.text_field :surname %> <br>
-        <%= f.label "Suffix (if applicable):" %>
-        <%= f.text_field :suffix %> <br>
-        <%= f.label "Maiden (if applicable):" %>
-        <%= f.text_field :maiden %> <br>
+        <%= f.text_field :first,  :maxlength=>"20", placeholder: "First"%> <br>
+        <%= f.text_field :nickname,  :maxlength=>"20", placeholder: "Nickname"%> <br>
+        <%= f.text_field :middle,  :maxlength=>"20", placeholder: "Middle"%> <br>
+        <%= f.text_field :maiden,  :maxlength=>"20", placeholder: "Maiden" %> <br>
+        <%= f.text_field :surname,  :maxlength=>"20", placeholder: "Surname" %> <br>
+        <%= f.text_field :suffix, :maxlength=>"10", placeholder: "Suffix"%> <br>
     </div>
 
     <div class = "relative-sex">

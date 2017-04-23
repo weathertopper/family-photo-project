@@ -15,19 +15,33 @@ class MarriageBranchesController < ApplicationController
   def new
       @marriage_branch = MarriageBranch.new
       @relatives = Relative.all
+
+      @husband_id = params[:husband_id]
+      @wife_id = params[:wife_id]
+
+
   end
 
   # GET /marriage_branches/1/edit
   def edit
+      @husband_id = @marriage_branch.husband_id
+      @wife_id = @marriage_branch.wife_id
       @relatives = Relative.all
-      #@marriage_branch defined by set (below)
   end
 
   # POST /marriage_branches
   def create
+      @husband_id = params[:husband_id]
+      @wife_id = params[:wife_id]
+
       @marriage_branch = MarriageBranch.new(marriage_branch_params)
+      @relatives = Relative.all
+
       if @marriage_branch.save
           flash[:notice] = 'Marriage branch was successfully created.'
+          @marriage_branch.create_anniversary_event_and_tags
+          @marriage_branch.create_marriage_end_event_and_tags
+
           redirect_to :controller => 'relatives', :action => 'index'
       else
           render "new"
@@ -35,8 +49,13 @@ class MarriageBranchesController < ApplicationController
   end
 
   def update
+      @husband_id = @marriage_branch.husband_id
+      @wife_id = @marriage_branch.wife_id
+      @relatives = Relative.all
       if @marriage_branch.update(marriage_branch_params)
           flash[:notice] = "Marriage branch was successfully updated."
+          @marriage_branch.update_anniversary_event_and_tags
+          @marriage_branch.update_marriage_end_event_and_tags
           redirect_to :controller => 'relatives', :action => 'index'
       else
           render 'edit'
@@ -44,6 +63,9 @@ class MarriageBranchesController < ApplicationController
   end
 
   def destroy
+      @marriage_branch.destroy_anniversary_event_and_tags
+      @marriage_branch.destroy_marriage_end_event_and_tags
+
       @marriage_branch.destroy
       flash[:notice] = 'Marriage branch was successfully destroyed.'
       redirect_to :controller => 'relatives', :action => 'index'
@@ -60,6 +82,6 @@ class MarriageBranchesController < ApplicationController
         params.require(:marriage_branch).permit(    :husband_id,
                                                     :wife_id,
                                                     :anniversary,
-                                                    :end )
+                                                    :marriage_end )
     end
 end

@@ -14,26 +14,30 @@ class MemoriesController < ApplicationController
 
   # GET /memories/new
   def new
+      @poster_id = params["relative_id"]
       @memory = Memory.new
   end
 
   # GET /memories/1/edit
   def edit
       #@memory defined by set (below)
+       @poster_id = @memory.poster_id
   end
 
   # POST /memories
   def create
       @memory = Memory.new(memory_params)
+      @poster_id = memory_params["poster_id"]
       if @memory.save
           flash[:notice] = 'Memory was successfully created.'
           redirect_to :controller=> "relatives", :action =>"show", :id => @memory.poster_id
       else
-          render "new"
+          render "new", :relative_id => memory_params["poster_id"]
       end
   end
 
   def update
+      @poster_id = @memory.poster_id
       if @memory.update(memory_params)
           flash[:notice] = "Memory was successfully updated."
           redirect_to :controller=> "relatives", :action =>"show", :id => @memory.poster_id
@@ -43,7 +47,6 @@ class MemoriesController < ApplicationController
   end
 
   def destroy
-      @poster_id = @memory.poster_id
       @memory.destroy
       flash[:notice] = 'Memory was successfully destroyed.'
       redirect_to :action =>"show", :id => @memory_id

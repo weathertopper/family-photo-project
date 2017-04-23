@@ -2,20 +2,6 @@ require 'json'
 
 module RelativesHelper
 
-    def name_for_display(relative)
-        if relative.nickname != nil && relative.nickname != ""
-            return "#{relative.nickname} #{relative.surname}"
-        end
-        return "#{relative.first} #{relative.surname}"
-    end
-
-    @@relation = 0
-
-    def return_relation(relative)
-        @@relation+=1;
-        return "#{relative} >>#{@@relation}<<"
-    end
-
     def build_tree_for_relative(selected)
         # => have references to models via controller (index)
         # => selected = @alls.find(relative_id)

@@ -142,22 +142,22 @@ if Rails.env.development?
 
     DescendantBranch.delete_all
 
-    DescendantBranch.create!({:parent_id => violet.id, :child_id => robert.id})
-    DescendantBranch.create!({:parent_id => violet.id, :child_id => rosamund.id})
-    DescendantBranch.create!({:parent_id => martha.id, :child_id => harold.id})
-    DescendantBranch.create!({:parent_id => martha.id, :child_id => cora.id})
-    DescendantBranch.create!({:parent_id => isobel.id, :child_id => matthew.id})
-    DescendantBranch.create!({:parent_id => cora.id, :child_id => mary.id})
-    DescendantBranch.create!({:parent_id => robert.id, :child_id => mary.id})
-    DescendantBranch.create!({:parent_id => cora.id, :child_id => edith.id})
-    DescendantBranch.create!({:parent_id => robert.id, :child_id => edith.id})
-    DescendantBranch.create!({:parent_id => cora.id, :child_id => sybil.id})
-    DescendantBranch.create!({:parent_id => robert.id, :child_id => sybil.id})
-    DescendantBranch.create!({:parent_id => sybil.id, :child_id => sybbie.id})
-    DescendantBranch.create!({:parent_id => tom.id, :child_id => sybbie.id})
-    DescendantBranch.create!({:parent_id => mary.id, :child_id => george.id})
-    DescendantBranch.create!({:parent_id => matthew.id, :child_id => george.id})
-    DescendantBranch.create!({:parent_id => edith.id, :child_id => marigold.id})
+    DescendantBranch.create!({:parent_id => violet.id, :child_id => robert.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => violet.id, :child_id => rosamund.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => martha.id, :child_id => harold.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => martha.id, :child_id => cora.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => isobel.id, :child_id => matthew.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => cora.id, :child_id => mary.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => robert.id, :child_id => mary.id, :parent_type=>"father"})
+    DescendantBranch.create!({:parent_id => cora.id, :child_id => edith.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => robert.id, :child_id => edith.id, :parent_type=>"father"})
+    DescendantBranch.create!({:parent_id => cora.id, :child_id => sybil.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => robert.id, :child_id => sybil.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => sybil.id, :child_id => sybbie.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => tom.id, :child_id => sybbie.id, :parent_type=>"father"})
+    DescendantBranch.create!({:parent_id => mary.id, :child_id => george.id, :parent_type=>"mother"})
+    DescendantBranch.create!({:parent_id => matthew.id, :child_id => george.id, :parent_type=>"father"})
+    DescendantBranch.create!({:parent_id => edith.id, :child_id => marigold.id, :parent_type=>"mother"})
 
     # => Marriages in chronological order
 
@@ -170,12 +170,12 @@ if Rails.env.development?
     MarriageBranch.create!({:wife_id => sybil.id,
                             :husband_id => tom.id,
                             :anniversary => Date.new(1919, 4, 16),
-                            :end => Date.new(1920, 5, 25)})
+                            :marriage_end => Date.new(1920, 5, 25)})
 
     MarriageBranch.create!({:wife_id => mary.id,
                             :husband_id => matthew.id,
                             :anniversary => Date.new(1920, 3, 13),
-                            :end => Date.new(1921, 9, 15)})
+                            :marriage_end => Date.new(1921, 9, 15)})
 
     MarriageBranch.create!({:wife_id => mary.id,
                             :husband_id => henry.id,
@@ -190,28 +190,30 @@ if Rails.env.development?
 
     #Marriages, relevant to the two getting married
     MarriageBranch.find_each do |mbranch|
-        wife = Relative.find(mbranch.wife_id);
-        husband = Relative.find(mbranch.husband_id)
-        marriage = Event.create!({
-                            :when => mbranch.anniversary,
-                            :content => "#{husband.first} & #{wife.first} #{husband.surname} are married",
-                            :event_type => "marriage_start",
-                            :event_owner_id => mbranch.id})
-        EventTag.create!({  :event_id => marriage.id,
-                            :relative_id => husband.id})
-        EventTag.create!({  :event_id => marriage.id,
-                            :relative_id => wife.id})
-        if mbranch.end
-            marriage_end = Event.create!({
-                                :when => mbranch.end,
-                                :content => "#End of marriage between {husband.first} & #{wife.first} #{husband.surname}",
-                                :event_type => "marriage_end",
-                                :event_owner_id => mbranch.id})
-            EventTag.create!({  :event_id => marriage_end.id,
-                                :relative_id => husband.id})
-            EventTag.create!({  :event_id => marriage_end.id,
-                                :relative_id => wife.id})
-        end
+        mbranch.create_anniversary_event_and_tags
+        mbranch.create_marriage_end_event_and_tags
+        # wife = Relative.find(mbranch.wife_id);
+        # husband = Relative.find(mbranch.husband_id)
+        # marriage = Event.create!({
+        #                     :when => mbranch.anniversary,
+        #                     :content => "#{husband.first} & #{wife.first} #{husband.surname} are married",
+        #                     :event_type => "marriage_start",
+        #                     :event_owner_id => mbranch.id})
+        # EventTag.create!({  :event_id => marriage.id,
+        #                     :relative_id => husband.id})
+        # EventTag.create!({  :event_id => marriage.id,
+        #                     :relative_id => wife.id})
+        # if mbranch.marriage_end
+        #     marriage_end = Event.create!({
+        #                         :when => mbranch.marriage_end,
+        #                         :content => "End of marriage between #{husband.first} & #{wife.first} #{husband.surname}",
+        #                         :event_type => "marriage_end",
+        #                         :event_owner_id => mbranch.id})
+        #     EventTag.create!({  :event_id => marriage_end.id,
+        #                         :relative_id => husband.id})
+        #     EventTag.create!({  :event_id => marriage_end.id,
+        #                         :relative_id => wife.id})
+        # end
 
     end
 
@@ -219,6 +221,9 @@ if Rails.env.development?
 
 
     # => births and deaths
+    # => I don't know why this isn't done with each relative create in seed,
+    # => but it is done with each relative create manually
+
     Relative.all.each do |r|
         r.create_birth_event_and_tags
         r.create_death_event_and_tags
@@ -298,6 +303,7 @@ if Rails.env.development?
             Memory.create!({
                 :poster_id => r.id,
                 :title => "Memory of #{r.first} #{r.surname} #{counter}",
+                :when => Date.new(1922, 7, 15),
                 :text_content =>
                         "Something something something something something something
                         something something something something something something
@@ -308,12 +314,14 @@ if Rails.env.development?
                         something something something something something something
                         something something something something something something
                         something something somethingsomething something something",
-                        :location => "Downton Abbey"})
+                :location => "Downton Abbey"})
         end
     end
     # => special memory with audio
     Memory.create!({
                 :poster_id => robert.id,
+                :when => Date.new(1924, 8, 16),
+                :location => "someplace",
                 :title => "Robert's Memory with audio",
                 :text_content => "Robert and Cora talking about Marigold",
                 :audio_content => File.open(File.join('/home/nathanweatherly/git/audio_for_seed/robert-about-marigold-to-cora.wav')),

@@ -1,5 +1,12 @@
 class Photo < ApplicationRecord
 
+    #Validations
+    validates :taken_on, presence: true
+    validates :caption, presence: true
+    validates :location, presence: true
+    validates :photograph, presence: true
+    validates :poster_id, presence: true
+
     #CarrierWave, :photograph is really an image, use the ImageUploader
     mount_uploader :photograph, ImageUploader
 

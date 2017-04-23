@@ -25,18 +25,15 @@
   </div>
 
   <div class = "photo-location">
-      <%= f.label "Location: " %>
-      <%= f.text_field :location %> <br>
+      <%= f.text_field :location , :maxlength=>"30", placeholder: "Location"%> <br>
   </div>
 
   <div class = "photo-header">
-      <%= f.label "Header" %>
-      <%= f.text_field :header %> <br>
+      <%= f.text_field :header, placeholder: "Header" %> <br>
   </div>
 
   <div class = "photo-caption">
-      <%= f.label "Caption" %> <br>
-      <%= f.text_area :caption %> <br>
+      <%= f.text_area :caption, :maxlength=>"200", placeholder: "Caption" %> <br>
   </div>
 
   <div class = "photo-poster">

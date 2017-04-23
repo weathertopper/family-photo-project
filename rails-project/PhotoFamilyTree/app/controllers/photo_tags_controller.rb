@@ -18,12 +18,14 @@ class PhotoTagsController < ApplicationController
     @photo_tag = PhotoTag.new
     @photos = Photo.all
     @relatives = Relative.all
+    @photo_id = params[:photo_id]
   end
 
   # GET /photo_tags/1/edit
   def edit
       @photos = Photo.all
       @relatives = Relative.all
+      @photo_id = @photo_tag.photo_id
   end
 
   # POST /photo_tags
@@ -32,6 +34,7 @@ class PhotoTagsController < ApplicationController
     @photo_tag = PhotoTag.new(photo_tag_params)
     @photos = Photo.all
     @relatives = Relative.all
+    @photo_id = photo_tag_params[:photo_id]
     if @photo_tag.save
         flash[:notice] = 'Photo Tag was successfully created.'
         redirect_to :controller => 'photos', :action => "show", :id => @photo_tag.photo_id
@@ -45,6 +48,7 @@ class PhotoTagsController < ApplicationController
   def update
       @photos = Photo.all
       @relatives = Relative.all
+      @photo_id = @photo_tag.photo_id
       if @photo_tag.update(photo_tag_params)
           flash[:notice] = "Photo tag was successfully updated."
           redirect_to :controller => 'photos', :action => 'index'

@@ -19,6 +19,8 @@ class RelativesController < ApplicationController
       @all_event_tags = EventTag.all
       @all_marriage_branches = MarriageBranch.all
       @all_descendant_branches = DescendantBranch.all
+      @all_photo_tags = PhotoTag.all
+      @all_photos = Photo.all
       #@relative defined by set (below)
   end
 
