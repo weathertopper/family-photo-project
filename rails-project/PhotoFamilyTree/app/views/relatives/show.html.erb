@@ -2,6 +2,7 @@
 <%= stylesheet_link_tag "relative_event_timeline.scss.css"%>
 <%= stylesheet_link_tag "memory_tile.scss.css"%>
 <%= stylesheet_link_tag "back_button.scss.css"%>
+<%= stylesheet_link_tag "photo_tile.scss.css"%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
@@ -199,12 +200,10 @@
             <% photos_with_relative = @all_photos.find(photo_ids_with_relative)%>
             <% photos_with_relative.sort! { |a, b|  a.taken_on <=> b.taken_on }%>
 
-            <% photos_with_relative.each do |photo|%>
-                <div>
-                    <div><%=photo.header%> <%=photo.taken_on%></div>
-                    <%= image_tag photo.photograph.thumb.url%>
-                </div>
-            <% end %>
+            <div class="row  row-centered">
+                <%= render partial: "/photos/photo_tile", collection: photos_with_relative, :as => :photo %>
+            </div>
+
 
         </div>
 

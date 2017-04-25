@@ -1,0 +1,94 @@
+/*thanks to keith clark: http://keithclark.co.uk/articles/pure-css-parallax-websites/*/
+.parallax-container{
+    perspective: 1px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-perspective-origin: 100%;
+    perspective-origin-x: 100%;
+    position: relative;
+
+}
+
+.parallax-layer{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-transform-origin: 100%;
+    transform-origin-x: 100%;
+}
+
+.foreground{
+    transform: translateZ(0);
+}
+
+.background{
+    transform: translateZ(-1px) scale(2);
+    font-size: 300%;
+    padding: 100%;
+    /*background-image: url("green-wallpaper.jpg");*/
+    /*background-image: url('/assets/green-wallpaper.jpg');*/
+    background-image: url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");
+    left: -10px;
+}
+
+.row-centered{
+    text-align: center;
+}
+
+.photos{
+    margin-top: 20px;
+}
+
+h1{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+    text-align: center;
+    margin: auto;
+}
+
+h3{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+    color: #282828;
+    text-align: left;
+    margin-bottom: 0px;
+
+}
+h3 span{
+    background-color: rgba(40, 40, 40, .8);
+    padding: 5px 10px;
+    box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+    color: rgba(255,255,255,.8);
+    font-weight: normal;
+}
+
+h1 span{
+    background-color: rgba(40, 40, 40, .8);
+    padding: 5px 10px;
+    box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+    color: rgba(255,255,255,.8);
+    font-weight: normal;
+}
+
+a{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+    color: #282828;
+}
+
+li{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+}
+
+p{
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+}
+
+.foreground{
+    margin: 50px
+}

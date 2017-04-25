@@ -1,27 +1,34 @@
-<p id="notice"><%= notice %></p>
+<%= stylesheet_link_tag "photo_tile.scss"%>
+<%= stylesheet_link_tag "photos.scss"%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
-<h1>Photos</h1>
+<div class="parallax-container" data-offset="50" data-spy="scroll" data-target='#scrollspy-nav'>
+	<div class="parallax-layer background">
+	</div>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+	<div class="parallax-layer foreground">
+		<div class="container-fluid">
+			<p id="notice"><%= notice %>
+			</p>
 
-  <tbody>
-    <% @photos.each do |photo| %>
-      <tr>
-        <td><%= image_tag photo.photograph.thumb.url%></td>
-        <td><%= link_to 'Show', photo %></td>
-        <td><%= link_to 'Edit', edit_photo_path(photo) %></td>
-        <td><%= link_to 'Destroy', photo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<br>
+			<h1><span>Photographs</span></h1>
 
-<%= link_to 'New Photo', new_photo_path %>
-<%= link_to 'Relatives', 'relatives' %>
+            <% photos = @all_photos.sort { |a, b|  a.taken_on <=> b.taken_on }%>
+
+			<div class="photos">
+                <div class="row  row-centered">
+    				<%= render partial: "photo_tile", collection: photos, :as => :photo %>
+    			</div>
+			</div>
+			<br>
+
+
+			<div class="links">
+                <%= link_to 'New Photo', new_photo_path %>
+                <%= link_to 'Relatives', 'relatives' %>
+			</div>
+		</div>
+	</div>
+</div>

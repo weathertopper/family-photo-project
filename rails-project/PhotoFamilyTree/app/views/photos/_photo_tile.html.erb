@@ -1,0 +1,34 @@
+<% if local_assigns[:photo]%>
+
+    <% thumbnail_sizing = nil %>
+
+    <% if photo.photograph.file %>
+        <% photo_width = photo.photo_width%>
+        <% photo_height = photo.photo_height%>
+        <% if photo_height < photo_width #landscape %>
+            <% thumbnail_sizing = 'col-xs-6 col-sm-4 col-md-2 col-lg-2 col-xl-2 col-centered'%>
+        <% else #portrait%>
+            <% thumbnail_sizing = 'col-xs-4 col-sm-3 col-md-1 col-lg-1 col-xl-1 col-centered'%>
+        <% end %>
+    <% else %>
+        <% thumbnail_sizing = 'col-xs-8 col-sm-5 col-md-2 col-lg-2 col-xl-2 col-centered'%>
+    <% end %>
+
+    <% thumbnail_classes = "thumbnail "+thumbnail_sizing%>
+    <%= content_tag :div, class: thumbnail_classes, onclick: "redirectToPhoto(event, #{photo.id})" do %>
+        <%= image_tag( photo.photograph.url, :class => "profile-pic") %>
+
+    	<div class = "overlay-panel">
+    		<div class="header">
+    			<%=photo.header%>
+    		</div>
+            <div class="where">
+                <%=photo.location%>
+    		</div>
+    		<div class="when">
+                <%=photo.taken_on%>
+    		</div>
+    	</div>
+    <% end %>
+
+<% end %>
