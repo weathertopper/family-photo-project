@@ -18,19 +18,20 @@
 
    <% if @parent_type%>
 
-
+        <% @viable_parent_relatives = [] %>
+        <% child = @relatives.find(@child_id) %>
         <% if @parent_type == "father"%>
-            <% @possible_parents = @relatives.where(:sex => 'male')%>
+            <% @viable_parent_relatives = child.find_viable_parent_relatives('father') %>
         <%else%>
-            <% @possible_parents = @relatives.where(:sex => 'female')%>
+            <% @viable_parent_relatives = child.find_viable_parent_relatives('mother') %>
         <% end %>
 
         <div>
-            <%= f.collection_select :parent_id, @relatives, :id, :first, {prompt: @parent_type} %>
+            <%= f.collection_select :parent_id, @viable_parent_relatives, :id, :name_for_display, {prompt: @parent_type} %>
         </div>
         <br>
         <div>
-            <%= f.collection_select :child_id, [@relatives.find(@child_id)], :id, :first, :selected => @child_id %>
+            <%= f.collection_select :child_id, [@relatives.find(@child_id)], :id, :name_for_display, :selected => @child_id %>
         </div>
     <% end %>
 

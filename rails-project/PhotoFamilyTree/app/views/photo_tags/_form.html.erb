@@ -12,13 +12,14 @@
     <% end %>
 
     <div>
-        <%= f.collection_select :relative_id, @relatives, :id, :first %>
+        <% photo = @photos.find(@photo_id) %>
+        <% viable_relatives_to_tag = photo.viable_relatives_to_tag%>
+        <%= f.collection_select :relative_id, viable_relatives_to_tag, :id, :name_for_display %>
     </div>
 
     <div class = "phototag-photo">
-        <% @photo = @photos.find(@photo_id)%>
         <%= f.hidden_field :photo_id, :value => @photo_id %>
-        <%= image_tag @photo.photograph.url%>
+        <%= image_tag photo.photograph.url%>
     </div>
 
 

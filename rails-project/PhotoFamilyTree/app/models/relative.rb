@@ -310,12 +310,8 @@ class Relative < ApplicationRecord
         spouse_children  =[]
         spouses = self.find_spouse_relatives
         spouses.each do |spouse|
-            puts 'spouse first'
-            puts spouse.first
-            puts spouse.nickname
             spouse_children += spouse.find_child_relatives
         end
-        puts spouse_children
         spouse_children.each do |spouse_child|
             child_step_parents = spouse_child.find_step_parent_relatives
             if child_step_parents.include?(self)
@@ -407,4 +403,149 @@ class Relative < ApplicationRecord
         return step_siblings
     end
 
+    # => These next two methods are used for filtering relatives for marriage and descendant branches
+    # => They will not be fun
+
+
+    # => this will leave some holes with great aunts and uncles and great niblings,
+    # => but lets hope age differences help a lot of that out
+    def find_viable_spouse_relatives
+
+        viable_spouses = Relative.all
+        # => filter by sex first
+        viable_spouses = viable_spouses.where.not(:sex => self.sex)
+
+        # => only marry someone who was alive when self is/was alive
+
+        # => those who died before self.birth
+        too_dead = viable_spouses.where("deathday <= (?)",self.birthday)
+
+        viable_spouses = too_dead.count>0 ? viable_spouses.where("id NOT IN (?)", too_dead.pluck(:id)) : viable_spouses
+
+        # => those who were born after self.death
+        if self.deathday
+            too_alive = viable_spouses.where("birthday >= (?)", self.deathday)
+            viable_spouses = too_alive.count>0 ? viable_spouses.where("id NOT IN (?)", too_alive.pluck(:id)): viable_spouses
+        end
+
+        # => now to remove all of the relatives
+
+        # => parents and grandparents && great* aunts/uncles
+        parents = self.find_parent_relatives
+        grandparents = parents # => base
+        while true
+            #takes care of parent case as well
+            viable_spouses = grandparents.count > 0 ? viable_spouses.where("id NOT IN (?)", grandparents.pluck(:id)) : viable_spouses
+
+            # => also remove all (grand) parent siblings (aunts and uncles)
+            aunts_uncles = []
+            grandparents.each do |parent|
+                aunts_uncles += parent.find_sibling_relatives
+            end
+            viable_spouses = aunts_uncles.count > 0 ? viable_spouses.where("id NOT IN (?)", aunts_uncles.pluck(:id)) : viable_spouses
+
+            # => build up next level of grandparents
+            new_grandparents = []
+            grandparents.each do |parent|
+                new_grandparents += parent.find_parent_relatives
+            end
+            # => if there are no grandparents at this level, quit adding grandparents
+            # => Note: this is the only way to quit this loop
+            if new_grandparents.count == 0
+                break
+            end
+            grandparents = new_grandparents
+        end
+
+        # => children and grandchildren
+        children = self.find_child_relatives
+        grandchildren = children # => base
+        while true
+            #takes care of children case as well
+            viable_spouses = grandchildren.count > 0 ? viable_spouses.where("id NOT IN (?)", grandchildren.pluck(:id)) : viable_spouses
+
+            # => build up next level of grandchildren
+            new_grandchildren= []
+            grandchildren.each do |child|
+                new_grandchildren += child.find_child_relatives
+            end
+            # => if there are no grandparents at this level, quit adding grandparents
+            # => Note: this is the only way to quit this loop
+            if new_grandchildren.count == 0
+                break
+            end
+            grandchildren = new_grandchildren
+        end
+
+        # => siblings, niblings (one level)
+        siblings = self.find_sibling_relatives
+        viable_spouses = siblings.count>0 ? viable_spouses.where("id NOT IN (?)", siblings.pluck(:id)) : viable_spouses
+
+        niblings = self.find_nibling_relatives
+        viable_spouses = niblings.count > 0 ? viable_spouses.where("id NOT IN (?)", niblings.pluck(:id)) : viable_spouses
+
+        # => hell, remove great niblings too (ex rosamund can't marry george, but could probably marry george's kid)
+        # => anything else i hope will fall into the too_alive/too_dead category
+        great_niblings = []
+        niblings.each do |nibling|
+            great_niblings += nibling.find_child_relatives
+        end
+        viable_spouses = great_niblings.count > 0 ? viable_spouses.where("id NOT IN (?)", great_niblings.pluck(:id)) : viable_spouses
+
+        return viable_spouses
+    end
+
+    def find_viable_parent_relatives(parent_type) # => parent_type to determine sex (mom or dad?)
+        viable_parents = Relative.all
+
+        # => filter correct sex
+        viable_parents = viable_parents.where(:sex => (parent_type =='mother')? "female": "male")
+
+        # => filter those born after self
+        viable_parents = viable_parents.where("birthday < (?)", self.birthday)
+
+        # => filter out those who died more than 10 months before birth
+        date_ten_months_before = Date.new(self.birthday.year, self.birthday.month-10, self.birthday.day)
+        too_dead = viable_parents.where("deathday >= (?)", date_ten_months_before)
+        viable_parents = too_dead.count > 0 ? viable_parents.where("id NOT IN (?)", too_dead.pluck(:id)) : viable_parents
+
+        # => now to remove all of the relatives
+
+        # => remove siblings
+        siblings = self.find_sibling_relatives
+        viable_parents = siblings.count > 0 ? viable_parents.where("id NOT IN (?)", siblings.pluck(:id)) : viable_parents
+
+        # => parents and grandparents && great* aunts/uncles
+        parents = self.find_parent_relatives
+        grandparents = parents # => base
+        while true
+            #takes care of parent case as well
+            viable_parents = grandparents.count > 0 ? viable_parents.where("id NOT IN (?)", grandparents.pluck(:id)) : viable_parents
+
+            # => also remove all (grand) parent siblings (aunts and uncles)
+            aunts_uncles = []
+            grandparents.each do |parent|
+                aunts_uncles += parent.find_sibling_relatives
+            end
+            viable_parents = aunts_uncles.count > 0 ? viable_parents.where("id NOT IN (?)", aunts_uncles.pluck(:id)) : viable_parents
+
+            # => build up next level of grandparents
+            new_grandparents = []
+            grandparents.each do |parent|
+                new_grandparents += parent.find_parent_relatives
+            end
+            # => if there are no grandparents at this level, quit adding grandparents
+            # => Note: this is the only way to quit this loop
+            if new_grandparents.count == 0
+                break
+            end
+            grandparents = new_grandparents
+        end
+
+        #remove spouses
+        spouses = self.find_spouse_relatives
+        viable_parents = spouses.count > 0 ? viable_parents.where("id NOT IN (?)", spouses.pluck(:id)) : viable_parents
+
+        return viable_parents
+    end
 end

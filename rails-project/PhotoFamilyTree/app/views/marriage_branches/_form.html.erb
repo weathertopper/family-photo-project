@@ -24,29 +24,32 @@
       <% @women = @relatives.where(:sex => "female")%>
 
        <% if @husband_id%>
-
+            <% husband = @relatives.find(@husband_id)%>
+            <% viable_spouse_relatives = husband.find_viable_spouse_relatives%>
             <div>
-                <%= f.collection_select :husband_id, @men, :id, :first, :selected => @husband_id,  :readonly => true %>
+                <%= f.collection_select :husband_id, @men, :id, :name_for_display, :selected => @husband_id,  :readonly => true %>
             </div>
             <br>
             <div>
-                <%= f.collection_select :wife_id, @women, :id, :first, {prompt: "Wife"} %>
+                <%= f.collection_select :wife_id, viable_spouse_relatives, :id, :name_for_display, {prompt: "Wife"} %>
             </div>
         <% elsif @wife_id %>
+            <% wife = @relatives.find(@wife_id)%>
+            <% viable_spouse_relatives = wife.find_viable_spouse_relatives%>
             <div>
-                <%= f.collection_select :husband_id, @men, :id, :first, {prompt: "Husband"} %>
+                <%= f.collection_select :husband_id, viable_spouse_relatives, :id, :name_for_display, {prompt: "Husband"} %>
             </div>
             <br>
             <div>
-                <%= f.collection_select :wife_id, @women, :id, :first,  :selected => @wife_id, :readonly => true%>
+                <%= f.collection_select :wife_id, @women, :id, :name_for_display,  :selected => @wife_id, :readonly => true%>
             </div>
         <% else %>
             <div>
-                <%= f.collection_select :husband_id, @men, :id, :first, {prompt: "Husband"} %>
+                <%= f.collection_select :husband_id, @men, :id, :name_for_display, {prompt: "Husband"} %>
             </div>
             <br>
             <div>
-                <%= f.collection_select :wife_id, @women, :id, :first, {prompt: "Wife"} %>
+                <%= f.collection_select :wife_id, @women, :id, :name_for_display, {prompt: "Wife"} %>
             </div>
         <% end %>
   </div>

@@ -10,9 +10,10 @@
       </ul>
     </div>
   <% end %>
-
-  <%= f.hidden_field :event_id, :value => params[:event_id]%>
-  <%= f.collection_select :relative_id, @relatives, :id, :first %>
+  <% event = @events.find(@event_id) %>
+  <% viable_relatives_to_tag = event.viable_relatives_to_tag%>
+  <%= f.hidden_field :event_id, :value => @event_id%>
+  <%= f.collection_select :relative_id, viable_relatives_to_tag, :id, :name_for_display %>
 
   <div class="actions">
     <%= f.submit %>
