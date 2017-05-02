@@ -71,7 +71,7 @@ a.edit-relative-button.btn-lg{
     margin-bottom: 5px;
 }
 
-.relative-parent-label a{
+.relative-label a{
     padding: 0px;
     font-weight: bold;
     background-color: rgba(0,0,0,0);  /*taken care of by surrounding span*/

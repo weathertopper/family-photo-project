@@ -79,7 +79,7 @@
                 <% if @father %>
                     <% @father_branch = @all_descendant_branches.find_by(:parent_id => @father.id, :child_id => @relative.id) %>
                     <% father_display_name = @father.name_for_display%>
-                    <span class="relative-parent-label">
+                    <span class="relative-label">
                         Father:
                         <%= link_to "#{father_display_name}", relative_path(@father) %>
                     </span>
@@ -103,7 +103,7 @@
                 <% if @mother %>
                     <% @mother_branch = @all_descendant_branches.find_by(:parent_id => @mother.id, :child_id => @relative.id) %>
                     <% mother_display_name = @mother.name_for_display %>
-                    <span class="relative-parent-label">
+                    <span class="relative-label">
                         Mother:
                         <%= link_to "#{mother_display_name}", relative_path(@mother) %>
                     </span>
@@ -182,6 +182,17 @@
         </div>
 
         <div>
+            <h2>Photographs</h2>
+            <% photo_ids_with_relative = @all_photo_tags.where(relative_id: @relative.id).pluck(:photo_id)%>
+            <% photos_with_relative = @all_photos.find(photo_ids_with_relative)%>
+            <% photos_with_relative.sort! { |a, b|  a.taken_on <=> b.taken_on }%>
+
+            <div class="row  row-centered">
+                <%= render partial: "/photos/photo_tile", collection: photos_with_relative, :as => :photo %>
+            </div>
+        </div>
+
+        <div>
             <h2>Memories</h2>
             <% memories = @memories.where(poster_id: @relative.id)%>
             <div class="row  row-centered">
@@ -192,19 +203,6 @@
             <%= link_to new_memory_path(:relative_id => @relative.id), class: "add-memory-link relative-button btn " do %>
                 <span class="glyphicon glyphicon-plus-sign"></span><span class='add-memory'>Add Memory</span>
             <% end %>
-        </div>
-
-        <div>
-            <h2>Photographs</h2>
-            <% photo_ids_with_relative = @all_photo_tags.where(relative_id: @relative.id).pluck(:photo_id)%>
-            <% photos_with_relative = @all_photos.find(photo_ids_with_relative)%>
-            <% photos_with_relative.sort! { |a, b|  a.taken_on <=> b.taken_on }%>
-
-            <div class="row  row-centered">
-                <%= render partial: "/photos/photo_tile", collection: photos_with_relative, :as => :photo %>
-            </div>
-
-
         </div>
 
     </div>
