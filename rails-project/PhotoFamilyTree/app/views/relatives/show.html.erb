@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "relative_show.scss.css"%>
 <%= stylesheet_link_tag "relative_event_timeline.scss.css"%>
 <%= stylesheet_link_tag "memory_tile.scss.css"%>
-<%= stylesheet_link_tag "back_button.scss.css"%>
+<%= stylesheet_link_tag "generic_button.scss.css"%>
 <%= stylesheet_link_tag "photo_tile.scss.css"%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
@@ -14,11 +14,11 @@
     <div class="parallax-layer foreground">
         <p id="notice"><%= notice %></p>
 
-        <div class= 'edit-and-back'>
-            <%= render partial: "/shared/back_button", :locals => {:path => relatives_path} %>
-
-            <%= link_to edit_relative_path(@relative), class: "edit-relative-button btn btn-lg" do %>
-                <span class="glyphicon glyphicon-pencil"></span>
+        <div class= 'edit-back-delete'>
+            <%= render partial: "/shared/generic_button", :locals => {:path => relatives_path,  :icon_class => "glyphicon glyphicon-arrow-left" } %>
+            <%= render partial: "/shared/generic_button", :locals => {:path => edit_relative_path(@relative),  :icon_class => "glyphicon glyphicon-pencil" } %>
+            <%= link_to @photo, method: :delete, data: { confirm: 'Are you sure?' }, class: "delete-button relative-button btn btn-md" do %>
+                <span class="glyphicon glyphicon-remove"></span>
             <% end %>
         </div>
 

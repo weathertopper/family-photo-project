@@ -3,6 +3,17 @@
     padding: 25px;
 }
 
+.edit-back-delete{
+    padding: 0px;
+    background-color: rgba(0,0,0,0);
+    box-shadow: none;
+    margin: 5px;
+}
+
+img{
+    max-width: 95%;
+}
+
 .show-photo{
     text-align: center;
     box-shadow: 0 0 20px rgba(0,0,0, 0.6);
@@ -59,6 +70,12 @@ a.relative-button{
 a.relative-button:hover span{
     font-weight: bold;
     color: #ffffff;
+}
+
+.relative-button.delete-button{
+    margin-bottom: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 div{

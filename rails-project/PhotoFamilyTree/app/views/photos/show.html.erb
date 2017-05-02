@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "photo_show.scss.css"%>
+<%= stylesheet_link_tag "generic_button.scss.css"%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
 <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
@@ -10,13 +11,24 @@
     <div class="parallax-layer foreground">
         <p id="notice"><%= notice %></p>
 
-        <h2>
-            <%= @photo.header%>
-        </h2>
+        <div class= 'edit-back-delete'>
+            <%= render partial: "/shared/generic_button", locals: {:path => photos_path, :icon_class => "glyphicon glyphicon-arrow-left"} %>
+
+            <%= render partial: "/shared/generic_button", locals: {:path => edit_photo_path(@photo), :icon_class => "glyphicon glyphicon-pencil"} %>
+
+            <%= link_to @photo, method: :delete, data: { confirm: 'Are you sure?' }, class: "delete-button relative-button btn btn-md" do %>
+                <span class="glyphicon glyphicon-remove"></span>
+            <% end %>
+
+        </div>
 
         <div>
             <%= image_tag @photo.photograph.url , :class => "show-photo"%>
         </div>
+
+        <h2>
+            <%= @photo.header%>
+        </h2>
 
         <div>
             <h4>
@@ -42,7 +54,7 @@
                     <% @relative = @relatives.find(tag.relative_id)%>
                     <% relative_display_name = @relative.name_for_display %>
                     <%= link_to "#{relative_display_name}", relative_path(@relative), class:"relative-tag" %>
-                    <%= link_to @relative, method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy-tag relative-button btn  btn-xs" do %>
+                    <%= link_to tag, method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy-tag relative-button btn  btn-xs" do %>
                         <span class="glyphicon glyphicon-remove"></span>
                     <% end %>
 
@@ -51,8 +63,5 @@
                 <%= link_to 'Add Tag', new_photo_tag_path(:photo_id=> @photo.id) %>
             </div>
         </div>
-
-        <%= link_to 'Edit', edit_photo_path(@photo) %> |
-        <%= link_to 'Back', photos_path %>
     </div>
 </div>
