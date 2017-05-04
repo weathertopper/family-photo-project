@@ -8,10 +8,20 @@
     background-color: rgba(0,0,0,0);
     box-shadow: none;
     margin: 5px;
+    margin-bottom: 10px;
+}
+
+.photo-header{
+    margin-top: 0px;
+}
+
+.photo-location-date{
+    margin-top: 0px;
 }
 
 img{
     max-width: 95%;
+    margin-bottom: 10px;
 }
 
 .show-photo{
@@ -43,10 +53,16 @@ img{
 
 .relative-tag{
     font-weight: bold;
+    padding: 0px;
+    margin-bottom: 5px;
+}
+.relative-tag a{
+    background-color:  rgba(255, 255, 255, 0);
+    box-shadow: none;
 }
 
-.photo-tags a{
-    margin-bottom: 5px;
+.relative-tag-name{
+    padding-right: 0px;
 }
 
 .relative-button span{
@@ -63,7 +79,6 @@ img{
 a.relative-button{
     padding-top: 3px;
     padding-bottom: 3px;
-    margin-bottom: 5px;
 
 }
 

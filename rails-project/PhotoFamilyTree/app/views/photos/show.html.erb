@@ -22,46 +22,46 @@
 
         </div>
 
+        <h2 class = "photo-header">
+            <%= @photo.header%>
+        </h2>
+        <br/>
+        <h4 class = 'photo-location-date'>
+            <%=@photo.location%>, <%=@photo.taken_on%>
+        </h4>
+
         <div>
             <%= image_tag @photo.photograph.url , :class => "show-photo"%>
         </div>
+        <div class='photo-tags'>
+            <% @photo_tags.each do |tag|%>
+                <% @relative = @relatives.find(tag.relative_id)%>
+                <% relative_display_name = @relative.name_for_display %>
+                <span class="relative-tag">
+                    <%= link_to "#{relative_display_name}", relative_path(@relative), class: "relative-tag-name" %>
+                    <%= link_to tag, method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy-tag relative-button btn  btn-xs" do %>
+                        <span class="glyphicon glyphicon-remove"></span>
+                    <% end %>
+                </span>
 
-        <h2>
-            <%= @photo.header%>
-        </h2>
-
-        <div>
-            <h4>
-                <%=@photo.location%>, <%=@photo.taken_on%>
-            </h4>
-            <br/>
-            <% poster_display_name = @poster.name_for_display%>
-            <span class="relative-label">
-                Posted by: <%= link_to "#{poster_display_name}", relative_path(@poster) %>
-            </span>
+                <!-- <br/> -->
+            <% end%>
+            <br />
+            <%= link_to 'Add Tag', new_photo_tag_path(:photo_id=> @photo.id) %>
         </div>
+
         <div class="photo_caption">
             <span>
                 <%= @photo.caption%>
             </span>
         </div>
-        <div>
-            <h4>
-                Tagged Relatives
-            </h4>
-            <div class='photo-tags'>
-                <% @photo_tags.each do |tag|%>
-                    <% @relative = @relatives.find(tag.relative_id)%>
-                    <% relative_display_name = @relative.name_for_display %>
-                    <%= link_to "#{relative_display_name}", relative_path(@relative), class:"relative-tag" %>
-                    <%= link_to tag, method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy-tag relative-button btn  btn-xs" do %>
-                        <span class="glyphicon glyphicon-remove"></span>
-                    <% end %>
 
-                    <br/>
-                <% end%>
-                <%= link_to 'Add Tag', new_photo_tag_path(:photo_id=> @photo.id) %>
-            </div>
+        <div>
+            <% poster_display_name = @poster.name_for_display%>
+            <span class="relative-label">
+                Posted by: <%= link_to "#{poster_display_name}", relative_path(@poster) %>
+            </span>
         </div>
+        
     </div>
 </div>
