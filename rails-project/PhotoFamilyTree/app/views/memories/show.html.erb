@@ -1,3 +1,5 @@
+<%= stylesheet_link_tag "memory_show.scss.css"%>
+
 <p id="notice"><%= notice %></p>
 
 <div>
@@ -11,8 +13,10 @@
     Location: <%=@memory.location%>
 </div>
 <br />
-    <div>
-        <%=@memory.text_content unless @memory.text_content.blank? %>
+    <div class = 'memory-text-wrapper'>
+        <pre class='memory-text'>
+            <%=@memory.text_content unless @memory.text_content.blank? %>
+        </pre>
     </div>
 
     <div>

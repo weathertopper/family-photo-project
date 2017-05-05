@@ -1,0 +1,9 @@
+.memory-text-wrapper{
+    width: 90%;
+}
+
+.memory-text{
+    word-wrap: normal;
+    white-space: pre-wrap;
+    word-break: keep-all;
+}
