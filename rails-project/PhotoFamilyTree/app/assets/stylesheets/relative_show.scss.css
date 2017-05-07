@@ -34,6 +34,11 @@ h1, h2, h3, h4, span, a{
     font-weight: normal;
 }
 
+h1.relative-name-header{
+    margin-top: 5px;
+}
+
+
 a:hover{
     color: rgba(255, 255, 255, 1);
     font-weight: bold;

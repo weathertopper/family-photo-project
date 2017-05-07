@@ -1,30 +1,47 @@
 <%= stylesheet_link_tag "memory_show.scss.css"%>
+<%= stylesheet_link_tag "generic_button.scss.css"%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
-<p id="notice"><%= notice %></p>
+<div class="parallax-container">
 
-<div>
-    <%=@memory.title%>
-</div>
-<div>
-    Posted by: <%=@poster.first%> <%=@poster.surname%>
-</div>
-<br />
-<div>
-    Location: <%=@memory.location%>
-</div>
-<br />
-    <div class = 'memory-text-wrapper'>
-        <pre class='memory-text'>
-            <%=@memory.text_content unless @memory.text_content.blank? %>
-        </pre>
+    <div class="parallax-layer background">
     </div>
+    <div class="parallax-layer foreground">
 
-    <div>
-        <%= audio_tag(@memory.audio_content, controls: true)  %>
+        <p id="notice"><%= notice %></p>
+
+        <div class= 'edit-back-delete'>
+            <%= render partial: "/shared/generic_button", locals: {:path => relative_path(@poster), :icon_class => "glyphicon glyphicon-arrow-left"} %>
+
+            <%= render partial: "/shared/generic_button", locals: {:path => edit_memory_path(@memory), :icon_class => "glyphicon glyphicon-pencil"} %>
+
+            <%= link_to @memory, method: :delete, data: { confirm: 'Are you sure?' }, class: "delete-button relative-button btn btn-md" do %>
+                <span class="glyphicon glyphicon-remove"></span>
+            <% end %>
+        </div>
+
+        <h1 class='memory-header'>
+            <%=@memory.title%>
+        </h1>
+        <br/>
+        <h4>
+            <%=@memory.location%>, <%=@memory.when%>
+        </h4>
+        <br />
+            <div class='memory-text-wrapper'>
+                <pre class='memory-text'><%=@memory.text_content%></pre>
+            </div>
+        <div>
+            <% if @memory.audio_content.file %>
+                <%= audio_tag(@memory.audio_content, controls: true)  %>
+            <%end%>
+        </div>
+
+        <% poster_display_name = @poster.name_for_display%>
+        <div class="relative-label">
+            <span>Belongs to <%= link_to "#{poster_display_name}", relative_path(@poster) %></span>
+        </div>
+        
     </div>
-
-
-
-<br/>
-<%= link_to 'Edit', edit_memory_path(@memory, :relative_id => @memory.poster_id) %><br/>
-<%= link_to 'Back', :back %>
+</div>

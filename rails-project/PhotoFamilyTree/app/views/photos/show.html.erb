@@ -19,12 +19,11 @@
             <%= link_to @photo, method: :delete, data: { confirm: 'Are you sure?' }, class: "delete-button relative-button btn btn-md" do %>
                 <span class="glyphicon glyphicon-remove"></span>
             <% end %>
-
         </div>
 
-        <h2 class = "photo-header">
+        <h1 class = "photo-header">
             <%= @photo.header%>
-        </h2>
+        </h1>
         <br/>
         <h4 class = 'photo-location-date'>
             <%=@photo.location%>, <%=@photo.taken_on%>
@@ -59,9 +58,9 @@
         <div>
             <% poster_display_name = @poster.name_for_display%>
             <span class="relative-label">
-                Posted by: <%= link_to "#{poster_display_name}", relative_path(@poster) %>
+                Posted by <%= link_to "#{poster_display_name}", relative_path(@poster) %>
             </span>
         </div>
-        
+
     </div>
 </div>

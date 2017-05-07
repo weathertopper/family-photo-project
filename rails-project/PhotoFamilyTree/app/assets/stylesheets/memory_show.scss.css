@@ -1,9 +1,136 @@
+
+
+.edit-back-delete{
+    padding: 0px;
+    background-color: rgba(0,0,0,0);
+    box-shadow: none;
+    margin: 5px;
+    margin-bottom: 10px;
+}
+
+a:hover{
+    color: rgba(255, 255, 255, 1);
+    font-weight: bold;
+}
+
+a:hover span{
+    color: rgba(255, 255, 255, 1);
+    font-weight: bold;
+}
+
 .memory-text-wrapper{
-    width: 90%;
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
 }
 
 .memory-text{
     word-wrap: normal;
     white-space: pre-wrap;
     word-break: keep-all;
+}
+
+.relative-label a{
+    padding: 0px;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0);  /*taken care of by surrounding span*/
+    box-shadow: none;
+}
+
+.relative-button span{
+    background-color: rgba(0,0,0,0);  /*taken care of by surrounding link*/
+    box-shadow: none;
+    margin: 0px;
+}
+
+.relative-button .glyphicon{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+a.relative-button{
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+}
+
+a.relative-button:hover span{
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.relative-button.delete-button{
+    margin-bottom: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.foreground{
+    padding: 25px;
+}
+
+h1, h2, h3, h4, span, a{
+    background-color: rgba(40, 40, 40, .8);
+    display: inline-block;
+    padding: 5px 10px;
+    box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+    color: rgba(255,255,255,.8);
+    font-weight: normal;
+}
+
+h1.memory-header{
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+div{
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    color: rgba(255,255,255,.8);
+}
+
+pre{
+    font-family: 'Raleway', sans-serif;
+    color: rgba(0,0,0,.8);
+    background-color: rgba(255,255,255,.8);
+    text-align: left;
+}
+
+audio{
+    margin: 5px;
+}
+
+/*PARALLAX SCROLLING*/
+
+.parallax-container{
+    perspective: 1px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-perspective-origin: 100%;
+    perspective-origin-x: 100%;
+    position: relative;
+
+}
+
+.parallax-layer{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-transform-origin: 100%;
+    transform-origin-x: 100%;
+}
+
+.foreground{
+    transform: translateZ(0);
+}
+
+.background{
+    transform: translateZ(-1px) scale(2);
+    font-size: 300%;
+    padding: 100%;
+    background-image: url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");
+    left: -10px;
 }

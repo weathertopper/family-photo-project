@@ -22,21 +22,8 @@
             <% end %>
         </div>
 
-        <% photo_sizing = 'portrait' %>
-        <% if @relative.profile_photo.file%>
-            <% photo_sizing = @relative.photo_height < @relative.photo_width ? 'landscape' : 'portrait'%>
-        <% end%>
-
-        <div class = "show-relative-photo <%=photo_sizing%>" >
-            <% if @relative.profile_photo.file%>
-                <%= image_tag @relative.profile_photo.url unless @relative.profile_photo.file.blank? %>
-            <% else %>
-                <%= image_tag( @relative.sex=='male'? 'no-photo-male.jpg' : 'no-photo-female.jpg', :class => "profile-pic") %>
-            <% end %>
-        </div>
-
         <div class = 'relative-name'>
-            <h1>
+            <h1 class='relative-name-header'>
             <%=@relative.first%>
             <% unless @relative.nickname == "" || @relative.nickname == nil %>
                 "<%=@relative.nickname%>"
@@ -49,6 +36,19 @@
                 (n&eacute;e <%=@relative.maiden%>)
             <% end%>
             </h1>
+        </div>
+
+        <% photo_sizing = 'portrait' %>
+        <% if @relative.profile_photo.file%>
+            <% photo_sizing = @relative.photo_height < @relative.photo_width ? 'landscape' : 'portrait'%>
+        <% end%>
+
+        <div class = "show-relative-photo <%=photo_sizing%>" >
+            <% if @relative.profile_photo.file%>
+                <%= image_tag @relative.profile_photo.url unless @relative.profile_photo.file.blank? %>
+            <% else %>
+                <%= image_tag( @relative.sex=='male'? 'no-photo-male.jpg' : 'no-photo-female.jpg', :class => "profile-pic") %>
+            <% end %>
         </div>
 
         <div class='relative-birth-death-days'>

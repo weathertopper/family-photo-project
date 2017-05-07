@@ -47,9 +47,10 @@ class MemoriesController < ApplicationController
   end
 
   def destroy
+      @poster_id = @memory.poster_id
       @memory.destroy
       flash[:notice] = 'Memory was successfully destroyed.'
-      redirect_to :action =>"show", :id => @memory_id
+      redirect_to :controller=> "relatives", :action =>"show", :id => @poster_id
   end
 
   private
