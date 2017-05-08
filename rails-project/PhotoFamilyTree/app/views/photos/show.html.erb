@@ -54,13 +54,14 @@
                 <%= @photo.caption%>
             </span>
         </div>
-
-        <div>
-            <% poster_display_name = @poster.name_for_display%>
-            <span class="relative-label">
-                Posted by <%= link_to "#{poster_display_name}", relative_path(@poster) %>
-            </span>
-        </div>
+        <% if @poster %>
+            <div>
+                <% poster_display_name = @poster.name_for_display%>
+                <span class="relative-label">
+                    Posted by <%= link_to "#{poster_display_name}", relative_path(@poster) %>
+                </span>
+            </div>
+        <%end%>
 
     </div>
 </div>

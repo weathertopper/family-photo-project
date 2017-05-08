@@ -21,7 +21,7 @@
 
   <div class = 'photo-taken-on'>
       <%= f.label "Taken On:" %>
-      <%= f.date_select(:taken_on, :order => [:month, :day, :year], :start_year => 1700) %>
+      <%= f.date_field(:taken_on, :maxlength=>"10", placeholder: "YYYY-MM-DD") %>
   </div>
 
   <div class = "photo-location">
@@ -37,7 +37,7 @@
   </div>
 
   <div class = "photo-poster">
-      <%= f.collection_select :poster_id, @relatives, :id, :name_for_display, {prompt: "Poster"} %>
+      <%= f.collection_select :poster_id, @relatives, :id, :name_for_display, include_blank: "Photo Poster (blank)" %>
   </div>
 
   <div class="actions">

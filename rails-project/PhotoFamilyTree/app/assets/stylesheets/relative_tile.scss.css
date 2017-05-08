@@ -84,3 +84,7 @@
     float: none;text-align: left;
     margin-right: -4px;
 }
+
+.overlay-panel .btn{
+    padding: 0px;
+}

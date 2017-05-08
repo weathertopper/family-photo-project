@@ -16,7 +16,7 @@
   <div><%=params[:relative_id]%></div><br>
   <div class "event-when">
       <%= f.label "Event Date: " %>
-      <%= f.date_select(:when, :order => [:month, :day, :year], :start_year => 1700) %><br>
+      <%= f.date_field(:when, :maxlength=>"10", placeholder: "YYYY-MM-DD") %><br>
   </div>
   <div class "event-content">
       <%= f.text_area :content, :maxlength=>"140", placeholder: "Event" %> <br>

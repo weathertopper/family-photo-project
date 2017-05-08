@@ -30,7 +30,7 @@
     padding: 100%;
     /*background-image: url("green-wallpaper.jpg");*/
     /*background-image: url('/assets/green-wallpaper.jpg');*/
-    background-image: url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");
+    background-image: url("http://imageresize.org/Output/d425a23a-01e9-4947-b456-e269fa6aa81a.jpg"); /*url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");*/
     left: -10px;
 }
 
@@ -91,4 +91,23 @@ p{
 
 .foreground{
     margin: 50px
+}
+
+hr {
+    padding: 0;
+    border: none;
+    border-top:
+    medium double #333;
+    color: #333;
+    text-align: center;
+}
+
+hr:after {
+    content: "§";
+    display: inline-block;
+    position: relative;
+    top: -0.85em;
+    font-size: 1.5em;
+    padding: 0 0.25em;
+    background: rgba(0,0,0,0);
 }

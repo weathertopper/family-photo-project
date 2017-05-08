@@ -55,10 +55,10 @@
   </div>
 
   <%= f.label "Anniversary: " %>
-  <%= f.date_select(:anniversary, :order => [:month, :day, :year], :start_year => 1700) %>
+  <%= f.date_field(:anniversary, :maxlength=>"10", placeholder: "YYYY-MM-DD") %>
   <br/>
   <%= f.label "Until:" %>
-  <%= f.date_select(:marriage_end, :order => [:month, :day, :year], :start_year => 1700, :include_blank => true, :default => nil) %>
+  <%= f.date_field(:marriage_end, :maxlength=>"10", placeholder: "YYYY-MM-DD", :include_blank => true, :default => nil) %>
 
   <div class="actions">
     <%= f.submit %>

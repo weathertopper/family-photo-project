@@ -36,12 +36,12 @@
 
     <div class = 'relative-birth'>
         <%= f.label "Born:" %>
-        <%= f.date_select(:birthday, :order => [:month, :day, :year], :start_year => 1700) %>
+        <%= f.date_field(:birthday, :maxlength=>"10", placeholder: "YYYY-MM-DD") %>
     </div>
 
     <div class = 'relative-death'>
         <%= f.label "Died:" %>
-        <%= f.date_select(:deathday, :order => [:month, :day, :year], :start_year => 1700, :include_blank => true, :default => nil) %>
+        <%= f.date_field(:deathday, :maxlength=>"10", placeholder: "YYYY-MM-DD", :include_blank => true, :default => nil) %>
     </div>
 
     <div class="actions">

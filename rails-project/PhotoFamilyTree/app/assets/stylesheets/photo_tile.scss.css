@@ -23,8 +23,9 @@
     background-color: rgba(0,0,0,.7);
     visibility: hidden;
     line-height: normal;
-
     display: grid;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .overlay-panel div{

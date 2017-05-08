@@ -23,7 +23,7 @@
 
   <div class "memory-when">
       <%= f.label "Memory Date: " %>
-      <%= f.date_select(:when, :order => [:month, :day, :year], :start_year => 1700) %><br>
+      <%= f.date_field(:when, :maxlength=>"10", placeholder: "YYYY-MM-DD")%><br>
   </div>
 
    <div class = "memory-content-text">

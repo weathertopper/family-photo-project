@@ -11,7 +11,7 @@ class PhotosController < ApplicationController
       #@photo defined by set (below)
       @relatives = Relative.all
       @photo_tags = PhotoTag.where(photo_id:  @photo.id)
-      @poster = @relatives.find(@photo.poster_id)
+      @poster = @relatives.exists?(@photo.poster_id) ? @relatives.find(@photo.poster_id) : nil
   end
 
   # GET /Photos/new

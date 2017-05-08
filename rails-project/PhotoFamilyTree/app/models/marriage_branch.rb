@@ -1,7 +1,7 @@
 class MarriageBranch < ApplicationRecord
     belongs_to :husband, :class_name => Relative
     belongs_to :wife, :class_name => Relative
-
+    validates :anniversary, presence: true
     validate :verify_foreign_keys_exist, :anniversary_before_marriage_end, :marriage_before_deaths, :no_marriages_outstanding
 
     def verify_foreign_keys_exist
@@ -14,6 +14,9 @@ class MarriageBranch < ApplicationRecord
     end
 
     def anniversary_before_marriage_end
+        if anniversary.blank? #caught by validation, error will be added there
+            return
+        end
         if marriage_end
             if marriage_end < anniversary
                 # marriage ended before it began (literally)
@@ -23,6 +26,9 @@ class MarriageBranch < ApplicationRecord
     end
 
     def marriage_before_deaths
+        if anniversary.blank? #caught by validation, error will be added there
+            return
+        end
         if husband_id && wife_id
             husband = Relative.find(husband_id)
             wife = Relative.find(wife_id)
@@ -38,6 +44,9 @@ class MarriageBranch < ApplicationRecord
     end
 
     def no_marriages_outstanding
+        if anniversary.blank? #caught by validation, error will be added there
+            return
+        end
         if husband_id && wife_id
             husband_marriages = MarriageBranch.where(:husband_id => husband_id)
             wife_marriages = MarriageBranch.where(:wife_id => wife_id)
@@ -181,7 +190,7 @@ class MarriageBranch < ApplicationRecord
         if marriage_end_event
             marriage_end_event_tags = EventTag.where(:event_id => marriage_end_event.id)
             marriage_end_event_tags.destroy_all
-            death_event.destroy
+            marriage_end_event.destroy
         end
     end
 

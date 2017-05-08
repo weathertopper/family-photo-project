@@ -34,10 +34,11 @@
 }
 
 .memory-title{
-    font-size: 2vw;
+    font-size:1.5vw;
     text-overflow: ellipsis;
     flex-grow: 1;
     font-family: 'Raleway', sans-serif;
+    margin: auto;
 }
 
 .thumbnail:hover div{

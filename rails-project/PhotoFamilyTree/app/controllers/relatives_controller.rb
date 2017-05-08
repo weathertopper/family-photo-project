@@ -87,6 +87,7 @@ class RelativesController < ApplicationController
                                             :sex,
                                             :birthday,
                                             :deathday,
-                                            :profile_photo )
+                                            :profile_photo,
+                                            :remove_profile_photo )
     end
 end
