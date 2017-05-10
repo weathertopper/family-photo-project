@@ -104,7 +104,7 @@
                                     <span class="tooltiptext">
                                         <div>
                                         <% if evt.event_type == nil%>
-                                            <%= link_to "Edit", edit_event_path(evt) %><br/>
+                                            <%= link_to "Edit", edit_event_path(:id => evt.id, :relative_id => @relative.id) %><br/>
                                             <%= link_to "Delete", evt , method: :delete, data: { confirm: 'Are you sure?' }, class: "event-delete" %>
                                         <% elsif evt.event_type == 'birth' || evt.event_type == 'death' %>
                                             <%= link_to "Edit", edit_relative_path(@relative) %>
