@@ -42,6 +42,10 @@
     margin-top: 20px;
 }
 
+.page-tabs{
+    padding-bottom: 10px;
+}
+
 h1{
     font-family: 'Cinzel Decorative', cursive;
     font-weight: bold;
@@ -90,5 +94,46 @@ p{
 }
 
 .foreground{
-    margin: 50px
+    margin: 50px;
+    margin-top: 10px;
+}
+
+/*button with text*/
+/*combine with add parent button*/
+.new-photo-wrapper{
+    text-align: center;
+}
+
+a.relative-button-with-text{
+    background-color: rgba(40,40,40,.8);  /*taken care of by surrounding link*/
+    color: rgba(255, 255, 255, .8);
+    display: inline-block;
+    box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+    color: rgba(255,255,255,.8);
+    font-weight: normal;
+    width: 133px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.relative-button-with-text .glyphicon{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+a.relative-button-with-text{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 133px;
+}
+
+a.relative-button-with-text:hover span{
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.new-photo-text{
+    padding-left: 5px;
+    padding-right: 0px;
 }

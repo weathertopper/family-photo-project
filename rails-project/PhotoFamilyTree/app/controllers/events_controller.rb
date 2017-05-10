@@ -18,13 +18,12 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-      @relative_id = @event.event_owner_id      
+      @relative_id = params[:relative_id]
   end
 
   # POST /events
   def create
-      @relative_id = event_params[:event_owner_id]
-
+    #   @relative_id = event_params[:event_owner_id]
       @event = Event.new(event_params)
       if @event.save
           @event.create_owner_tag
@@ -40,7 +39,7 @@ class EventsController < ApplicationController
 
       if @event.update(event_params)
           flash[:notice] = "Event was successfully updated."
-          redirect_to :controller => 'relatives', :action => 'index'
+          redirect_to :controller => 'relatives', :action => 'show', :id => @relative_id
       else
           render 'edit'
       end

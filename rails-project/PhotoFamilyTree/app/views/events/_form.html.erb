@@ -13,19 +13,17 @@
 
   <%= f.hidden_field :event_owner_id, :value => @relative_id%>
 
-  <div><%=params[:relative_id]%></div><br>
-  <div class "event-when">
-      <%= f.label "Event Date: " %>
-      <%= f.date_field(:when, :maxlength=>"10", placeholder: "YYYY-MM-DD") %><br>
-  </div>
   <div class "event-content">
-      <%= f.text_area :content, :maxlength=>"140", placeholder: "Event" %> <br>
+      <%= f.text_area :content, :maxlength=>"140", rows:5, cols: 30,  placeholder: "Event" %> <br>
   </div>
   <div class "event-location">
       <%= f.text_field :location, :maxlength=>"30", placeholder: "Location" %> <br>
   </div>
+  <div class "event-when">
+      <%= f.date_field(:when, :maxlength=>"10", placeholder: "YYYY-MM-DD") %><br>
+  </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: "relative-button btn"  %>
   </div>
 <% end %>

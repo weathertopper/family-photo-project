@@ -9,6 +9,15 @@
 
 	<div class="parallax-layer foreground">
 		<div class="container-fluid">
+
+			<div class = 'container-fluid page-tabs'>
+				<ul class="nav nav-tabs ">
+				  <li class="pull-right active"><%= link_to 'Photos', '#' %></li>
+				  <li class="pull-right" ><%= link_to 'Family', 'relatives' %></li>
+				  <li class="pull-right"><a href="#">Home</a></li>
+				</ul>
+			</div>
+
 			<p id="notice"><%= notice %>
 			</p>
 
@@ -22,12 +31,11 @@
     				<%= render partial: "photo_tile", collection: photos, :as => :photo %>
     			</div>
 			</div>
-			<br>
 
-
-			<div class="links">
-                <%= link_to 'New Photo', new_photo_path %>
-                <%= link_to 'Relatives', 'relatives' %>
+			<div class= "new-photo-wrapper">
+				<%= link_to new_relative_path, class: "relative-button-with-text btn" do %>
+					<span class="glyphicon glyphicon-plus-sign"></span><span class='new-photo-text'>Add Photo</span>
+				<% end %>
 			</div>
 		</div>
 	</div>
