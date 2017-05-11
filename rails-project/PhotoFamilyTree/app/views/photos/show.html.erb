@@ -46,7 +46,7 @@
                 <!-- <br/> -->
             <% end%>
             <br />
-            <%= link_to 'Add Tag', new_photo_tag_path(:photo_id=> @photo.id) %>
+            <%= link_to 'Add Tag', new_photo_tag_path(:photo_id=> @photo.id), class: "relative-button btn" %>
         </div>
 
         <div class="photo_caption">

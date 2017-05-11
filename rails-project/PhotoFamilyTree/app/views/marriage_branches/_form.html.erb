@@ -12,55 +12,62 @@
   <% end %>
   <div>
 
-      <% if @husband_id%>
+      <!-- <% if @husband_id%>
         <span>HUSBAND: <%= @relatives.find(@husband_id).first%> <%=@relatives.find(@husband_id).surname%> </span>
       <% elsif @wife_id %>
         <span>WIFE: <%= @relatives.find(@wife_id).first%> <%=@relatives.find(@wife_id).surname %> </span>
       <% else %>
         <span> NO PARAM</span>
-      <% end %>
+      <% end %> -->
 
       <% @men = @relatives.where(:sex => "male")%>
       <% @women = @relatives.where(:sex => "female")%>
-
-       <% if @husband_id%>
+      <% if @husband_id && @wife_id %>
+          <div>
+              <%= f.collection_select :husband_id, @men, :id, :name_for_display, :selected => @husband_id %>
+          </div>
+          <div>
+              <%= f.collection_select :wife_id, @women, :id, :name_for_display, :selected => @wife_id %>
+          </div>
+       <% elsif @husband_id%>
             <% husband = @relatives.find(@husband_id)%>
             <% viable_spouse_relatives = husband.find_viable_spouse_relatives%>
-            <div>
+            <% husband_name = husband.name_for_display%>
+            <div class = "marriage-hide-this-form">
                 <%= f.collection_select :husband_id, @men, :id, :name_for_display, :selected => @husband_id,  :readonly => true %>
             </div>
-            <br>
+            <h3><span><%=husband_name%>'s Wife</span></h3>
             <div>
                 <%= f.collection_select :wife_id, viable_spouse_relatives, :id, :name_for_display, {prompt: "Wife"} %>
             </div>
         <% elsif @wife_id %>
             <% wife = @relatives.find(@wife_id)%>
             <% viable_spouse_relatives = wife.find_viable_spouse_relatives%>
+            <% wife_name = wife.name_for_display%>
+            <h3><span><%=wife_name%>'s Husband</span></h3>
             <div>
                 <%= f.collection_select :husband_id, viable_spouse_relatives, :id, :name_for_display, {prompt: "Husband"} %>
             </div>
-            <br>
-            <div>
+            <div class = "marriage-hide-this-form">
                 <%= f.collection_select :wife_id, @women, :id, :name_for_display,  :selected => @wife_id, :readonly => true%>
             </div>
-        <% else %>
+        <% else %>  <%# THIS GUY SHOULD NEVER GET CALLED#%>
             <div>
                 <%= f.collection_select :husband_id, @men, :id, :name_for_display, {prompt: "Husband"} %>
             </div>
-            <br>
             <div>
                 <%= f.collection_select :wife_id, @women, :id, :name_for_display, {prompt: "Wife"} %>
             </div>
         <% end %>
   </div>
 
-  <%= f.label "Anniversary: " %>
+  <%= f.label "Anniversary " %>
   <%= f.date_field(:anniversary, :maxlength=>"10", placeholder: "YYYY-MM-DD") %>
   <br/>
-  <%= f.label "Until:" %>
+  <%= f.label "Until" %>
   <%= f.date_field(:marriage_end, :maxlength=>"10", placeholder: "YYYY-MM-DD", :include_blank => true, :default => nil) %>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: "relative-button btn"%>
   </div>
 <% end %>

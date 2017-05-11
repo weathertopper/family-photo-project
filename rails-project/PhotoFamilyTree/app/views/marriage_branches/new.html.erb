@@ -1,4 +1,21 @@
-<h1>New Marriage Branch</h1>
+<%= stylesheet_link_tag "marriage_form.scss"%>
+<%= stylesheet_link_tag "generic_button.scss.css"%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
-<%= render 'form', marriage_branch: @marriage_branch %>
-<%= link_to 'Back', :back %>
+<div class="parallax-layer background">
+</div>
+<div class="parallax-layer foreground">
+    <div class= 'edit-back-delete'>
+        <% @path = relatives_path%>
+        <% if @husband_id %>
+            <% @path = relative_path(@husband_id) %>
+        <% elsif @wife_id%>
+            <% @path = relative_path(@wife_id) %>
+        <%end%>
+        <%= render partial: "/shared/generic_button", :locals => {:path => @path,  :icon_class => "glyphicon glyphicon-arrow-left" } %>
+    </div>
+    <h1><span>New Marriage</span></h1>
+
+    <%= render 'form', marriage_branch: @marriage_branch %>
+</div>

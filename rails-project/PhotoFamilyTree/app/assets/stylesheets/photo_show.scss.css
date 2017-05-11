@@ -87,6 +87,11 @@ a.relative-button:hover span{
     color: #ffffff;
 }
 
+a.relative-button:hover{
+    font-weight: bold;
+    color: #ffffff;
+}
+
 .relative-button.delete-button{
     margin-bottom: 0px;
     padding-top: 2px;

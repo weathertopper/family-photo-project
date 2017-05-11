@@ -24,13 +24,22 @@ h1 span{
     font-family: 'Raleway', sans-serif;
 }
 
-.memory-content-audio .audio-label{
+h1{
+    padding-top: 5px;
+    margin-top: 0px;
+}
+
+h3 span{
+    background-color: rgba(40, 40, 40, .8);
     padding: 5px 10px;
+    box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+    color: rgba(255,255,255,.8);
+    font-weight: normal;
     font-family: 'Raleway', sans-serif;
 }
 
-h1{
-    padding-top: 5px;
+h3{
+    padding-top: 10px;
     margin-top: 0px;
 }
 
@@ -39,49 +48,37 @@ div{
     font-family: 'Raleway', sans-serif;
 }
 
-textarea, input{
+.marriage-hide-this-form{
+    display: none;
+}
+
+label{
+    /*background-color: rgba(40, 40, 40, .8);*/
+    padding: 5px 10px;
+    /*box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+    color: rgba(255,255,255,.8);
+    font-weight: normal;*/
+    font-family: 'Raleway', sans-serif;
+}
+
+input{
     background-color: rgba(255,255,255,.8);
     border: none;
     padding: 5px;
     margin: 5px;
     box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
     border-radius: 3px;
-}
-
-input{
     text-align: center
 }
 
-#memory_audio_content{
-    margin: auto;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.audio-content-text span{
-    background-color: rgba(255, 255, 255, .8);
-    color: rgba(40, 40, 40, 0.8);
-    padding: 5px 10px;
+select{
     box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
-    font-family: 'Raleway', sans-serif;
-}
-
-.audio-content-text{
-    padding: 5px;
-}
-
-.remove-audio{
-    padding-top: 5px;
-}
-
-.remove-audio span{
-    background-color: rgba(40, 40, 40, .8);
+    color: rgba(40, 40, 40, .8);
+    background-color: rgba(255,255,255, .8);
     padding: 5px 10px;
-    padding-top: 9px;
-    box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
-    color: rgba(255,255,255,.8);
-    font-weight: normal;
-    font-family: 'Raleway', sans-serif;
+    border: none;
+    margin: 5px;
+    margin-bottom: 10px;
 }
 
 .relative-button{
