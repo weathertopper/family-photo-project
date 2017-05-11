@@ -1,6 +1,15 @@
-<h1>Editing Descendant Branch</h1>
+<%= stylesheet_link_tag "descendant_form.scss"%>
+<%= stylesheet_link_tag "generic_button.scss.css"%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
-<%= render 'form', descendant_branch: @descendant_branch %>
+<div class="parallax-layer background">
+</div>
+<div class="parallax-layer foreground">
+    <div class= 'edit-back-delete'>
+        <%= render partial: "/shared/generic_button", :locals => {:path => relative_path(@child_id ),  :icon_class => "glyphicon glyphicon-arrow-left" } %>
+    </div>
+    <h1><span>Edit Parent</span></h1>
 
-<%= link_to 'Show', @descendant_branch %> |
-<%= link_to 'Back', :back %>
+    <%= render 'form', descendant_branch: @descendant_branch %>
+</div>

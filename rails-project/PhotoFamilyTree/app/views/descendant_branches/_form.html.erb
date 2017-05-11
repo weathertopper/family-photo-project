@@ -11,31 +11,33 @@
     </div>
   <% end %>
 
-  <span><%=@parent_type%></span>
-  <span><%=@child_id%></span>
-
   <%= f.hidden_field :parent_type, :value => @parent_type%>
 
    <% if @parent_type%>
 
         <% @viable_parent_relatives = [] %>
         <% child = @relatives.find(@child_id) %>
+        <% child_name = child.name_for_display %>
+        <% secondary_header = child_name+"'s " %>
         <% if @parent_type == "father"%>
             <% @viable_parent_relatives = child.find_viable_parent_relatives('father') %>
+            <% secondary_header += "Father"%>
         <%else%>
             <% @viable_parent_relatives = child.find_viable_parent_relatives('mother') %>
+            <% secondary_header += "Mother"%>
         <% end %>
 
+        <h3><span><%=secondary_header%></span></h3>
+
         <div>
-            <%= f.collection_select :parent_id, @viable_parent_relatives, :id, :name_for_display, {prompt: @parent_type} %>
+            <%= f.collection_select :parent_id, @viable_parent_relatives, :id, :name_for_display, {prompt: @parent_type.capitalize} %>
         </div>
-        <br>
-        <div>
+        <div class="descendant-hide-this-field">
             <%= f.collection_select :child_id, [@relatives.find(@child_id)], :id, :name_for_display, :selected => @child_id %>
         </div>
     <% end %>
 
   <div class="actions">
-    <%= f.submit "Submit Parent" %>
+    <%= f.submit "Submit Parent", class: "relative-button btn" %>
   </div>
 <% end %>

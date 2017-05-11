@@ -520,6 +520,7 @@ class Relative < ApplicationRecord
         grandparents = parents # => base
         while true
             #takes care of parent case as well
+            #should keep current parents
             viable_parents = grandparents.count > 0 ? viable_parents.where("id NOT IN (?)", grandparents.pluck(:id)) : viable_parents
 
             # => also remove all (grand) parent siblings (aunts and uncles)

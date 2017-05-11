@@ -82,7 +82,7 @@ class DescendantBranchesController < ApplicationController
       child.update_death_event_and_tags
 
       flash[:notice] = 'Descendant branch was successfully destroyed.'
-      redirect_to :controller => 'relatives', :action => 'index'
+      redirect_to :controller => 'relatives', :action => 'show', :id => child.id
   end
 
   private

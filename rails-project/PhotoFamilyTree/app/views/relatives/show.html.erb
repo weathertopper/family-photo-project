@@ -84,10 +84,6 @@
                         <%= link_to "#{father_display_name}", relative_path(@father) %>
                     </span>
 
-                    <%= link_to edit_descendant_branch_path(@father_branch, :child_id => @relative.id), class: "edit-parent-link relative-button btn  btn-xs" do %>
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    <% end %>
-
                     <%= link_to @father_branch, method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy-parent-link relative-button btn  btn-xs" do %>
                         <span class="glyphicon glyphicon-remove"></span>
                     <% end %>
@@ -107,10 +103,6 @@
                         Mother:
                         <%= link_to "#{mother_display_name}", relative_path(@mother) %>
                     </span>
-
-                    <%= link_to edit_descendant_branch_path(@mother_branch, :child_id => @relative.id), class: "edit-parent-link relative-button btn  btn-xs" do %>
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    <% end %>
 
                     <%= link_to @mother_branch, method: :delete, data: { confirm: 'Are you sure?' }, class: "destroy-parent-link relative-button btn  btn-xs" do %>
                         <span class="glyphicon glyphicon-remove"></span>
