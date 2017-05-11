@@ -1,3 +1,8 @@
+/*overriding bootstrap default*/
+.nav-tabs > li.active > a{
+    background-color: rgba(255, 255, 255, .8);
+}
+
 /*thanks to keith clark: http://keithclark.co.uk/articles/pure-css-parallax-websites/*/
 .parallax-container{
     perspective: 1px;

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'relatives#index'
+  root to: 'home#index'
   resources :event_tags
   resources :photo_tags
   resources :events
@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   resources :memories
   resources :photos
   resources :relatives
+  get '/home', to: 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

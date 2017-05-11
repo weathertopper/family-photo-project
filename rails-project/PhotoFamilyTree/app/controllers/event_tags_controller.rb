@@ -15,9 +15,10 @@ class EventTagsController < ApplicationController
   # GET /event_tags/new
   def new
       @relatives = Relative.all
-      @events = Event.all
       @event_tag = EventTag.new
       @event_id = params[:event_id]
+      @event = Event.find(@event_id)
+      @relative_id = params[:relative_id]
   end
 
   # GET /event_tags/1/edit
@@ -33,7 +34,7 @@ class EventTagsController < ApplicationController
     @event_id = params[:event_id]
     if @event_tag.save
         flash[:notice] = 'Event Tag was successfully created.'
-        redirect_to :controller => 'relatives', :action => "index"
+        redirect_to :controller => 'relatives', :action => 'index'
     else
         render "new"
     end

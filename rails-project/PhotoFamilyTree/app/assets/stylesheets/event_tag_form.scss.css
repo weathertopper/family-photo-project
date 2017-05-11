@@ -34,17 +34,25 @@ div{
     font-family: 'Raleway', sans-serif;
 }
 
-textarea, input{
-    background-color: rgba(255,255,255,.8);
-    border: none;
-    padding: 5px;
-    margin: 5px;
+select{
     box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
-    border-radius: 3px;
+    color: rgba(40, 40, 40, .8);
+    background-color: rgba(255,255,255, .8);
+    padding: 5px 10px;
+    border: none;
+    margin: 5px;
+    margin-bottom: 10px;
 }
 
-input{
-    text-align: center
+.event-tag-event-content{
+    padding: 10px;
+}
+
+.event-tag-event-content span{
+    box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
+    color: rgba(40, 40, 40, .8);
+    background-color: rgba(255, 255, 255, .8);
+    padding: 5px 10px;
 }
 
 .relative-button{

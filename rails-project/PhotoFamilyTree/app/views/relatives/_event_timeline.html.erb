@@ -61,7 +61,7 @@
                                     <%end%>
                                 <%end%>
                                 <div>
-                                    <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id) %>
+                                    <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id, :relative_id => @relative.id) %>
                                 </div>
 
                             </div>
@@ -89,7 +89,7 @@
                                     <%end%>
                                 <%end%>
                                 <div>
-                                    <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id) %>
+                                    <%= link_to "Add Event Tag", new_event_tag_path(:event_id => evt.id, :relative_id => @relative.id) %>
                                 </div>
 
 

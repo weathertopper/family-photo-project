@@ -10,12 +10,16 @@
       </ul>
     </div>
   <% end %>
-  <% event = @events.find(@event_id) %>
-  <% viable_relatives_to_tag = event.viable_relatives_to_tag%>
+  <% viable_relatives_to_tag = @event.viable_relatives_to_tag%>
   <%= f.hidden_field :event_id, :value => @event_id%>
-  <%= f.collection_select :relative_id, viable_relatives_to_tag, :id, :name_for_display %>
+
+  <div class="event-tag-event-content">
+      <span ><%=@event.content%></span>
+  </div>
+
+  <%= f.collection_select :relative_id, viable_relatives_to_tag, :id, :name_for_display, { :class => 'btn' } %>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit  class: "relative-button btn" %>
   </div>
 <% end %>

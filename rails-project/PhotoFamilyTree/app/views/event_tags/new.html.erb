@@ -1,5 +1,12 @@
-<h1>New Event Tag</h1>
+<%= stylesheet_link_tag "event_tag_form.scss"%>
+<%= stylesheet_link_tag "generic_button.scss.css"%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
-<%= render 'form', event_tag: @event_tag %>
-
-<%= link_to 'Back', event_tags_path %>
+<div class="parallax-layer foreground">
+    <div class= 'edit-back-delete'>
+        <%= render partial: "/shared/generic_button", :locals => {:path => relative_path(@relative_id),  :icon_class => "glyphicon glyphicon-arrow-left" } %>
+    </div>
+    <h1><span>Add Tag</span></h1>
+    <%= render 'form', event_tag: @event_tag %>
+</div>
