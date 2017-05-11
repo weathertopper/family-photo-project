@@ -22,25 +22,32 @@
   </div>
 
   <div class "memory-when">
-      <%= f.label "Memory Date: " %>
       <%= f.date_field(:when, :maxlength=>"10", placeholder: "YYYY-MM-DD")%><br>
   </div>
 
    <div class = "memory-content-text">
-        <%= f.text_area :text_content, placeholder: "Text Content" %> <br>
+        <%= f.text_area :text_content, rows:10, cols: 60, placeholder: "Text Content" %> <br>
     </div>
 
   <div class="memory-content-audio">
-    <%= f.label "Audio Content" %><br>
+    <%= f.label "Audio Content", class: 'audio-label'%>
     <%= f.file_field :audio_content %>
     <% if f.object.audio_content? %>
-      <%= f.object.audio_content%>
-      <%= f.label :remove_audio %>
-      <%= f.check_box :remove_audio_content %>
+        <div class = 'audio-content-text'>
+            <span>
+                <%= f.object.audio_content%>
+            </span>
+        </div>
+        <div class = "remove-audio">
+            <span>
+              <%= f.label :remove_audio %>
+              <%= f.check_box :remove_audio_content %>
+            </span>
+        </div>
     <% end %>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit  class: "relative-button btn" %>
   </div>
 <% end %>
