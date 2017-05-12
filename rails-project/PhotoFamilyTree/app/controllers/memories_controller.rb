@@ -66,6 +66,7 @@ class MemoriesController < ApplicationController
                                         :audio_content,
                                         :location,
                                         :poster_id,
+                                        :when,
                                         :remove_audio_content )
     end
 end

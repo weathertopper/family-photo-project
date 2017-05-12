@@ -11,12 +11,20 @@
     <% end %>
 
     <div class = "relative-profile-photo">
-        <%= f.label :profile_photo %><br>
-        <%= f.file_field :profile_photo %><br>
+        <%= f.label "Profile Photo"%>
+        <%= f.file_field :profile_photo %>
         <% if f.object.profile_photo? %>
-            <%= image_tag f.object.profile_photo.thumb.url %>
-            <%= f.label :remove_profile_photo %>
-            <%= f.check_box :remove_profile_photo %>
+            <div class = 'photo-content-text'>
+                <span>
+                    <%= f.object.profile_photo%>
+                </span>
+            </div>
+            <div class = "remove-photo">
+                <span>
+                    <%= f.label "Remove Profile Photo", class: 'photo-label'%>
+                    <%= f.check_box :remove_profile_photo %>
+                </span>
+            </div>
         <% end %>
     </div>
 
@@ -30,21 +38,21 @@
     </div>
 
     <div class = "relative-sex">
-        <%= f.radio_button :sex, 'male' %>Male<br>
-        <%= f.radio_button :sex, 'female' %>Female<br>
+        <%= f.radio_button :sex, 'male' %>Male
+        <%= f.radio_button :sex, 'female' %>Female
     </div>
 
     <div class = 'relative-birth'>
-        <%= f.label "Born:" %>
+        <%= f.label "Born" %>
         <%= f.date_field(:birthday, :maxlength=>"10", placeholder: "YYYY-MM-DD") %>
     </div>
 
     <div class = 'relative-death'>
-        <%= f.label "Died:" %>
+        <%= f.label "Died" %>
         <%= f.date_field(:deathday, :maxlength=>"10", placeholder: "YYYY-MM-DD", :include_blank => true, :default => nil) %>
     </div>
 
     <div class="actions">
-        <%= f.submit "Submit Relative" %>
+        <%= f.submit "Submit Relative", class: "relative-button btn"  %>
     </div>
 <% end %>

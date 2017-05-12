@@ -1,4 +1,16 @@
-<h1>New Relative</h1>
+<%= stylesheet_link_tag "relative_form.scss"%>
+<%= stylesheet_link_tag "generic_button.scss.css"%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Raleway'%>
+<%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Cinzel+Decorative'%>
 
-<%= render 'form', relative: @relative %>
-<%= link_to 'Back', :back %>
+<div class="parallax-layer background">
+</div>
+<div class="parallax-layer foreground">
+    <div class= 'edit-back-delete'>
+        <%= render partial: "/shared/generic_button", :locals => {:path => relatives_path,  :icon_class => "glyphicon glyphicon-arrow-left" } %>
+    </div>
+
+    <h1><span>New Relative</span></h1>
+
+    <%= render 'form', relative: @relative %>
+</div>
