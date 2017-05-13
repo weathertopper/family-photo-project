@@ -38,7 +38,7 @@
     padding: 100%;
     /*background-image: url("green-wallpaper.jpg");*/
     /*background-image: url('/assets/green-wallpaper.jpg');*/
-    background-image: url("../images/blue_cream_wallpaper.jpg")/*url("http://imageresize.org/Output/d425a23a-01e9-4947-b456-e269fa6aa81a.jpg");*/ /*url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");*/
+    background-image: url("../public/blue_cream_wallpaper.jpg");/*url("http://imageresize.org/Output/d425a23a-01e9-4947-b456-e269fa6aa81a.jpg");*/ /*url("https://s-media-cache-ak0.pinimg.com/736x/5b/ed/7a/5bed7a9ad78bda72344c688b0b69335d.jpg");*/
     left: -10px;
 }
 
