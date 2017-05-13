@@ -2,6 +2,12 @@
 .nav-tabs > li.active > a{
     background-color: rgba(255, 255, 255, .8);
 }
+.nav-tabs > li> a{
+    background-color: rgba(255, 255, 255, .8);
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: bold;
+    color: #282828;
+}
 .page-tabs{
     padding-bottom: 10px;
 }
@@ -45,23 +51,39 @@
     margin-top: 10px;
 }
 
-h1{
+h1, h2, h3, h4, h5{
     font-family: 'Cinzel Decorative', cursive;
     font-weight: bold;
     text-align: center;
     margin: auto;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
-h1 span{
+h1 span, h2 span, h3 span, h4 span, h5 span{
     background-color: rgba(40, 40, 40, .8);
     padding: 5px 10px;
+
     box-shadow: 0 0 20px rgba(40, 40, 40, 0.8);
     color: rgba(255,255,255,.8);
     font-weight: normal;
 }
 
-a{
-    font-family: 'Cinzel Decorative', cursive;
-    font-weight: bold;
-    color: #282828;
+.home-contents{
+    text-align: center;
+}
+
+.home-contents div{
+    text-align: left;
+    font-family: 'Raleway', sans-serif;
+    background-color: rgba(255, 255, 255, .9);
+    color: rgba(40, 40, 40, .8);
+    display: inline-block;
+    padding: 5px 10px;
+    box-shadow: 0 0 20px rgba(40, 40, 40, 0.9);
+    font-weight: normal;
+    margin: 20px;
+    margin-top: 0px;
+    max-width: 80%;
+    font-size: 14px;
 }
