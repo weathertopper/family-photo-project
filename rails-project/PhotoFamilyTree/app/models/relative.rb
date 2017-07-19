@@ -505,7 +505,7 @@ class Relative < ApplicationRecord
         viable_parents = viable_parents.where("birthday < (?)", self.birthday)
 
         # => filter out those who died more than 10 months before birth
-        date_ten_months_before = Date.new(self.birthday.year, self.birthday.month-10, self.birthday.day)
+        date_ten_months_before = Date.new(self.birthday.year, self.birthday.month+2, self.birthday.day)
         too_dead = viable_parents.where("deathday >= (?)", date_ten_months_before)
         viable_parents = too_dead.count > 0 ? viable_parents.where("id NOT IN (?)", too_dead.pluck(:id)) : viable_parents
 
